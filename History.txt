@@ -1,6 +1,11 @@
+=== 0.0.3 / 2008-10-21
+
+* Fixed string representations (inspect method)
+* Fixed up equality and hash computation for version values
+
 === 0.0.2 / 2008-10-20
 
-* Second test release: Fixed manifest
+* Test release: Fixed manifest
 
 === 0.0.1 / 2008-10-20
 

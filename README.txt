@@ -82,7 +82,7 @@ version numbers.
 
 === Installation
 
- sudo gem install versionomy
+ gem install versionomy
 
 === Known issues and limitations
 

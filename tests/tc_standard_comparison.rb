@@ -71,6 +71,36 @@ module Versionomy
       end
       
       
+      # Test equality for a simple case.
+      
+      def test_equality_simple
+        value1_ = Versionomy.create(:major => 2, :minor => 0, :release_type => :alpha, :alpha_version => 5)
+        value2_ = Versionomy.create(:major => 2, :release_type => :alpha, :alpha_version => 5)
+        assert_equal(value2_, value1_)
+        assert_equal(value2_.hash, value1_.hash)
+      end
+      
+      
+      # Test equality from parsed values.
+      
+      def test_equality_parsed
+        value1_ = Versionomy.parse("1.8.7p72")
+        value2_ = Versionomy.parse("1.8.7.0-72.0")
+        assert_equal(value2_, value1_)
+        assert_equal(value2_.hash, value1_.hash)
+      end
+      
+      
+      # Test non-equality from parsed values.
+      
+      def test_nonequality_parsed
+        value1_ = Versionomy.parse("1.8.7b7")
+        value2_ = Versionomy.parse("1.8.7a7")
+        assert_not_equal(value2_, value1_)
+        assert_not_equal(value2_.hash, value1_.hash)
+      end
+      
+      
     end
     
   end

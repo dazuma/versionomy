@@ -139,6 +139,15 @@ module Versionomy
     end
     
     
+    def inspect   # :nodoc:
+      to_s
+    end
+    
+    def to_s   # :nodoc:
+      "#<#{self.class}:0x#{object_id.to_s(16)} name=#{@name}>"
+    end
+    
+    
     # The name of the field.
     
     def name

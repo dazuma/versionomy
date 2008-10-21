@@ -1,0 +1,16 @@
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+lib/versionomy.rb
+lib/versionomy/errors.rb
+lib/versionomy/schema.rb
+lib/versionomy/format.rb
+lib/versionomy/value.rb
+lib/versionomy/standard.rb
+lib/versionomy/version.rb
+tests/tc_standard_basic.rb
+tests/tc_standard_bump.rb
+tests/tc_standard_change.rb
+tests/tc_standard_comparison.rb
+tests/tc_standard_parse.rb

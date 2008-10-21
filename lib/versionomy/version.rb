@@ -36,7 +36,7 @@
 
 module Versionomy
   
-  VERSION_STRING = '0.0.1'
+  VERSION_STRING = '0.0.2'
   VERSION = parse(VERSION_STRING)
   
 end

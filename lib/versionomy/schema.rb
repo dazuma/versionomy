@@ -103,7 +103,7 @@ module Versionomy
       @default_subschema = nil
       @formats = Hash.new
       @default_format_name = nil
-      Blockenspiel.invoke(block_, Versionomy::Schema::Builder.new(self))
+      Blockenspiel.invoke(block_, Versionomy::Schema::Builder.new(self)) if block_
       @initial_value = canonicalize_value(@initial_value)
     end
     
@@ -231,17 +231,18 @@ module Versionomy
     end
     
     
-    # Define a formatter for this schema.
-    # You may either pass a formatter or provide a block
-    # that calls methods in Versionomy::Format::Builder.
+    # Define a format for this schema.
+    # 
+    # You may either:
+    # 
+    # * pass a format, or
+    # * pass a name and provide a block that calls methods in
+    #   Versionomy::Format::Builder.
     
-    def define_format(name_, formatter_=nil, &block_)
-      if block_
-        @formats[name_] = Versionomy::Format::Base.new(&block_)
-      else
-        @formats[name_] = formatter_
-      end
-      @default_format_name ||= name_
+    def define_format(format_=nil, &block_)
+      format_ = Versionomy::Format::Base.new(format_, &block_) if block_
+      @formats[format_.name] = format_
+      @default_format_name ||= format_.name
     end
     
     
@@ -522,12 +523,16 @@ module Versionomy
       end
       
       
-      # Define a formatter for this schema.
-      # You may either pass a formatter or provide a block
-      # that calls methods in Versionomy::Format::Builder.
+      # Define a format for this schema.
+      # 
+      # You may either:
+      # 
+      # * pass a format, or
+      # * pass a name and provide a block that calls methods in
+      #   Versionomy::Format::Builder.
       
-      def define_format(name_, formatter_=nil, &block_)
-        @schema.define_format(name_, formatter_, &block_)
+      def define_format(format_=nil, &block_)
+        @schema.define_format(format_, &block_)
       end
       
       

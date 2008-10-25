@@ -43,7 +43,7 @@ Hoe.new('versionomy', Versionomy::VERSION_STRING) do |p_|
   p_.author = ['Daniel Azuma']
   p_.email = ['dazuma@gmail.com']
   p_.test_globs = ['tests/tc_*.rb']
-  p_.extra_deps = [['blockenspiel', '>= 0.0.1']]
+  p_.extra_deps = [['blockenspiel', '>= 0.0.4']]
   p_.description_sections = ['versionomy']
   p_.url = 'http://virtuoso.rubyforge.org/versionomy'
 end

@@ -101,6 +101,27 @@ module Versionomy
       end
       
       
+      # Test equality with string.
+      
+      def test_equality_string
+        value1_ = Versionomy.parse("1.8.7p72")
+        assert_operator(value1_, :==, "1.8.7p72")
+        assert_operator(value1_, :==, "1.8.7.0-72.0")
+      end
+      
+      
+      # Test comparison with string.
+      
+      def test_comparison_string
+        value1_ = Versionomy.parse("1.8.7p72")
+        assert_operator(value1_, :<, "1.8.7p73")
+        assert_operator(value1_, :<, "1.8.8pre1")
+        assert_operator(value1_, :>, "1.8.7p71")
+        assert_operator(value1_, :>, "1.8.7rc2")
+        assert_operator(value1_, :>, "1.8.7.0")
+      end
+      
+      
     end
     
   end

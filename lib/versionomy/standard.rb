@@ -107,12 +107,19 @@ module Versionomy
       # Create a new formatter
       
       def initialize(opts_={})
-        @patchlevel_separator = opts_[:patchlevel_separators] || ['-', 'p']
-        @prerelease_symbol = opts_[:prerelease_symbols] || 'pre'
-        @development_symbol = opts_[:development_symbols] || 'd'
-        @alpha_symbol = opts_[:alpha_symbols] || 'a'
-        @beta_symbol = opts_[:beta_symbols] || 'b'
-        @release_candidate_symbol = opts_[:release_candidate_symbols] || 'rc'
+        @name = opts_[:name] || :standard
+        @patchlevel_separator = opts_[:patchlevel_separator] || ['-', '\s?[Pp]']
+        @prerelease_symbol = opts_[:prerelease_symbol] || '\s?(PRE|Pre|pre)'
+        @development_symbol = opts_[:development_symbol] || '\s?[Dd]'
+        @alpha_symbol = opts_[:alpha_symbol] || '\s?[Aa](LPHA|lpha)?'
+        @beta_symbol = opts_[:beta_symbol] || '\s?[Bb](ETA|eta)?'
+        @release_candidate_symbol = opts_[:release_candidate_symbol] || '\s?(RC|Rc|rc)'
+        @patchlevel_separator_unparse = opts_[:patchlevel_separator_unparse] || '-'
+        @prerelease_symbol_unparse = opts_[:prerelease_symbol_unparse] || 'pre'
+        @development_symbol_unparse = opts_[:development_symbol_unparse] || 'd'
+        @alpha_symbol_unparse = opts_[:alpha_symbol_unparse] || 'a'
+        @beta_symbol_unparse = opts_[:beta_symbol_unparse] || 'b'
+        @release_candidate_symbol_unparse = opts_[:release_candidate_symbol_unparse] || 'rc'
       end
       
       
@@ -133,24 +140,18 @@ module Versionomy
       end
       private :_create_regex
       
-      def _create_separator(given_, default_)  # :nodoc:
-        if given_
-          given_.to_s
-        else
-          if default_.respond_to?(:join)
-            default_[0].to_s
-          else
-            default_.to_s
-          end
-        end
+      
+      # The format name
+      
+      def name
+        @name
       end
-      private :_create_separator
       
       
       # Parse a string for the standard schema.
       
       def parse(schema_, str_, params_)
-        params_ = Hash.new.merge(params_)
+        params_ = {:format => @name}.merge(params_)
         hash_ = Hash.new
         if str_ =~ /^(\d+)(.*)$/
           hash_[:major] = $1.to_i
@@ -181,10 +182,11 @@ module Versionomy
           params_[:required_fields] = 1
         end
         if str_ =~ /^(#{_create_regex(params_[:prerelease_symbol], @prerelease_symbol)})(\d+)(.*)$/
-          params_[:prerelease_symbol] = $1
+          matches_ = $~
+          params_[:prerelease_symbol_unparse] = matches_[1]
           hash_[:release_type] = :prerelease
-          hash_[:prerelease_version] = $2.to_i
-          str_ = $3
+          hash_[:prerelease_version] = matches_[-2].to_i
+          str_ =  matches_[-1]
           if str_ =~ /^\.(\d+)/
             hash_[:prerelease_minor] = $1.to_i
             params_[:prerelease_required_fields] = 2
@@ -192,10 +194,11 @@ module Versionomy
             params_[:prerelease_required_fields] = 1
           end
         elsif str_ =~ /^(#{_create_regex(params_[:development_symbol], @development_symbol)})(\d+)(.*)$/
-          params_[:development_symbol] = $1
+          matches_ = $~
+          params_[:development_symbol_unparse] = matches_[1]
           hash_[:release_type] = :development
-          hash_[:development_version] = $2.to_i
-          str_ = $3
+          hash_[:development_version] = matches_[-2].to_i
+          str_ = matches_[-1]
           if str_ =~ /^\.(\d+)/
             hash_[:development_minor] = $1.to_i
             params_[:development_required_fields] = 2
@@ -203,10 +206,11 @@ module Versionomy
             params_[:development_required_fields] = 1
           end
         elsif str_ =~ /^(#{_create_regex(params_[:alpha_symbol], @alpha_symbol)})(\d+)(.*)$/
-          params_[:alpha_symbol] = $1
+          matches_ = $~
+          params_[:alpha_symbol_unparse] = matches_[1]
           hash_[:release_type] = :alpha
-          hash_[:alpha_version] = $2.to_i
-          str_ = $3
+          hash_[:alpha_version] = matches_[-2].to_i
+          str_ = matches_[-1]
           if str_ =~ /^\.(\d+)/
             hash_[:alpha_minor] = $1.to_i
             params_[:alpha_required_fields] = 2
@@ -214,10 +218,11 @@ module Versionomy
             params_[:alpha_required_fields] = 1
           end
         elsif str_ =~ /^(#{_create_regex(params_[:beta_symbol], @beta_symbol)})(\d+)(.*)$/
-          params_[:beta_symbol] = $1
+          matches_ = $~
+          params_[:beta_symbol_unparse] = matches_[1]
           hash_[:release_type] = :beta
-          hash_[:beta_version] = $2.to_i
-          str_ = $3
+          hash_[:beta_version] = matches_[-2].to_i
+          str_ = matches_[-1]
           if str_ =~ /^\.(\d+)/
             hash_[:beta_minor] = $1.to_i
             params_[:beta_required_fields] = 2
@@ -225,10 +230,11 @@ module Versionomy
             params_[:beta_required_fields] = 1
           end
         elsif str_ =~ /^(#{_create_regex(params_[:release_candidate_symbol], @release_candidate_symbol)})(\d+)(.*)$/
-          params_[:release_candidate_symbol] = $1
-          hash_[:release_candidate_version] = $2.to_i
+          matches_ = $~
+          params_[:release_candidate_symbol_unparse] = matches_[1]
+          hash_[:release_candidate_version] = matches_[-2].to_i
           hash_[:release_type] = :release_candidate
-          str_ = $3
+          str_ = matches_[-1]
           if str_ =~ /^\.(\d+)/
             hash_[:release_candidate_minor] = $1.to_i
             params_[:release_candidate_required_fields] = 2
@@ -238,10 +244,11 @@ module Versionomy
         else
           hash_[:release_type] = :release
           if str_ =~ /^(#{_create_regex(params_[:patchlevel_separator], @patchlevel_separator)})(\d+)(.*)$/
-            params_[:patchlevel_separator] = $1
+            matches_ = $~
+            params_[:patchlevel_separator_unparse] = matches_[1]
             params_[:patchlevel_format] = :digit
-            hash_[:patchlevel] = $2.to_i
-            str_ = $3
+            hash_[:patchlevel] = matches_[-2].to_i
+            str_ = matches_[-1]
             if str_ =~ /^\.(\d+)/
               hash_[:patchlevel_minor] = $1.to_i
               params_[:patchlevel_required_fields] = 2
@@ -273,35 +280,35 @@ module Versionomy
         case value_.release_type
         when :prerelease
           prerelease_required_fields_ = params_[:prerelease_required_fields] || 1
-          str_ << _create_separator(params_[:prerelease_symbol], @prerelease_symbol)
+          str_ << (params_[:prerelease_symbol_unparse] || @prerelease_symbol_unparse)
           str_ << value_.prerelease_version.to_s
           if value_.prerelease_minor > 0 || prerelease_required_fields_ > 1
             str_ << ".#{value_.prerelease_minor}"
           end
         when :development
           development_required_fields_ = params_[:development_required_fields] || 1
-          str_ << _create_separator(params_[:development_symbol], @development_symbol)
+          str_ << (params_[:development_symbol_unparse] || @development_symbol_unparse)
           str_ << value_.development_version.to_s
           if value_.development_minor > 0 || development_required_fields_ > 1
             str_ << ".#{value_.development_minor}"
           end
         when :alpha
           alpha_required_fields_ = params_[:alpha_required_fields] || 1
-          str_ << _create_separator(params_[:alpha_symbol], @alpha_symbol)
+          str_ << (params_[:alpha_symbol_unparse] || @alpha_symbol_unparse)
           str_ << value_.alpha_version.to_s
           if value_.alpha_minor > 0 || alpha_required_fields_ > 1
             str_ << ".#{value_.alpha_minor}"
           end
         when :beta
           beta_required_fields_ = params_[:beta_required_fields] || 1
-          str_ << _create_separator(params_[:beta_symbol], @beta_symbol)
+          str_ << (params_[:beta_symbol_unparse] || @beta_symbol_unparse)
           str_ << value_.beta_version.to_s
           if value_.beta_minor > 0 || beta_required_fields_ > 1
             str_ << ".#{value_.beta_minor}"
           end
         when :release_candidate
           release_candidate_required_fields_ = params_[:release_candidate_required_fields] || 1
-          str_ << _create_separator(params_[:release_candidate_symbol], @release_candidate_symbol)
+          str_ << (params_[:release_candidate_symbol_unparse] || @release_candidate_symbol_unparse)
           str_ << value_.release_candidate_version.to_s
           if value_.release_candidate_minor > 0 || release_candidate_required_fields_ > 1
             str_ << ".#{value_.release_candidate_minor}"
@@ -314,7 +321,7 @@ module Versionomy
             elsif params_[:patchlevel_format] == :alpha_upper
               str_.concat(64 + value_.patchlevel)
             else
-              str_ << _create_separator(params_[:patchlevel_separator], @patchlevel_separator)
+              str_ << (params_[:patchlevel_separator_unparse] || @patchlevel_separator_unparse)
               str_ << value_.patchlevel.to_s
               if value_.patchlevel_minor > 0 || patchlevel_required_fields_ > 1
                 str_ << ".#{value_.patchlevel_minor}"
@@ -372,7 +379,7 @@ module Versionomy
               end
             end
           end
-          define_format(:default, StandardFormat.new)
+          define_format(StandardFormat.new)
         end
       end
       

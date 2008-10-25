@@ -42,7 +42,10 @@ module Versionomy
   module Format
     
     
-    # A simple base formatter
+    # A simple base formatter.
+    # 
+    # Formats need not extend this base class, as long as they duck-type the
+    # required methods name, parse, and unparse.
     
     class Base
       
@@ -50,7 +53,8 @@ module Versionomy
       # If a block is provided, you may call methods of Versionomy::Format::Builder
       # within the block, to specify ways to parse and unparse.
       
-      def initialize(&block_)
+      def initialize(name_, &block_)
+        @name = name_.to_sym
         @parser = @unparser = nil
         Blockenspiel.invoke(block_, Versionomy::Format::Builder.new(self))
       end
@@ -62,6 +66,17 @@ module Versionomy
       
       def _set_unparser(block_)  # :nodoc:
         @unparser = block_
+      end
+      
+      def _set_name(name_)  # :nodoc:
+        @name = name_
+      end
+      
+      
+      # The format name
+      
+      def name
+        @name
       end
       
       
@@ -87,7 +102,7 @@ module Versionomy
         if @unparser
           @unparser.call(schema_, value_, params_)
         else
-          value_.value_array.join('.')
+          value_.values.join('.')
         end
       end
       
@@ -122,6 +137,13 @@ module Versionomy
       
       def to_unparse(&block_)
         @format._set_unparser(block_)
+      end
+      
+      
+      # Specify the format name
+      
+      def set_name(name_)
+        @format._set_name(name_)
       end
       
     end

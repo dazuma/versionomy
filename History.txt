@@ -1,3 +1,12 @@
+=== 0.0.4 / 2008-10-24
+
+* Fixed incompatibility with Blockenspiel 0.0.4
+* Fixed a number of issues with remembering value parse settings
+* Parser recognizes additional release type formats
+* Values have a parse method to parse another string in the same form
+* Implemented comparison between value and string
+* Exceptions correctly raised on comparison between incompatible types
+
 === 0.0.3 / 2008-10-21
 
 * Fixed string representations (inspect method)
@@ -5,7 +14,7 @@
 
 === 0.0.2 / 2008-10-20
 
-* Test release: Fixed manifest
+* Fixed manifest
 
 === 0.0.1 / 2008-10-20
 

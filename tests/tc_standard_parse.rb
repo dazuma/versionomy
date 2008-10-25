@@ -139,6 +139,17 @@ module Versionomy
       end
       
       
+      # Test parsing beta alternates
+      
+      def test_parsing_beta_alternates
+        assert_equal(Versionomy.parse('2.52.1 beta4'), '2.52.1b4')
+        assert_equal(Versionomy.parse('2.52.1B4'), '2.52.1b4')
+        assert_equal(Versionomy.parse('2.52.1BETA4'), '2.52.1b4')
+        assert_equal(Versionomy.parse('2.52.1 Beta4'), '2.52.1b4')
+        assert_not_equal(Versionomy.parse('2.52.1 eta4'), '2.52.1b4')
+      end
+      
+      
       # Test parsing release candidate.
       
       def test_parsing_release_candidate
@@ -153,6 +164,16 @@ module Versionomy
         assert_equal('0.2rc0', value_.unparse)
         assert_equal('0.2rc0.0', value_.unparse(:release_candidate_required_fields => 2))
         assert_equal('0.2rc0', value_.unparse(:release_candidate_required_fields => 0))
+      end
+      
+      
+      # Test parsing with custom symbols
+      
+      def test_parsing_custom_patchlevel_symbols
+        value1_ = Versionomy.parse('2008 SP2', :patchlevel_separator => '\s?(SP|sp)')
+        assert_equal(2, value1_.patchlevel)
+        value2_ = value1_.parse('2008 sp3')
+        assert_equal(3, value2_.patchlevel)
       end
       
       

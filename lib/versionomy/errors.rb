@@ -61,6 +61,13 @@ module Versionomy
     end
     
     
+    # This exception is raised if you try to perform a comparison
+    # between incompatible schemas.
+    
+    class SchemaMismatchError < VersionomyError
+    end
+    
+    
     # This exception is raised during parsing if the specified format
     # name is not recognized.
     

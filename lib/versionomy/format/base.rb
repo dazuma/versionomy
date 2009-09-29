@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy entry point
+# Versionomy format
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -34,24 +34,57 @@
 ;
 
 
-begin
-  require 'blockenspiel'
-rescue LoadError
-  require 'rubygems'
-  require 'blockenspiel'
+module Versionomy
+  
+  
+  # This module is a namespace for tools that may be used to build formats.
+  
+  module Format
+    
+    
+    # The base format.
+    # 
+    # This format doesn't actually do anything useful. It parses all strings to the
+    # schema's default initial value, and unparses all values to the empty string.
+    # 
+    # Instead, the purpose here is to define the API for a format.
+    # All formats must define the methods +schema+, +parse+, and +unparse+.
+    # Formats need not extend this base class, as long as they duck-type these methods.
+    
+    class Base
+      
+      # Create an instance of this base format, connected to the given schema.
+      
+      def initialize(schema_)
+        @schema = schema_
+      end
+      
+      
+      # Returns the schema understood by this format.
+      
+      def schema
+        @schema
+      end
+      
+      
+      # Parse the given string and return a value.
+      # The value will have this format's schema
+      
+      def parse(string_, params_=nil)
+        @schema.initial_value
+      end
+      
+      
+      # Unparse the given value and return a string.
+      
+      def unparse(value_, params_=nil)
+        ''
+      end
+      
+      
+    end
+    
+    
+  end
+  
 end
-
-
-dir_ = File.expand_path('versionomy', File.dirname(__FILE__))
-
-includes_ = [
- 'errors',
- 'schema',
- 'value',
- 'format/base',
- 'format/delimiter',
- 'schemas/standard',
- 'interface',
- 'version',
-]
-includes_.each{ |file_| require "#{dir_}/#{file_}" }

@@ -3,7 +3,7 @@
 # Versionomy version
 # 
 # -----------------------------------------------------------------------------
-# Copyright 2008 Daniel Azuma
+# Copyright 2008-2009 Daniel Azuma
 # 
 # All rights reserved.
 # 
@@ -36,8 +36,11 @@
 
 module Versionomy
   
-  VERSION_STRING = '0.0.4'
-  VERSION = parse(VERSION_STRING)
+  # Current gem version, as a frozen string.
+  VERSION_STRING = '0.1.0'.freeze
+  
+  # Current gem version, as a Versionomy::Value.
+  VERSION = Versionomy.parse(VERSION_STRING)
   
 end
 

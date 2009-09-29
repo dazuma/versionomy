@@ -3,7 +3,7 @@
 # Versionomy convenience interface
 # 
 # -----------------------------------------------------------------------------
-# Copyright 2008 Daniel Azuma
+# Copyright 2008-2009 Daniel Azuma
 # 
 # All rights reserved.
 # 
@@ -41,23 +41,44 @@
 
 module Versionomy
   
-  @default_schema = Versionomy::Standard.schema
+  @default_schema = nil
+  @default_format = nil
   
   
   class << self
     
     
-    # Gets the current default schema. Usually this is Versionomy::Standard.schema.
+    # Gets the current default schema.
+    # Usually this is Versionomy::Schemas::Standard.schema.
     
     def default_schema
-      @default_schema
+      @default_schema ||= Versionomy::Schemas::Standard.schema
     end
     
     
-    # Sets the default schema. Usually this should be left as Versionomy::Standard.schema.
+    # Sets the default schema.
+    # Usually this should be left as Versionomy::Schemas::Standard.schema.
+    # To reset to this value, pass nil.
     
     def default_schema=(schema_)
       @default_schema = schema_
+    end
+    
+    
+    # Gets the current default format.
+    # Usually this is Versionomy::Schemas::Standard.default_format.
+    
+    def default_format
+      @default_format ||= Versionomy::Schemas::Standard.default_format
+    end
+    
+    
+    # Sets the default format.
+    # Usually this should be left as Versionomy::Schemas::Standard.default_format.
+    # To reset to this value, pass nil.
+    
+    def default_format=(format_)
+      @default_format = format_
     end
     
     
@@ -69,18 +90,19 @@ module Versionomy
     # 
     # If schema is omitted, the default_schema will be used.
     
-    def create(values_=nil, schema_=nil)
-      (schema_ || @default_schema).create(values_)
+    def create(values_=[], schema_=nil)
+      (schema_ || default_schema).create(values_)
     end
     
     
-    # Create a new version number given a string to parse, and optional parse
-    # parameters and schema.
+    # Create a new version number given a string to parse, and an optional format.
     # 
-    # If schema is omitted, the default_schema will be used.
+    # If format is omitted or set to nil, the default_format will be used.
+    # 
+    # The params, if present, will be passed as parsing parameters to the format.
     
-    def parse(str_, params_={}, schema_=nil)
-      (schema_ || @default_schema).parse(str_, params_)
+    def parse(str_, format_=nil, params_=nil)
+      (format_ || default_format).parse(str_, params_)
     end
     
   end

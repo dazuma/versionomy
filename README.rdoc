@@ -55,7 +55,6 @@ numbers in the wide variety of versioning schemes in use.
  v10.minor                      # => 0
  v10.patchlevel                 # => 2
  v10.to_s                       # => '2008 SP2'
- v10.unparse(:patchlevel_separator => 'p', :required_fields => 2)   # => '2008.0p2'
 
 === Feature list
 
@@ -75,9 +74,7 @@ version numbers.
 
 === Requirements
 
-* Ruby 1.8.7 or later.
-* Rubygems
-* mixology gem.
+* Ruby 1.8.6 or later, or JRuby 1.2 or later. Ruby 1.9 compatible.
 * blockenspiel gem.
 
 === Installation
@@ -86,8 +83,7 @@ version numbers.
 
 === Known issues and limitations
 
-* Not yet compatible with Ruby 1.9 due to issues with the mixology gem.
-* JRuby status not yet known.
+* None at this time.
 
 === Development and support
 
@@ -101,11 +97,11 @@ Contact the author at dazuma at gmail dot com.
 
 === Author / Credits
 
-Versionomy is written by Daniel Azuma (http://www.daniel-azuma.com).
+Versionomy is written by Daniel Azuma (http://www.daniel-azuma.com/).
 
 == LICENSE:
 
-Copyright 2008 Daniel Azuma.
+Copyright 2008-2009 Daniel Azuma.
 
 All rights reserved.
 

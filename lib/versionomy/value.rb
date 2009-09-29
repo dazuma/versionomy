@@ -3,7 +3,7 @@
 # Versionomy value
 # 
 # -----------------------------------------------------------------------------
-# Copyright 2008 Daniel Azuma
+# Copyright 2008-2009 Daniel Azuma
 # 
 # All rights reserved.
 # 
@@ -46,31 +46,32 @@ module Versionomy
   # corresponding to the fields <tt>[:major, :minor, :tiny]</tt>.
   # 
   # Version number values are comparable with other values that have the same
-  # form.
+  # schema.
   
   class Value
     
     
-    def initialize(schema_, values_=nil, parse_params_=nil, subvalue_=nil)  # :nodoc:
-      @schema = schema_
-      val_ = nil
-      case values_
-      when Hash
-        val_ = values_[@schema.name]
-      when Array
-        val_ = values_.first
-        values_ = values_[1..-1]
-      else
-        val_ = values_
-        values_ = nil
+    def initialize(format_or_schema_, values_, unparse_params_=nil)  # :nodoc:
+      unless values_.kind_of?(Hash) || values_.kind_of?(Array)
+        raise ArgumentError, "Expected hash or array but got #{values_.class}"
       end
-      @value = val_ ? @schema.canonicalize_value(val_) : @schema.initial_value
-      @parse_params = parse_params_ || Hash.new
-      if subvalue_
-        @subvalue = subvalue_
+      if format_or_schema_.kind_of?(Versionomy::Schema)
+        @schema = format_or_schema_
+        @format = @schema.default_format
       else
-        subschema_ = @schema._subschema(@value)
-        @subvalue = subschema_ ? Versionomy::Value._new(subschema_, values_) : nil
+        @format = format_or_schema_
+        @schema = @format.schema
+      end
+      @unparse_params = unparse_params_
+      @field_path = []
+      @values = {}
+      field_ = @schema.root_field
+      while field_
+        value_ = values_.kind_of?(Hash) ? values_[field_.name] : values_.shift
+        value_ = value_ ? field_.canonicalize_value(value_) : field_.initial_value
+        @field_path << field_
+        @values[field_.name] = value_
+        field_ = field_.child(value_)
       end
     end
     
@@ -85,25 +86,8 @@ module Versionomy
     end
     
     def _inspect  # :nodoc:
-      "#<#{self.class}:0x#{object_id.to_s(16)}#{_inspect2}>"
-    end
-    
-    def _inspect2  # :nodoc:
-      " #{@schema.name}=#{@value.inspect}#{@subvalue ? @subvalue._inspect2 : ''}"
-    end
-    
-    
-    # Get the value of the most significant field
-    
-    def _toplevel_value  # :nodoc:
-      @value
-    end
-    
-    
-    # Get a value representing all fields except the most significant field
-    
-    def _subvalue  # :nodoc:
-      @subvalue
+      "#<#{self.class}:0x#{object_id.to_s(16)} " +
+        @field_path.map{ |field_| "#{field_.name}=#{@values[field_.name].inspect}" }.join(' ')
     end
     
     
@@ -124,20 +108,8 @@ module Versionomy
     # 
     # Raises Versionomy::Errors::ParseError if unparsing failed.
     
-    def unparse(params_={})
-      format_ = @schema.get_format(params_[:format])
-      if format_.nil?
-        raise Versionomy::Errors::UnknownFormatError
-      end
-      format_.unparse(@schema, self, params_)
-    end
-    
-    
-    # Parse another string using the same schema, and same parse parameters
-    # as this value, subject to the given modifications.
-    
-    def parse(str_, params_={})
-      @schema.parse(str_, @parse_params.merge(params_))
+    def unparse(params_=nil)
+      @format.unparse(self, params_)
     end
     
     
@@ -148,125 +120,126 @@ module Versionomy
     end
     
     
-    # Return the parsing parameters for this value.
+    # Return the format defining the form of this version number
     
-    def parse_params
-      @parse_params
+    def format
+      @format
+    end
+    
+    
+    # Return the unparsing parameters for this value.
+    # Returns nil if this value was not created using a parser.
+    
+    def unparse_params
+      @unparse_params ? @unparse_params.dup : nil
+    end
+    
+    
+    # Iterates over each field, in field order, yielding the
+    # Versionomy::Schema::Field object and value.
+    
+    def each_field
+      @field_path.each do |field_|
+        yield(field_, @values[field_.name])
+      end
     end
     
     
     # Returns an array of recognized field names for this value, in field order.
     
-    def fields
-      @subvalue ? @subvalue.fields.unshift(@schema.name) : [@schema.name]
+    def field_names
+      @field_path.map{ |field_| field_.name }
     end
     
     
-    # Returns true if this value contains the given field.
+    # Returns true if this value contains the given field, which may be specified
+    # as a field object or name.
     
-    def has_field?(symbol_)
-      symbol_ = symbol_.to_sym
-      if symbol_ == @schema.name
-        true
-      elsif @subvalue
-        @subvalue.has_field?(symbol_)
+    def has_field?(field_)
+      case field_
+      when Versionomy::Schema::Field
+        @field_path.include?(field_)
+      when String, Symbol
+        @values.has_key?(field_.to_sym)
       else
-        false
+        raise ArgumentError
       end
     end
     
     
     # Returns the value of the given field, or nil if the field is not recognized.
     
-    def [](symbol_)
-      symbol_ = symbol_ ? symbol_.to_sym : @schema.name
-      if symbol_ == @schema.name
-        @value
-      elsif @subvalue
-        @subvalue[symbol_]
-      else
-        nil
-      end
+    def [](name_)
+      @values[name_.to_sym]
     end
     
     
     # Returns the value as an array of field values, in field order.
     
-    def values
-      @subvalue ? @subvalue.values.unshift(@value) : [@value]
+    def values_array
+      @field_path.map{ |field_| @values[field_.name] }
     end
     
     
     # Returns the value as a hash of values keyed by field name.
     
-    def value_hash
-      hash_ = {@schema.name => @value}
-      @subvalue ? @subvalue.value_hash.merge(hash_) : hash_
+    def values_hash
+      @values.dup
     end
     
     
     # Returns a new version number created by bumping the given field.
     
-    def bump(symbol_)
-      if (symbol_ == @schema.name)
-        bumped_ = @schema.bump_value(@value)
-        if bumped_ == @value
-          self
+    def bump(name_)
+      name_ = name_.to_sym
+      values_ = []
+      @field_path.each do |field_|
+        oldval_ = @values[field_.name]
+        if field_.name == name_
+          newval_ = field_.bump_value(oldval_)
+          return self if newval_ == oldval_
+          values_ << newval_
+          return Versionomy::Value._new(@format, values_, @unparse_params)
         else
-          Versionomy::Value._new(@schema, bumped_, @parse_params)
-        end
-      else
-        if @subvalue
-          bumped_ = @subvalue.bump(symbol_)
-          if @subvalue.equal?(bumped_)
-            self
-          else
-            Versionomy::Value._new(@schema, @value, @parse_params, bumped_)
-          end
-        else
-          self
+          values_ << oldval_
         end
       end
+      self
     end
     
     
     # Returns a new version number created by changing the given field values.
     
-    def change(values_={})
-      Versionomy::Value._new(@schema, value_hash.merge(values_), @parse_params)
+    def change(values_={}, unparse_params_={})
+      unparse_params_ = @unparse_params.merge(unparse_params_) if @unparse_params
+      Versionomy::Value._new(@format, @values.merge(values_), unparse_params_)
     end
     
     
     def hash  # :nodoc:
-      @hash ||= @schema.name.hash ^ @value.hash ^ @subvalue.hash
+      @hash ||= @values.hash
     end
     
     
     # Returns true if this version number is equal to the given verison number.
-    # Equality means the values and field names are the same, although the
-    # schemas may actually be different.
+    # Equality means the schemas and values are the same.
     
     def eql?(obj_)
       if obj_.kind_of?(String)
-        obj_ = parse(obj_) rescue nil
+        obj_ = @format.parse(obj_) rescue nil
       end
-      if obj_.kind_of?(Versionomy::Value)
-        if @schema.name != obj_.schema.name || @value != obj_._toplevel_value
-          false
-        elsif @subvalue
-          @subvalue.eql?(obj_._subvalue)
-        else
-          true
-        end
-      else
-        false
+      return false unless obj_.kind_of?(Versionomy::Value)
+      index_ = 0
+      obj_._each_field_obj do |field_, value_|
+        return false if field_ != @field_path[index_] || value_ != @values[field_.name]
+        index_ += 1
       end
+      true
     end
     
     
     # Returns true if this version number is equal to the given verison number.
-    # Equality means the values and field names are the same, even if the schemas
-    # are different.
+    # Equality means the schemas and values are the same.
     
     def ==(obj_)
       eql?(obj_)
@@ -274,49 +247,43 @@ module Versionomy
     
     
     # Compare this version number with the given version number.
-    # Version numbers with the same field names and types are comparable,
-    # even if the schemas are different.
+    # 
     
     def <=>(obj_)
       if obj_.kind_of?(String)
-        obj_ = parse(obj_)
+        obj_ = @format.parse(obj_)
       end
-      if !obj_.kind_of?(Versionomy::Value)
-        raise ArgumentError, "comparison of Versionomy::Value with #{obj_.class} failed"
+      return nil unless obj_.kind_of?(Versionomy::Value)
+      index_ = 0
+      obj_._each_field_obj do |field_, value_|
+        return nil unless field_ == @field_path[index_]
+        val_ = field_.compare_values(@values[field_.name], value_)
+        return val_ if val_ != 0
+        index_ += 1
       end
-      if @schema.name != obj_.schema.name
-        raise SchemaMismatchError
-      end
-      val_ = @schema.compare_values(@value, obj_._toplevel_value)
-      if val_ == 0
-        if @subvalue.nil? && obj_._subvalue.nil?
-          0
-        elsif !@subvalue.nil? && !obj_._subvalue.nil?
-          @subvalue <=> obj_._subvalue
-        else
-          raise SchemaMismatchError
-        end
-      else
-        val_
-      end
+      0
     end
     
     
     # Compare this version number with the given version number.
-    # Version numbers with the same field names and types are comparable,
-    # even if the schemas are different.
     
     def <(obj_)
-      (self <=> obj_) < 0
+      val_ = (self <=> obj_)
+      unless val_
+        raise Versionomy::Errors::SchemaMismatchError
+      end
+      val_ < 0
     end
     
     
     # Compare this version number with the given version number.
-    # Version numbers with the same field names and types are comparable,
-    # even if the schemas are different.
     
     def >(obj_)
-      (self <=> obj_) > 0
+      val_ = (self <=> obj_)
+      unless val_
+        raise Versionomy::Errors::SchemaMismatchError
+      end
+      val_ > 0
     end
     
     
@@ -324,6 +291,15 @@ module Versionomy
     
     def method_missing(symbol_)
       self[symbol_] || super
+    end
+    
+    
+    # Iterates over each field, in field order, yielding the field object and value.
+    
+    def _each_field_obj  # :nodoc:
+      @field_path.each do |field_|
+        yield(field_, @values[field_.name])
+      end
     end
     
     

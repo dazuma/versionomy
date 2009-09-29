@@ -3,7 +3,7 @@
 # Versionomy schema
 # 
 # -----------------------------------------------------------------------------
-# Copyright 2008 Daniel Azuma
+# Copyright 2008-2009 Daniel Azuma
 # 
 # All rights reserved.
 # 
@@ -46,17 +46,16 @@ module Versionomy
   # Schema fields may be integer-valued, string-valued, or symbolic.
   # Symbolic fields are useful, for example, if you want a field to specify
   # the type of prerelease (e.g. "alpha", "beta", or "release candidate").
-  # 
-  # The Schema object itself actually represents only a single field, the
-  # "most significant" field. The next most significant field is specified
-  # by a child of this object, the next by a child of that child, and so
-  # forth down the line. You could therefore think of a simple schema as a
-  # chain of cons-cells.
+  #
+  # Fields are organized into a tree. The "most significant" field is the
+  # root of the tree; the next most significant field is a child of that
+  # root, and so forth down the line. The Schema object is simply a wrapper
+  # around the root field.
   # 
   # For example, you could construct a schema for versions numbers of
   # the form "major.minor.tiny" like this:
   # 
-  #  Schema(major) -> Schema(minor) -> Schema(tiny) -> nil
+  #  Field(major) -> Field(minor) -> Field(tiny) -> nil
   # 
   # Some schemas may be more complex than that, however. It is possible for
   # the form of a schema's child to depend on the value of the field.
@@ -64,212 +63,50 @@ module Versionomy
   # "minor" field is 0, then the "tiny" field doesn't exist. It's possible
   # to construct a schema of this form:
   # 
-  #  Schema(major) -> Schema(minor) -> [value == 0] : nil
-  #                                    [otherwise]  : Schema(tiny) -> nil
+  #  Field(major) -> Field(minor) -> [value == 0] : nil
+  #                                  [otherwise]  : Schema(Tiny) -> nil
+  # 
+  # There is a DSL for constructing schemas. See Versionomy::Schemas::Standard
+  # for an example.
   
   class Schema
     
     
-    # Create a version number schema, with the given field name.
-    # 
-    # Recognized options include:
-    # 
-    # <tt>:type</tt>::
-    #   Type of field. This should be <tt>:integer</tt>, <tt>:string</tt>, or <tt>:symbol</tt>.
-    #   Default is <tt>:integer</tt>.
-    # <tt>:initial</tt>::
-    #   Initial value. Default is 0 for an integer field, the empty string for a string field,
-    #   or the first symbol added for a symbol field.
-    # 
-    # You may provide an optional block. Within the block, you may call methods of
-    # Versionomy::Schema::Builder to further customize the field, or add subschemas.
-    # 
-    # Raises Versionomy::Errors::IllegalValueError if the given initial value is not legal.
-    
-    def initialize(name_, opts_={}, &block_)
-      @name = name_.to_sym
-      @type = opts_[:type] || :integer
-      @initial_value = opts_[:initial]
-      @symbol_info = nil
-      @symbol_order = nil
-      if @type == :symbol
-        @symbol_info = Hash.new
-        @symbol_order = Array.new
-      end
-      @bump_proc = nil
-      @compare_proc = nil
-      @canonicalize_proc = nil
-      @ranges = nil
-      @default_subschema = nil
-      @formats = Hash.new
-      @default_format_name = nil
-      Blockenspiel.invoke(block_, Versionomy::Schema::Builder.new(self)) if block_
-      @initial_value = canonicalize_value(@initial_value)
-    end
-    
-    
-    def _set_initial_value(value_)  # :nodoc:
-      @initial_value = value_
-    end
-    
-    def _add_symbol(symbol_, opts_={})  # :nodoc:
-      if @type != :symbol
-        raise Versionomy::Errors::TypeMismatchError
-      end
-      if @symbol_info.has_key?(symbol_)
-        raise Versionomy::Errors::SymbolRedefinedError
-      end
-      @symbol_info[symbol_] = [@symbol_order.size, opts_[:bump]]
-      @symbol_order << symbol_
-      if @initial_value.nil?
-        @initial_value = symbol_
-      end
-    end
-    
-    def _set_bump_proc(block_)  # :nodoc:
-      @bump_proc = block_
-    end
-    
-    def _set_canonicalize_proc(block_)  # :nodoc:
-      @canonicalize_proc = block_
-    end
-    
-    def _set_compare_proc(block_)  # :nodoc:
-      @compare_proc = block_
-    end
-    
-    
-    def inspect   # :nodoc:
-      to_s
-    end
-    
-    def to_s   # :nodoc:
-      "#<#{self.class}:0x#{object_id.to_s(16)} name=#{@name}>"
-    end
-    
-    
-    # The name of the field.
-    
-    def name
-      @name
-    end
-    
-    
-    # The type of the field.
-    # Possible values are <tt>:integer</tt>, <tt>:string</tt>, or <tt>:symbol</tt>.
-    
-    def type
-      @type
-    end
-    
-    
-    # The initial value of the field
-    
-    def initial_value
-      @initial_value
-    end
-    
-    
-    # Given a value, bump it to the "next" value.
-    # Utilizes a bump procedure if given;
-    # otherwise uses default behavior depending on the type.
-    
-    def bump_value(value_)
-      if @bump_proc
-        nvalue_ = @bump_proc.call(value_)
-        nvalue_ || value_
-      elsif @type == :integer || @type == :string
-        value_.next
+    def initialize(field_=nil, &block_)
+      if block_
+        builder_ = Versionomy::Schema::Builder.new
+        Blockenspiel.invoke(block_, builder_)
+        @root_field = builder_._get_field
       else
-        info_ = @symbol_info[value_]
-        info_ ? info_[1] || value_ : nil
+        @root_field = field_
       end
-    end
-    
-    
-    # Perform a standard comparison on two values.
-    # Returns an integer that may be positive, negative, or 0.
-    # Utilizes a comparison procedure if given;
-    # otherwise uses default behavior depending on the type.
-    
-    def compare_values(val1_, val2_)
-      if @compare_proc
-        @compare_proc.call(val1_, val2_)
-      elsif @type == :integer || @type == :string
-        val1_ <=> val2_
-      else
-        info1_ = @symbol_info[val1_]
-        info2_ = @symbol_info[val2_]
-        info1_ && info2_ ? info1_[0] <=> info2_[0] : nil
+      unless @root_field
+        raise Versionomy::Errors::SchemaCreationError, "Root field not defined"
       end
+      @names = @root_field._descendants
+      @default_format = nil
     end
     
     
-    # Given a value, return a "canonical" value for this field.
-    # Utilizes a canonicalization procedure if given;
-    # otherwise uses default behavior depending on the type.
-    # 
-    # Raises Versionomy::Errors::IllegalValueError if the given value is not legal.
+    # Returns the root (most significant) field in this schema.
     
-    def canonicalize_value(value_)
-      if @canonicalize_proc
-        value_ = @canonicalize_proc.call(value_)
-      else
-        case @type
-        when :integer
-          value_ = value_.to_i
-        when :string
-          value_ = value_.to_s
-        when :symbol
-          value_ = value_.to_sym
-        end
-      end
-      if value_.nil? || (@type == :symbol && !@symbol_info.has_key?(value_))
-        raise Versionomy::Errors::IllegalValueError
-      end
-      value_
+    def root_field
+      @root_field
     end
     
     
-    # Define a format for this schema.
-    # 
-    # You may either:
-    # 
-    # * pass a format, or
-    # * pass a name and provide a block that calls methods in
-    #   Versionomy::Format::Builder.
+    # Return the field with the given name, or nil if the given name
+    # is not found in this schema.
     
-    def define_format(format_=nil, &block_)
-      format_ = Versionomy::Format::Base.new(format_, &block_) if block_
-      @formats[format_.name] = format_
-      @default_format_name ||= format_.name
+    def field_named(name_)
+      @names[name_.to_sym]
     end
     
     
-    # Get the formatter with the given name.
-    # If the name is nil, returns the default formatter.
-    # If the name is not recognized, returns nil.
+    # Returns an array of names present in this schema, in no particular order.
     
-    def get_format(name_)
-      @formats[name_ || @default_format_name]
-    end
-    
-    
-    # Returns the current default format name.
-    
-    def default_format_name
-      @default_format_name
-    end
-    
-    
-    # Sets the default format by name.
-    
-    def default_format_name=(name_)
-      if @formats[name_]
-        @default_format_name = name_
-      else
-        nil
-      end
+    def names
+      @names.keys
     end
     
     
@@ -277,149 +114,49 @@ module Versionomy
     # 
     # The values should either be a hash of field names and values, or an array
     # of values that will be interpreted in field order.
+    # 
+    # If a format is provided, that format will be used to unparse the value.
+    # If the format is omitted or set to nil, the schema's default format will be used.
     
-    def create(values_=nil)
-      Versionomy::Value._new(self, values_)
+    def create(values_=[], format_=nil)
+      if format_ && format_.schema != self
+        raise Versionomy::Errors::FormatSchemaMismatchError
+      end
+      Versionomy::Value._new(format_ || self, values_)
     end
     
     
-    # Create a new value by parsing the given string.
-    # 
-    # The optional parameters may include a <tt>:format</tt> parameter that
-    # specifies a format name. If no format is specified, the default format is used.
-    # The remaining parameters are passed into the formatter's parse method.
-    # 
-    # Raises Versionomy::Errors::UnknownFormatError if the given format name is not recognized.
+    # Create a new value by parsing the given string using the default format.
     # 
     # Raises Versionomy::Errors::ParseError if parsing failed.
     
-    def parse(str_, params_={})
-      format_ = get_format(params_[:format])
-      if format_.nil?
-        raise Versionomy::Errors::UnknownFormatError
-      end
-      value_ = format_.parse(self, str_, params_)
+    def parse(str_, params_=nil)
+      default_format.parse(str_, params_)
     end
     
     
-    # Returns the subschema associated with the given value.
+    # Get the default format. This is the format that gets used when
+    # parsing or unparsing version values in this schema when a format has
+    # not been explicitly provided.
+    # 
+    # A format satisfies the contract of Versionomy::Format::Base.
+    # If no default format has been set for this schema, this will return
+    # a simple delimiter-based format.
     
-    def _subschema(value_)  # :nodoc:
-      if @ranges
-        @ranges.each do |r_|
-          if !r_[0].nil?
-            cmp_ = compare_values(r_[0], value_)
-            next if cmp_.nil? || cmp_ > 0
-          end
-          if !r_[1].nil?
-            cmp_ = compare_values(r_[1], value_)
-            next if cmp_.nil? || cmp_ < 0
-          end
-          return r_[2]
-        end
-      end
-      @default_subschema
+    def default_format
+      @default_format ||= Versionomy::Format::Delimiter.new(self)
     end
     
     
-    # Appends the given subschema for the given range
+    # Set the default format. This is the format that gets used when
+    # parsing or unparsing version values in this schema when a format has
+    # not been explicitly provided.
+    # 
+    # A format satisfies the contract of Versionomy::Format::Base.
+    # To reset this value to a simple delimiter-based format, set to nil.
     
-    def _append_schema(schema_, ranges_=nil)  # :nodoc:
-      if ranges_.nil?
-        if @default_subschema
-          raise Versionomy::Errors::RangeOverlapError
-        end
-        @default_subschema = schema_
-        return
-      end
-      if !ranges_.is_a?(Array) || range_.size == 2 &&
-          (range_[0].nil? || range_[0].is_a?(Symbol) ||
-           range_[0].kind_of?(Integer) || range_[0].is_a?(String)) &&
-          (range_[1].nil? || range_[1].is_a?(Symbol) ||
-           range_[1].kind_of?(Integer) || range_[1].is_a?(String))
-      then
-        ranges_ = [ranges_]
-      else
-        ranges_ = ranges_.dup
-      end
-      ranges_.each do |range_|
-        normalized_range_ = nil
-        if range_.kind_of?(Array) && range_.size != 2
-          raise Versionomy::Errors::RangeSpecificationError
-        end
-        case @type
-        when :integer
-          case range_
-          when Array
-            normalized_range_ = range_.map{ |elem_| elem_.nil? ? nil : elem_.to_i }
-          when Range
-            normalized_range_ = [range_.first, range_.exclude_end? ? range_.last-1 : range_.last]
-          when String, Symbol, Integer
-            range_ = range_.to_i
-            normalized_range_ = [range_, range_]
-          else
-            raise Versionomy::Errors::RangeSpecificationError
-          end
-        when :string
-          case range_
-          when Array
-             normalized_range_ = range_.map{ |elem_| elem_.nil? ? nil : elem_.to_s }
-          when Range
-            normalized_range_ = [range_.first.to_s,
-                                 range_.exclude_end? ? (range_.last-1).to_s : range_.last.to_s]
-          else
-            range_ = range_.to_s
-            normalized_range_ = [range_, range_]
-          end
-        when :symbol
-          case range_
-          when Array
-            normalized_range_ = range_.map do |elem_|
-              case elem_
-              when nil
-                nil
-              when Integer
-                elem_.to_s.to_sym
-              else
-                elem_.to_sym
-              end
-            end
-          when String, Integer
-            range_ = range_.to_s.to_sym
-            normalized_range_ = [range_, range_]
-          when Symbol
-            normalized_range_ = [range_, range_]
-          else
-            raise Versionomy::Errors::RangeSpecificationError
-          end
-        end
-        normalized_range_ << schema_
-        @ranges ||= Array.new
-        insert_index_ = @ranges.size
-        @ranges.each_with_index do |r_, i_|
-          if normalized_range_[0] && r_[1]
-            cmp_ = compare_values(normalized_range_[0], r_[1])
-            if cmp_.nil?
-              raise Versionomy::Errors::RangeSpecificationError
-            end
-            if cmp_ > 0
-              next
-            end
-          end
-          if normalized_range_[1] && r_[0]
-            cmp_ = compare_values(normalized_range_[1], r_[0])
-            if cmp_.nil?
-              raise Versionomy::Errors::RangeSpecificationError
-            end
-            if cmp_ < 0
-              insert_index_ = i_
-              break
-            end
-          end
-          raise Versionomy::Errors::RangeOverlapError
-        end
-        @ranges.insert(insert_index_, normalized_range_)
-      end
+    def default_format=(format_)
+      @default_format = format_
     end
     
     
@@ -429,8 +166,348 @@ module Versionomy
       
       include Blockenspiel::DSL
       
-      def initialize(schema_)  # :nodoc:
-        @schema = schema_
+      def initialize()  # :nodoc:
+        @field = nil
+      end
+      
+      
+      # Create the root field.
+      # 
+      # Recognized options include:
+      # 
+      # <tt>:type</tt>::
+      #   Type of field. This should be <tt>:integer</tt>, <tt>:string</tt>, or <tt>:symbol</tt>.
+      #   Default is <tt>:integer</tt>.
+      # <tt>:initial</tt>::
+      #   Initial value. Default is 0 for an integer field, the empty string for a string field,
+      #   or the first symbol added for a symbol field.
+      # 
+      # You may provide an optional block. Within the block, you may call methods of 
+      # Versionomy::Schema::FieldBuilder to customize this field.
+      # 
+      # Raises Versionomy::Errors::IllegalValueError if the given initial value is not legal.
+      # 
+      # Raises Versionomy::Errors::RangeOverlapError if a root field has already been created.
+      
+      def field(name_, opts_={}, &block_)
+        if @field
+          raise Versionomy::Errors::RangeOverlapError, "Root field already defined"
+        end
+        @field = Versionomy::Schema::Field.new(name_, opts_, &block_)
+      end
+      
+      
+      def _get_field  # :nodoc:
+        @field
+      end
+      
+    end
+    
+    
+    class Field
+      
+      # Create a schema field with the given field name.
+      # 
+      # Recognized options include:
+      # 
+      # <tt>:type</tt>::
+      #   Type of field. This should be <tt>:integer</tt>, <tt>:string</tt>, or <tt>:symbol</tt>.
+      #   Default is <tt>:integer</tt>.
+      # <tt>:initial</tt>::
+      #   Initial value. Default is 0 for an integer field, the empty string for a string field,
+      #   or the first symbol added for a symbol field.
+      # 
+      # You may provide an optional block. Within the block, you may call methods of
+      # Versionomy::Schema::Builder to further customize the field, or add child fields.
+      # 
+      # Raises Versionomy::Errors::IllegalValueError if the given initial value is not legal.
+      
+      def initialize(name_, opts_={}, &block_)
+        @name = name_.to_sym
+        @type = opts_[:type] || :integer
+        @initial_value = opts_[:initial]
+        if @type == :symbol
+          @symbol_info = Hash.new
+          @symbol_order = Array.new
+        else
+          @symbol_info = nil
+          @symbol_order = nil
+        end
+        @bump_proc = nil
+        @compare_proc = nil
+        @canonicalize_proc = nil
+        @ranges = nil
+        @default_child = nil
+        @children = []
+        Blockenspiel.invoke(block_, Versionomy::Schema::FieldBuilder.new(self)) if block_
+        @initial_value = canonicalize_value(@initial_value)
+      end
+      
+      
+      def _set_initial_value(value_)  # :nodoc:
+        @initial_value = value_
+      end
+      
+      def _add_symbol(symbol_, opts_={})  # :nodoc:
+        if @type != :symbol
+          raise Versionomy::Errors::TypeMismatchError
+        end
+        if @symbol_info.has_key?(symbol_)
+          raise Versionomy::Errors::SymbolRedefinedError
+        end
+        @symbol_info[symbol_] = [@symbol_order.size, opts_[:bump]]
+        @symbol_order << symbol_
+        if @initial_value.nil?
+          @initial_value = symbol_
+        end
+      end
+      
+      def _set_bump_proc(block_)  # :nodoc:
+        @bump_proc = block_
+      end
+      
+      def _set_canonicalize_proc(block_)  # :nodoc:
+        @canonicalize_proc = block_
+      end
+      
+      def _set_compare_proc(block_)  # :nodoc:
+        @compare_proc = block_
+      end
+      
+      
+      def inspect   # :nodoc:
+        to_s
+      end
+      
+      def to_s   # :nodoc:
+        "#<#{self.class}:0x#{object_id.to_s(16)} name=#{@name}>"
+      end
+      
+      
+      # The name of the field.
+      
+      def name
+        @name
+      end
+      
+      
+      # The type of the field.
+      # Possible values are <tt>:integer</tt>, <tt>:string</tt>, or <tt>:symbol</tt>.
+      
+      def type
+        @type
+      end
+      
+      
+      # The initial value of the field
+      
+      def initial_value
+        @initial_value
+      end
+      
+      
+      # Returns a list of possible values for this field, if the type is <tt>:symbol</tt>.
+      # Returns nil for any other type
+      
+      def possible_values
+        @symbol_order ? @symbol_order.dup : nil
+      end
+      
+      
+      # Given a value, bump it to the "next" value.
+      # Utilizes a bump procedure if given;
+      # otherwise uses default behavior depending on the type.
+      
+      def bump_value(value_)
+        if @bump_proc
+          nvalue_ = @bump_proc.call(value_)
+          nvalue_ || value_
+        elsif @type == :integer || @type == :string
+          value_.next
+        else
+          info_ = @symbol_info[value_]
+          info_ ? info_[1] || value_ : nil
+        end
+      end
+      
+      
+      # Perform a standard comparison on two values.
+      # Returns an integer that may be positive, negative, or 0.
+      # Utilizes a comparison procedure if given;
+      # otherwise uses default behavior depending on the type.
+      
+      def compare_values(val1_, val2_)
+        if @compare_proc
+          @compare_proc.call(val1_, val2_)
+        elsif @type == :integer || @type == :string
+          val1_ <=> val2_
+        else
+          info1_ = @symbol_info[val1_]
+          info2_ = @symbol_info[val2_]
+          info1_ && info2_ ? info1_[0] <=> info2_[0] : nil
+        end
+      end
+      
+      
+      # Given a value, return a "canonical" value for this field.
+      # Utilizes a canonicalization procedure if given;
+      # otherwise uses default behavior depending on the type.
+      # 
+      # Raises Versionomy::Errors::IllegalValueError if the given value is not legal.
+      
+      def canonicalize_value(value_)
+        orig_value_ = value_
+        if @canonicalize_proc
+          value_ = @canonicalize_proc.call(value_)
+        else
+          case @type
+          when :integer
+            value_ = value_.to_i rescue nil
+          when :string
+            value_ = value_.to_s rescue nil
+          when :symbol
+            value_ = value_.to_sym rescue nil
+          end
+        end
+        if value_.nil? || (@type == :symbol && !@symbol_info.has_key?(value_))
+          raise Versionomy::Errors::IllegalValueError, "#{@name} does not allow the value #{orig_value_.inspect}"
+        end
+        value_
+      end
+      
+      
+      # Returns the child field associated with the given value.
+      # Returns nil if this field has no children.
+      
+      def child(value_)  # :nodoc:
+        if @ranges
+          @ranges.each do |r_|
+            if !r_[0].nil?
+              cmp_ = compare_values(r_[0], value_)
+              next if cmp_.nil? || cmp_ > 0
+            end
+            if !r_[1].nil?
+              cmp_ = compare_values(r_[1], value_)
+              next if cmp_.nil? || cmp_ < 0
+            end
+            return r_[2]
+          end
+        end
+        @default_child
+      end
+      
+      
+      # Compute descendants as a hash of names to fields, including this field.
+      
+      def _descendants  # :nodoc:
+        hash_ = {@name => self}
+        @children.each{ |child_| hash_.merge!(child_._descendants) }
+        hash_
+      end
+      
+      
+      # Appends the given child field for the given range
+      
+      def _append_child(child_, ranges_=nil)  # :nodoc:
+        @children << child_
+        if ranges_.nil?
+          if @default_child
+            raise Versionomy::Errors::RangeOverlapError("Cannot have more than one default child")
+          end
+          @default_child = child_
+          return
+        end
+        ranges_ = [ranges_] unless ranges_.is_a?(Array)
+        ranges_.each do |range_|
+          case range_
+          when InternalRange
+            normalized_range_ = [range_.first, range_.last]
+          when Range
+            if range_.exclude_end?
+              raise Versionomy::Errors::RangeSpecificationError("Ranges must be inclusive")
+            end
+            normalized_range_ = [range_.first, range_.last]
+          when Array
+            if range_.size != 2
+              raise Versionomy::Errors::RangeSpecificationError("Range array should have two elements")
+            end
+            normalized_range_ = range_.dup
+          when String, Symbol, Integer
+            normalized_range_ = [range_, range_]
+          else
+            raise Versionomy::Errors::RangeSpecificationError("Unrecognized range type #{range_.class}")
+          end
+          normalized_range_.map! do |elem_|
+            if elem_.nil?
+              elem_
+            else
+              case @type
+              when :integer
+                elem_.to_i
+              when :string
+                elem_.to_s
+              when :symbol
+                begin
+                  elem_.to_sym
+                rescue
+                  raise Versionomy::Errors::RangeSpecificationError("Bad symbol value: #{elem_.inspect}")
+                end
+              end
+            end
+          end
+          normalized_range_ << child_
+          @ranges ||= Array.new
+          insert_index_ = @ranges.size
+          @ranges.each_with_index do |r_, i_|
+            if normalized_range_[0] && r_[1]
+              cmp_ = compare_values(normalized_range_[0], r_[1])
+              if cmp_.nil?
+                raise Versionomy::Errors::RangeSpecificationError
+              end
+              if cmp_ > 0
+                next
+              end
+            end
+            if normalized_range_[1] && r_[0]
+              cmp_ = compare_values(normalized_range_[1], r_[0])
+              if cmp_.nil?
+                raise Versionomy::Errors::RangeSpecificationError
+              end
+              if cmp_ < 0
+                insert_index_ = i_
+                break
+              end
+            end
+            raise Versionomy::Errors::RangeOverlapError
+          end
+          @ranges.insert(insert_index_, normalized_range_)
+        end
+      end
+      
+    end
+    
+    
+    class InternalRange  # :nodoc:
+      
+      def initialize(first_, last_)
+        @first = first_
+        @last = last_
+      end
+      
+      def first; @first; end
+      def last; @last; end
+      
+    end
+      
+    
+    # These methods are available in a schema field definition block.
+    
+    class FieldBuilder
+      
+      include Blockenspiel::DSL
+      
+      def initialize(field_)  # :nodoc:
+        @field = field_
       end
       
       
@@ -442,21 +519,21 @@ module Versionomy
       #   The symbol to transition to when "bump" is called.
       #   Default is to remain on the same value.
       # 
-      # Raises Versionomy::Errors::TypeMismatchError if called when the current schema
+      # Raises Versionomy::Errors::TypeMismatchError if called when the current field
       # is not of type <tt>:symbol</tt>.
       # 
       # Raises Versionomy::Errors::SymbolRedefinedError if the given symbol name is
       # already defined.
       
       def symbol(symbol_, opts_={})
-        @schema._add_symbol(symbol_, opts_)
+        @field._add_symbol(symbol_, opts_)
       end
       
       
       # Provide an initial value.
       
       def initial_value(value_)
-        @schema._set_initial_value(value_)
+        @field._set_initial_value(value_)
       end
       
       
@@ -465,7 +542,7 @@ module Versionomy
       # If you return nil, the value will remain the same.
       
       def to_bump(&block_)
-        @schema._set_bump_proc(block_)
+        @field._set_bump_proc(block_)
       end
       
       
@@ -476,7 +553,7 @@ module Versionomy
       # two values are equal. If the values cannot be compared, return nil.
       
       def to_compare(&block_)
-        @schema._set_compare_proc(block_)
+        @field._set_compare_proc(block_)
       end
       
       
@@ -485,16 +562,16 @@ module Versionomy
       # Return nil if the given value is illegal.
       
       def to_canonicalize(&block_)
-        @schema._set_canonicalize_proc(block_)
+        @field._set_canonicalize_proc(block_)
       end
       
       
-      # Add a subschema.
+      # Add a child field.
       # 
       # Recognized options include:
       # 
       # <tt>:only</tt>::
-      #   This subschema should be available only for the given values of this schema.
+      #   The child should be available only for the given values of this field.
       #   See below for ways to specify this constraint.
       # <tt>:type</tt>::
       #   Type of field. This should be <tt>:integer</tt>, <tt>:string</tt>, or <tt>:symbol</tt>.
@@ -504,42 +581,42 @@ module Versionomy
       #   or the first symbol added for a symbol field.
       # 
       # You may provide an optional block. Within the block, you may call methods of this
-      # class again to customize the subschema.
+      # class again to customize the child.
       # 
       # Raises Versionomy::Errors::IllegalValueError if the given initial value is not legal.
       # 
       # The <tt>:only</tt> constraint may be specified in one of the following ways:
       # 
       # * A single value (integer, string, or symbol)
-      # * A Range object defining a range of integers
-      # * A two-element array indicating a range of integers, strings, or symbols, inclusive.
-      #   In this case, the ordering of symbols is defined by the order in which the symbols
-      #   were added to this schema.
-      #   If either element is nil, it is considered an open end of the range.
-      # * An array of arrays in the above form.
+      # * The result of calling range() to define an inclusive range of integers, strings, or symbols.
+      #   In this case, either element may be nil, specifying an open end of the range.
+      #   If the field type is symbol, the ordering of symbols for the range is defined by the
+      #   order in which the symbols were added to this schema.
+      # * A Range object defining a range of integers or strings.
+      #   Only inclusive, not exclusive, ranges are supported.
+      # * An array of the above.
+      # 
+      # Raises Versionomy::Errors::RangeSpecificationError if the given ranges are not legal.
+      # Raises Versionomy::Errors::RangeOverlapError if the given ranges overlap previously
+      # specified ranges, or more than one default schema is specified.
       
-      def schema(name_, opts_={}, &block_)
-        @schema._append_schema(Versionomy::Schema.new(name_, opts_, &block_), opts_.delete(:only))
+      def field(name_, opts_={}, &block_)
+        only_ = opts_.delete(:only)
+        @field._append_child(Versionomy::Schema::Field.new(name_, opts_, &block_), only_)
       end
       
       
-      # Define a format for this schema.
+      # Define a range for the <tt>:only</tt> parameter to +child+.
       # 
-      # You may either:
+      # This creates an object that +child+ interprets like a standard ruby Range. However, it
+      # is customized for the use of +child+ in the following ways:
       # 
-      # * pass a format, or
-      # * pass a name and provide a block that calls methods in
-      #   Versionomy::Format::Builder.
+      # * It supports only inclusive, not exclusive ranges.
+      # * It supports open-ended ranges by setting either endpoint to nil.
+      # * It supports symbol ranges under Ruby 1.8.
       
-      def define_format(format_=nil, &block_)
-        @schema.define_format(format_, &block_)
-      end
-      
-      
-      # Sets the default format by name.
-      
-      def set_default_format_name(name_)
-        @schema.default_format_name = name_
+      def range(first_, last_)
+        InternalRange.new(first_, last_)
       end
       
       

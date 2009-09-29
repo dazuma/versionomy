@@ -5,7 +5,7 @@
 # This file contains tests for the bump function on the standard schema
 # 
 # -----------------------------------------------------------------------------
-# Copyright 2008 Daniel Azuma
+# Copyright 2008-2009 Daniel Azuma
 # 
 # All rights reserved.
 # 
@@ -35,6 +35,7 @@
 # -----------------------------------------------------------------------------
 
 
+require 'test/unit'
 require File.expand_path("#{File.dirname(__FILE__)}/../lib/versionomy.rb")
 
 
@@ -74,10 +75,10 @@ module Versionomy
       end
       
       
-      # Test bumping release type prerelease.
+      # Test bumping release type preview.
       
-      def test_bump_prerelease_to_release
-        value_ = Versionomy.create(:major => 2, :tiny => 1, :release_type => :prerelease)
+      def test_bump_preview_to_release
+        value_ = Versionomy.create(:major => 2, :tiny => 1, :release_type => :preview)
         value_ = value_.bump(:release_type)
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)

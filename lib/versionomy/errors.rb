@@ -3,7 +3,7 @@
 # Versionomy exceptions
 # 
 # -----------------------------------------------------------------------------
-# Copyright 2008 Daniel Azuma
+# Copyright 2008-2009 Daniel Azuma
 # 
 # All rights reserved.
 # 
@@ -75,6 +75,12 @@ module Versionomy
     end
     
     
+    # This exception is raised if you attempt to use a format with the wrong schema.
+    
+    class FormatSchemaMismatchError < VersionomyError
+    end
+    
+    
     # Base class for all Versionomy schema creation exceptions
     
     class SchemaCreationError < VersionomyError
@@ -89,7 +95,7 @@ module Versionomy
     
     
     # This exception is raised during schema creation if you try to
-    # create two subschemas covering overlapping ranges.
+    # create two fields covering overlapping ranges.
     
     class RangeOverlapError < SchemaCreationError
     end
@@ -106,6 +112,19 @@ module Versionomy
     # add a symbol to a non-symbolic schema.
     
     class TypeMismatchError < SchemaCreationError
+    end
+    
+    
+    # This exception is raised during schema creation if you try to
+    # add a field with a name that is already present.
+    
+    class NameRedefinedError < SchemaCreationError
+    end
+    
+    
+    # Base class for all Versionomy format creation exceptions
+    
+    class FormatCreationError < VersionomyError
     end
     
     

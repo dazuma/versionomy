@@ -5,7 +5,7 @@
 # This file contains tests for the basic use cases on the standard schema
 # 
 # -----------------------------------------------------------------------------
-# Copyright 2008 Daniel Azuma
+# Copyright 2008-2009 Daniel Azuma
 # 
 # All rights reserved.
 # 
@@ -35,6 +35,7 @@
 # -----------------------------------------------------------------------------
 
 
+require 'test/unit'
 require File.expand_path("#{File.dirname(__FILE__)}/../lib/versionomy.rb")
 
 
@@ -90,33 +91,33 @@ module Versionomy
       end
       
       
-      # Test an arbitrary prerelease value.
+      # Test an arbitrary preview value.
       
-      def test_prerelease_value_1
-        value_ = Versionomy.create(:major => 2, :minor => 3, :release_type => :prerelease, :prerelease_version => 3)
+      def test_preview_value_1
+        value_ = Versionomy.create(:major => 2, :minor => 3, :release_type => :preview, :preview_version => 3)
         assert_equal(2, value_.major)
         assert_equal(3, value_.minor)
         assert_equal(0, value_.tiny)
         assert_equal(0, value_.tiny2)
-        assert_equal(:prerelease, value_.release_type)
-        assert_equal(3, value_.prerelease_version)
-        assert_equal(0, value_.prerelease_minor)
+        assert_equal(:preview, value_.release_type)
+        assert_equal(3, value_.preview_version)
+        assert_equal(0, value_.preview_minor)
         assert_equal(false, value_.has_field?(:patchlevel))
         assert_equal(false, value_.has_field?(:patchlevel_minor))
       end
       
       
-      # Test an arbitrary prerelease value.
+      # Test an arbitrary preview value.
       
-      def test_prerelease_value_2
-        value_ = Versionomy.create(:major => 2, :minor => 3, :release_type => :prerelease)
+      def test_preview_value_2
+        value_ = Versionomy.create(:major => 2, :minor => 3, :release_type => :preview)
         assert_equal(2, value_.major)
         assert_equal(3, value_.minor)
         assert_equal(0, value_.tiny)
         assert_equal(0, value_.tiny2)
-        assert_equal(:prerelease, value_.release_type)
-        assert_equal(1, value_.prerelease_version)
-        assert_equal(0, value_.prerelease_minor)
+        assert_equal(:preview, value_.release_type)
+        assert_equal(1, value_.preview_version)
+        assert_equal(0, value_.preview_minor)
         assert_equal(false, value_.has_field?(:patchlevel))
         assert_equal(false, value_.has_field?(:patchlevel_minor))
       end

@@ -5,7 +5,7 @@
 # This file contains tests for the change function on the standard schema
 # 
 # -----------------------------------------------------------------------------
-# Copyright 2008 Daniel Azuma
+# Copyright 2008-2009 Daniel Azuma
 # 
 # All rights reserved.
 # 
@@ -35,6 +35,7 @@
 # -----------------------------------------------------------------------------
 
 
+require 'test/unit'
 require File.expand_path("#{File.dirname(__FILE__)}/../lib/versionomy.rb")
 
 

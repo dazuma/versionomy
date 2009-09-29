@@ -1,6 +1,8 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy entry point
+# Versionomy parsing tests on standard schema
+# 
+# This file contains tests for parsing on the standard schema
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -31,27 +33,32 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-;
 
 
-begin
-  require 'blockenspiel'
-rescue LoadError
-  require 'rubygems'
-  require 'blockenspiel'
+require 'test/unit'
+require File.expand_path("#{File.dirname(__FILE__)}/../lib/versionomy.rb")
+
+
+module Versionomy
+  module Tests  # :nodoc:
+    
+    class TestCustomFormat < Test::Unit::TestCase  # :nodoc:
+      
+      
+      # Test parsing with custom format for patchlevel
+      
+      def test_parsing_custom_patchlevel_format
+        format_ = Versionomy.default_format.modified_copy do
+          basic_integer_field(:patchlevel, :requires_previous_field => false, :delimiter_regexp => '\s?sp', :default_delimiter => ' SP')
+        end
+        value1_ = Versionomy.parse('2008 SP2', format_)
+        assert_equal(2, value1_.patchlevel)
+        value2_ = value1_.format.parse('2008 sp3')
+        assert_equal(3, value2_.patchlevel)
+      end
+      
+      
+    end
+    
+  end
 end
-
-
-dir_ = File.expand_path('versionomy', File.dirname(__FILE__))
-
-includes_ = [
- 'errors',
- 'schema',
- 'value',
- 'format/base',
- 'format/delimiter',
- 'schemas/standard',
- 'interface',
- 'version',
-]
-includes_.each{ |file_| require "#{dir_}/#{file_}" }

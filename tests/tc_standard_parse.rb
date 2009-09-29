@@ -5,7 +5,7 @@
 # This file contains tests for parsing on the standard schema
 # 
 # -----------------------------------------------------------------------------
-# Copyright 2008 Daniel Azuma
+# Copyright 2008-2009 Daniel Azuma
 # 
 # All rights reserved.
 # 
@@ -35,6 +35,7 @@
 # -----------------------------------------------------------------------------
 
 
+require 'test/unit'
 require File.expand_path("#{File.dirname(__FILE__)}/../lib/versionomy.rb")
 
 
@@ -70,8 +71,8 @@ module Versionomy
         assert_equal(:release, value_.release_type)
         assert_equal(0, value_.patchlevel)
         assert_equal(0, value_.patchlevel_minor)
-        assert_equal('2.0.1.0-0.0', value_.unparse(:required_fields => 4, :patchlevel_required_fields => 2))
-        assert_equal('2.0.1-0', value_.unparse(:required_fields => 1, :patchlevel_required_fields => 1))
+        assert_equal('2.0.1.0-0.0', value_.unparse(:required_fields => [:minor, :tiny, :tiny2, :patchlevel, :patchlevel_minor]))
+        assert_equal('2.0.1-0', value_.unparse(:required_fields => [:minor, :patchlevel]))
         assert_equal('2.0.1', value_.unparse)
       end
       
@@ -91,19 +92,19 @@ module Versionomy
       end
       
       
-      # Test parsing prerelease.
+      # Test parsing preview.
       
-      def test_parsing_prerelease
+      def test_parsing_preview
         value_ = Versionomy.parse('2.0.1pre4')
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
         assert_equal(1, value_.tiny)
         assert_equal(0, value_.tiny2)
-        assert_equal(:prerelease, value_.release_type)
-        assert_equal(4, value_.prerelease_version)
-        assert_equal(0, value_.prerelease_minor)
+        assert_equal(:preview, value_.release_type)
+        assert_equal(4, value_.preview_version)
+        assert_equal(0, value_.preview_minor)
         assert_equal('2.0.1pre4', value_.unparse)
-        assert_equal('2.0.1pre4.0', value_.unparse(:prerelease_required_fields => 2))
+        assert_equal('2.0.1pre4.0', value_.unparse(:required_fields => [:preview_minor]))
       end
       
       
@@ -119,7 +120,7 @@ module Versionomy
         assert_equal(4, value_.alpha_version)
         assert_equal(1, value_.alpha_minor)
         assert_equal('2.0.1a4.1', value_.unparse)
-        assert_equal('2.0.1a4.1', value_.unparse(:alpha_required_fields => 1))
+        assert_equal('2.0.1a4.1', value_.unparse(:optional_fields => [:alpha_minor]))
       end
       
       
@@ -135,7 +136,7 @@ module Versionomy
         assert_equal(4, value_.beta_version)
         assert_equal(0, value_.beta_minor)
         assert_equal('2.52.1b4.0', value_.unparse)
-        assert_equal('2.52.1b4', value_.unparse(:beta_required_fields => 1))
+        assert_equal('2.52.1b4', value_.unparse(:optional_fields => [:beta_minor]))
       end
       
       
@@ -143,10 +144,12 @@ module Versionomy
       
       def test_parsing_beta_alternates
         assert_equal(Versionomy.parse('2.52.1 beta4'), '2.52.1b4')
+        assert_equal(Versionomy.parse('2.52.1-b4'), '2.52.1b4')
+        assert_equal(Versionomy.parse('2.52.1.b4'), '2.52.1b4')
         assert_equal(Versionomy.parse('2.52.1B4'), '2.52.1b4')
         assert_equal(Versionomy.parse('2.52.1BETA4'), '2.52.1b4')
         assert_equal(Versionomy.parse('2.52.1 Beta4'), '2.52.1b4')
-        assert_not_equal(Versionomy.parse('2.52.1 eta4'), '2.52.1b4')
+        assert_equal(Versionomy.parse('2.52.1 eta4'), '2.52.1')
       end
       
       
@@ -162,18 +165,8 @@ module Versionomy
         assert_equal(0, value_.release_candidate_version)
         assert_equal(0, value_.release_candidate_minor)
         assert_equal('0.2rc0', value_.unparse)
-        assert_equal('0.2rc0.0', value_.unparse(:release_candidate_required_fields => 2))
-        assert_equal('0.2rc0', value_.unparse(:release_candidate_required_fields => 0))
-      end
-      
-      
-      # Test parsing with custom symbols
-      
-      def test_parsing_custom_patchlevel_symbols
-        value1_ = Versionomy.parse('2008 SP2', :patchlevel_separator => '\s?(SP|sp)')
-        assert_equal(2, value1_.patchlevel)
-        value2_ = value1_.parse('2008 sp3')
-        assert_equal(3, value2_.patchlevel)
+        assert_equal('0.2rc0.0', value_.unparse(:required_fields => [:release_candidate_minor]))
+        assert_equal('0.2rc0', value_.unparse(:optional_fields => [:release_candidate_version]))
       end
       
       

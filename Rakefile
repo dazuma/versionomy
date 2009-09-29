@@ -3,7 +3,7 @@
 # Versionomy Rakefile
 # 
 # -----------------------------------------------------------------------------
-# Copyright 2008 Daniel Azuma
+# Copyright 2008-2009 Daniel Azuma
 # 
 # All rights reserved.
 # 
@@ -33,17 +33,98 @@
 # -----------------------------------------------------------------------------
 
 
-require 'rubygems'
-require 'hoe'
+require 'rake'
+require 'rake/clean'
+require 'rake/gempackagetask'
+require 'rake/testtask'
+require 'rake/rdoctask'
+require 'rdoc/generator/darkfish'
+
 require File.expand_path("#{File.dirname(__FILE__)}/lib/versionomy.rb")
 
-Hoe.new('versionomy', Versionomy::VERSION_STRING) do |p_|
-  p_.rubyforge_name = 'virtuoso'
-  p_.developer('Daniel Azuma', 'dazuma@gmail.com')
-  p_.author = ['Daniel Azuma']
-  p_.email = ['dazuma@gmail.com']
-  p_.test_globs = ['tests/tc_*.rb']
-  p_.extra_deps = [['blockenspiel', '>= 0.0.4']]
-  p_.description_sections = ['versionomy']
-  p_.url = 'http://virtuoso.rubyforge.org/versionomy'
+
+# Configuration
+extra_rdoc_files_ = ['README.rdoc', 'History.rdoc']
+
+
+# Default task
+task :default => [:clean, :rdoc, :test]
+
+
+# Clean task
+CLEAN.include(['doc', 'pkg'])
+
+
+# Test task
+Rake::TestTask.new('test') do |task_|
+  task_.pattern = 'tests/tc_*.rb'
+end
+
+
+# RDoc task
+Rake::RDocTask.new do |task_|
+  task_.main = 'README.rdoc'
+  task_.rdoc_files.include(*extra_rdoc_files_)
+  task_.rdoc_files.include('lib/versionomy/**/*.rb')
+  task_.rdoc_dir = 'doc'
+  task_.title = "Versionomy #{Versionomy::VERSION_STRING} documentation"
+  task_.options << '-f' << 'darkfish'
+end
+
+
+# Gem task
+gemspec_ = Gem::Specification.new do |s_|
+  s_.name = 'versionomy'
+  s_.summary = 'Versionomy is a generalized version number library.'
+  s_.version = Versionomy::VERSION_STRING
+  s_.author = 'Daniel Azuma'
+  s_.email = 'dazuma@gmail.com'
+  s_.description = 'Versionomy is a generalized version number library. It provides tools to represent, manipulate, parse, and compare version numbers in the wide variety of versioning schemes in use.'
+  s_.homepage = 'http://virtuoso.rubyforge.org/versionomy'
+  s_.rubyforge_project = 'virtuoso'
+  s_.required_ruby_version = '>= 1.8.6'
+  s_.files = FileList['lib/**/*.rb', 'tests/**/*.rb', '*.rdoc', 'Rakefile'].to_a
+  s_.extra_rdoc_files = extra_rdoc_files_
+  s_.has_rdoc = true
+  s_.test_files = FileList['tests/tc_*.rb']
+  s_.platform = Gem::Platform::RUBY
+  s_.add_dependency('blockenspiel', '>= 0.2.1')
+end
+Rake::GemPackageTask.new(gemspec_) do |task_|
+  task_.need_zip = false
+  task_.need_tar = true
+end
+
+
+# Publish RDocs
+desc 'Publishes RDocs to RubyForge'
+task :publish_rdoc => [:rerdoc] do
+  config_ = YAML.load(File.read(File.expand_path("~/.rubyforge/user-config.yml")))
+  username_ = config_['username']
+  sh "rsync -av --delete doc/ #{username_}@rubyforge.org:/var/www/gforge-projects/virtuoso/versionomy"
+end
+
+
+# Publish gem
+task :publish_gem => [:package] do |t_|
+  v_ = ENV["VERSION"]
+  abort "Must supply VERSION=x.y.z" unless v_
+  if v_ != Versionomy::VERSION_STRING
+    abort "Versions don't match: #{v_} vs #{Versionomy::VERSION_STRING}"
+  end
+  gem_pkg_ = "pkg/versionomy-#{v_}.gem"
+  tgz_pkg_ = "pkg/versionomy-#{v_}.tgz"
+  release_notes_ = File.read("README.rdoc").split(/^(==.*)/)[2].strip
+  release_changes_ = File.read("History.rdoc").split(/^(===.*)/)[1..2].join.strip
+  
+  require 'rubyforge'
+  rf_ = RubyForge.new.configure
+  puts "Logging in to RubyForge"
+  rf_.login
+  config_ = rf_.userconfig
+  config_["release_notes"] = release_notes_
+  config_["release_changes"] = release_changes_
+  config_["preformatted"] = true
+  puts "Releasing versionomy #{v_}"
+  rf_.add_release('virtuoso', 'versionomy', v_, gem_pkg_, tgz_pkg_)
 end

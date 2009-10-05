@@ -170,6 +170,19 @@ module Versionomy
       end
       
       
+      # Test unparsing a value that requires lookback.
+      
+      def test_unparsing_with_lookback
+        value_ = Versionomy.parse('2.0')
+        value2_ = value_.change(:tiny2 => 1)
+        assert_equal(1, value2_.tiny2)
+        assert_equal('2.0.0.1', value2_.unparse)
+        value3_ = value2_.change(:tiny2 => 0)
+        assert_equal(0, value3_.tiny2)
+        assert_equal('2.0', value3_.unparse)
+      end
+      
+      
     end
     
   end

@@ -48,9 +48,15 @@ module Versionomy
     end
     
     
-    # This exception is raised if parsing or unparsing failed.
+    # This exception is raised if parsing failed.
     
     class ParseError < VersionomyError
+    end
+    
+    
+    # This exception is raised if unparsing failed.
+    
+    class UnparseError < VersionomyError
     end
     
     

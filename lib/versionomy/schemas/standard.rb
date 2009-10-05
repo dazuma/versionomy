@@ -151,15 +151,21 @@ module Versionomy
               map(:beta, 'b')
               map(:release_candidate, 'rc')
             end
-            mapping_parser(:form => :short, :delimiter_regexp => '-|\.|\s?', :default_delimiter => '', :expected_follower_regexp => '\s?\d') do
+            mapping_parser(:form => :short, :delimiter_regexp => '-|\.|\s?', :post_delimiter_regexp => '\s?|-', :default_delimiter => '', :expected_follower_regexp => '\d') do
               map(:preview, 'pre')
             end
-            mapping_parser(:form => :long, :delimiter_regexp => '-|\.|\s?', :default_delimiter => '', :expected_follower_regexp => '\s?\d') do
+            mapping_parser(:form => :long, :delimiter_regexp => '-|\.|\s?', :post_delimiter_regexp => '\s?|-', :default_delimiter => '', :expected_follower_regexp => '\d') do
               map(:development, 'dev')
               map(:alpha, 'alpha')
               map(:beta, 'beta')
               map(:release_candidate, 'rc')
               map(:preview, 'preview')
+            end
+            mapping_parser(:form => :short, :delimiter_regexp => '', :default_delimiter => '') do
+              map(:release, '')
+            end
+            mapping_parser(:form => :long, :delimiter_regexp => '', :default_delimiters => '') do
+              map(:release, '')
             end
           end
           basic_integer_field(:development_version, :required_unparse => true, :delimiter_regexp => '', :default_delimiter => '')

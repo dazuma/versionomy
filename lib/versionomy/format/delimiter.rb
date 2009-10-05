@@ -114,7 +114,11 @@ module Versionomy
         if fields_
           fields_.each do |f_|
             node_ = @nodes[f_]
-            unparse_params_["#{f_}_delim".to_sym] ||= node_.default_delimiter if node_
+            if node_
+              delimiters_ = node_.default_delimiters
+              unparse_params_["#{f_}_delim".to_sym] ||= delimiters_[0]
+              unparse_params_["#{f_}_postdelim".to_sym] ||= delimiters_[1]
+            end
           end
         end
         fields_ = unparse_params_.delete(:optional_fields)
@@ -125,8 +129,31 @@ module Versionomy
         end
         string_ = ''
         value_.each_field do |field_, val_|
-          fragment_ = @nodes[field_.name].unparse(val_, unparse_params_)
-          string_ << fragment_ if fragment_
+          node_ = @nodes[field_.name]
+          fragment_ = node_.unparse(val_, unparse_params_)
+#puts "#{field_.name}= #{fragment_.inspect}"
+          if fragment_
+            list_ = unparse_params_.delete(:skipped_node_list)
+            if list_ && node_.requires_previous_field && !unparse_params_[:required_for_later]
+              unparse_params_[:required_for_later] = true
+              list_.each do |n_|
+                frag_ = n_[0].unparse(n_[1], unparse_params_)
+#puts "  in list: #{frag_.inspect}"
+                unless frag_
+                  raise Versionomy::Errors::UnparseError, "Field #{field_.name} empty although a prerequisite for a later field"
+                end
+                string_ << frag_
+              end
+              unparse_params_[:required_for_later] = false
+            end
+            string_ << fragment_
+          else
+            if node_.requires_previous_field
+              (unparse_params_[:skipped_node_list] ||= []) << [node_, val_]
+            else
+              unparse_params_[:skipped_node_list] = [[node_, val_]]
+            end
+          end
         end
         string_
       end
@@ -214,6 +241,7 @@ module Versionomy
           @nodes = []
           @forms = {}
           @default_form = default_opts_.delete(:form)
+          @requires_previous_field = default_opts_.fetch(:requires_previous_field, true)
           @form_unparse_param_key = "#{field_.name}_form".to_sym
           case field_.type
           when :integer
@@ -228,8 +256,13 @@ module Versionomy
         end
         
         
-        def default_delimiter
-          @forms[@default_form].first.default_delimiter
+        def requires_previous_field
+          @requires_previous_field
+        end
+        
+        
+        def default_delimiters
+          @forms[@default_form].first.default_delimiters
         end
         
         
@@ -277,6 +310,7 @@ module Versionomy
           
           def _create_node(opts_)
             form_ = opts_.delete(:form) || @nodes.size
+            opts_.delete(:requires_previous_field)
             node_ = yield(@field, @default_opts.merge(opts_))
             @nodes << [node_, form_]
             (@forms[form_] ||= []) << node_
@@ -341,17 +375,26 @@ module Versionomy
           @value_regexp = ::Regexp.new("^(#{value_regexp_})", @regexp_options)
           regexp_ = opts_.fetch(:delimiter_regexp, '\.')
           @delimiter_regexp = regexp_.length > 0 ? ::Regexp.new("^(#{regexp_})", @regexp_options) : nil
+          regexp_ = opts_.fetch(:post_delimiter_regexp, '')
+          @post_delimiter_regexp = regexp_.length > 0 ? ::Regexp.new("^(#{regexp_})", @regexp_options) : nil
           regexp_ = opts_.fetch(:expected_follower_regexp, '')
           @follower_regexp = regexp_.length > 0 ? ::Regexp.new("^(#{regexp_})", @regexp_options) : nil
           @default_delimiter = opts_.fetch(:default_delimiter, '.')
+          @default_post_delimiter = opts_.fetch(:default_post_delimiter, '')
           @requires_previous_field = opts_.fetch(:requires_previous_field, true)
           @delim_unparse_param_key = "#{name_}_delim".to_sym
+          @post_delim_unparse_param_key = "#{name_}_postdelim".to_sym
           @optional_unparse_param_key = "#{name_}_optional".to_sym
         end
         
         
-        def default_delimiter
-          @default_delimiter
+        def requires_previous_field
+          @requires_previous_field
+        end
+        
+        
+        def default_delimiters
+          [@default_delimiter, @default_post_delimiter]
         end
         
         
@@ -371,6 +414,14 @@ module Versionomy
           return nil unless match_
           value_ = match_[0]
           string_ = match_.post_match
+          if @post_delimiter_regexp
+            match_ = @post_delimiter_regexp.match(string_)
+            return nil unless match_
+            post_delim_ = match_[0]
+            string_ = match_.post_match
+          else
+            post_delim_ = nil
+          end
           if @follower_regexp
             match_ = @follower_regexp.match(string_)
             return nil unless match_
@@ -380,19 +431,20 @@ module Versionomy
           parse_params_[:string] = string_
           parse_params_[:previous_field_missing] = false
           unparse_params_[@delim_unparse_param_key] = delim_
+          unparse_params_[@post_delim_unparse_param_key] = post_delim_ if post_delim_
           value_
         end
         
         
         def unparse(value_, unparse_params_)
-          if @required_unparse || value_ != 0 ||
+          str_ = nil
+          if @required_unparse || value_ != 0 || unparse_params_[:required_for_later] ||
               unparse_params_[@delim_unparse_param_key] && !unparse_params_[@optional_unparse_param_key]
           then
             str_ = unparsed_value(value_, unparse_params_)
             if str_
-              (unparse_params_[@delim_unparse_param_key] || @default_delimiter) + str_
-            else
-              nil
+              str_ = (unparse_params_[@delim_unparse_param_key] || @default_delimiter) + str_ +
+                (unparse_params_[@post_delim_unparse_param_key] || @default_post_delimiter)
             end
           else
             nil

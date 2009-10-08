@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy format
+# Versionomy format base class
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -37,8 +37,6 @@
 module Versionomy
   
   
-  # This module is a namespace for tools that may be used to build formats.
-  
   module Format
     
     
@@ -52,6 +50,7 @@ module Versionomy
     # Formats need not extend this base class, as long as they duck-type these methods.
     
     class Base
+      
       
       # Create an instance of this base format, connected to the given schema.
       
@@ -68,10 +67,9 @@ module Versionomy
       
       
       # Parse the given string and return a value.
-      # The value will have this format's schema
       
       def parse(string_, params_=nil)
-        @schema.initial_value
+        Value.new([], self)
       end
       
       

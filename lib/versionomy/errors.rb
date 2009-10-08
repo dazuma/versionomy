@@ -44,7 +44,7 @@ module Versionomy
     
     # Base class for all Versionomy exceptions
     
-    class VersionomyError < RuntimeError
+    class VersionomyError < ::RuntimeError
     end
     
     
@@ -71,19 +71,6 @@ module Versionomy
     # between incompatible schemas.
     
     class SchemaMismatchError < VersionomyError
-    end
-    
-    
-    # This exception is raised during parsing if the specified format
-    # name is not recognized.
-    
-    class UnknownFormatError < VersionomyError
-    end
-    
-    
-    # This exception is raised if you attempt to use a format with the wrong schema.
-    
-    class FormatSchemaMismatchError < VersionomyError
     end
     
     
@@ -122,15 +109,22 @@ module Versionomy
     
     
     # This exception is raised during schema creation if you try to
-    # add a field with a name that is already present.
+    # create a circular dependency.
     
-    class NameRedefinedError < SchemaCreationError
+    class CircularDescendantError < SchemaCreationError
     end
     
     
     # Base class for all Versionomy format creation exceptions
     
     class FormatCreationError < VersionomyError
+    end
+    
+    
+    # This exception is raised if you try to register a format
+    # with a name that has already been used.
+    
+    class FormatRedefinedError < FormatCreationError
     end
     
     

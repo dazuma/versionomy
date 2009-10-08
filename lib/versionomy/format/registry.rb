@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy standard schema and formats
+# Versionomy format registry
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -36,73 +36,122 @@
 
 module Versionomy
   
-  module Schemas
+  module Format
     
     
-    # === The standard schema
-    # 
-    # The standard schema is designed to handle most commonly-used version
-    # number forms, and allow parsing and comparison between them.
-    # 
-    # It begins with four numeric fields: "major.minor.tiny.tiny2".
-    # 
-    # The next field, "release_type", defines the remaining structure.
-    # The release type can be one of these symbolic values:
-    # <tt>:development</tt>, <tt>:alpha</tt>, <tt>:beta</tt>,
-    # <tt>:preview</tt>, <tt>:release_candidate</tt>, or <tt>:release</tt>.
-    # 
-    # Depending on that value, additional fields become available. For example,
-    # the <tt>:alpha</tt> value enables the fields "alpha_version"
-    # and "alpha_minor", which represent version numbers after the "a" alpha
-    # specifier. i.e. "2.1a30" has an alpha_version of 30. "2.1a30.2" also
-    # has an alpha_minor of 2. Similarly, the <tt>:beta</tt> release_type
-    # value enables the fields "beta_version" and "beta_minor". A release_type
-    # of <tt>:release</tt> enables "patchlevel" and "patchlevel_minor", to
-    # support versions like "1.8.7p72".
-    # 
-    # The full definition of the standard schema is as follows:
-    # 
-    #  field(:major, :initial => 1) do
-    #    field(:minor) do
-    #      field(:tiny) do
-    #        field(:tiny2) do
-    #          field(:release_type, :type => :symbol) do
-    #            symbol(:development, :bump => :alpha)
-    #            symbol(:alpha, :bump => :beta)
-    #            symbol(:beta, :bump => :release_candidate)
-    #            symbol(:preview, :bump => :release)
-    #            symbol(:release_candidate, :bump => :release)
-    #            symbol(:release, :bump => :release)
-    #            initial_value(:release)
-    #            field(:development_version, :only => :development, :initial => 1) do
-    #              field(:development_minor)
-    #            end
-    #            field(:alpha_version, :only => :alpha, :initial => 1) do
-    #              field(:alpha_minor)
-    #            end
-    #            field(:beta_version, :only => :beta, :initial => 1) do
-    #              field(:beta_minor)
-    #            end
-    #            field(:preview_version, :only => :preview, :initial => 1) do
-    #              field(:preview_minor)
-    #            end
-    #            field(:release_candidate_version, :only => :release_candidate, :initial => 1) do
-    #              field(:release_candidate_minor)
-    #            end
-    #            field(:patchlevel, :only => :release) do
-    #              field(:patchlevel_minor)
-    #            end
-    #          end
-    #        end
-    #      end
-    #    end
-    #  end
+    @names = ::Hash.new
     
-    module Standard
+    
+    class << self
       
       
-      def self._create_schema  # :nodoc:
-        @schema = Schema.new do
+      # Get the format with the given name.
+      
+      def get(name_)
+        @names[name_.to_s]
+      end
+      
+      
+      # Register the given format under the given name.
+      # 
+      # Raises Versionomy::Errors::FormatRedefinedError if the name has
+      # already been defined.
+      
+      def register(name_, format_)
+        name_ = name_.to_s
+        if @names.include?(name_)
+          raise Errors::FormatRedefinedError, name_
+        end
+        @names[name_] = format_
+      end
+      
+      
+      # Get the standard format.
+      # This is identical to calling <tt>get('standard')</tt>.
+      # 
+      # The standard format is designed to handle most commonly-used version
+      # number forms, and allow parsing and comparison between them.
+      # 
+      # The standard schema is the heart of this format, providing a
+      # common structure for most version numbers.
+      # 
+      # It begins with four numeric fields:
+      # "<tt>major.minor.tiny.tiny2</tt>".
+      # 
+      # The next field, <tt>:release_type</tt>, defines the remaining
+      # structure. The release type can be one of these symbolic values:
+      # <tt>:development</tt>, <tt>:alpha</tt>, <tt>:beta</tt>,
+      # <tt>:preview</tt>, <tt>:release_candidate</tt>, <tt>:release</tt>.
+      # 
+      # Depending on that value, additional fields become available. For
+      # example, the <tt>:alpha</tt> value enables the fields
+      # <tt>:alpha_version</tt> and <tt>:alpha_minor</tt>, which represent
+      # version number fields after the "a" alpha specifier. i.e. "2.1a30"
+      # has an alpha_version of 30. "2.1a30.2" also has an alpha_minor of 2.
+      # Similarly, the <tt>:beta</tt> release_type value enables the fields
+      # <tt>:beta_version</tt> and <tt>:beta_minor</tt>. A release_type
+      # of <tt>:release</tt> enables <tt>:patchlevel</tt> and
+      # <tt>:patchlevel_minor</tt>, to support versions like "1.8.7p72".
+      # 
+      # The standard schema is defined as follows:
+      # 
+      #  field(:major, :initial => 1) do
+      #    field(:minor) do
+      #      field(:tiny) do
+      #        field(:tiny2) do
+      #          field(:release_type, :type => :symbol) do
+      #            symbol(:development, :bump => :alpha)
+      #            symbol(:alpha, :bump => :beta)
+      #            symbol(:beta, :bump => :release_candidate)
+      #            symbol(:preview, :bump => :release)
+      #            symbol(:release_candidate, :bump => :release)
+      #            symbol(:release, :bump => :release)
+      #            initial_value(:release)
+      #            field(:development_version, :only => :development, :initial => 1) do
+      #              field(:development_minor)
+      #            end
+      #            field(:alpha_version, :only => :alpha, :initial => 1) do
+      #              field(:alpha_minor)
+      #            end
+      #            field(:beta_version, :only => :beta, :initial => 1) do
+      #              field(:beta_minor)
+      #            end
+      #            field(:preview_version, :only => :preview, :initial => 1) do
+      #              field(:preview_minor)
+      #            end
+      #            field(:release_candidate_version, :only => :release_candidate, :initial => 1) do
+      #              field(:release_candidate_minor)
+      #            end
+      #            field(:patchlevel, :only => :release) do
+      #              field(:patchlevel_minor)
+      #            end
+      #          end
+      #        end
+      #      end
+      #    end
+      #  end
+      # 
+      # The format itself is a delimiter-based format that understands a
+      # wide variety of string representations. Examples of supported syntax
+      # include:
+      # 
+      #  2.0
+      #  2.0.42.10
+      #  2.0b2
+      #  2.0rc15
+      #  2.0-5
+      #  2.0p5
+      #  2.0 Alpha 1
+      #  2.0a5.3
+      #  2.1.42.10-4.3
+      
+      def standard
+        get('standard')
+      end
+      
+      
+      def _create_standard  # :nodoc:
+        schema_ = Schema.create do
           field(:major, :initial => 1) do
             field(:minor) do
               field(:tiny) do
@@ -139,7 +188,7 @@ module Versionomy
             end
           end
         end
-        @schema.default_format = Format::Delimiter.new(@schema) do
+        format_ = Format::Delimiter.new(schema_) do
           basic_integer_field(:major, :required_unparse => true, :delimiter_regexp => '', :default_delimiter => '')
           basic_integer_field(:minor)
           basic_integer_field(:tiny)
@@ -185,25 +234,14 @@ module Versionomy
           basic_integer_field(:patchlevel_minor)
           default_unparse_params(:required_fields => [:minor])
         end
+        register('standard', format_)
       end
-      
-      
-      # Get the standard schema
-      
-      def self.schema
-        _create_schema unless @schema
-        @schema
-      end
-      
-      
-      # Get the standard format
-      
-      def self.default_format
-        self.schema.default_format
-      end
-      
       
     end
+    
+    
+    _create_standard
+    
     
   end
   

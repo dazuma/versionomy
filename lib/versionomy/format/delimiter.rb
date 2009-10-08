@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy format
+# Versionomy delimiter format
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -36,7 +36,6 @@
 
 module Versionomy
   
-  
   module Format
     
     
@@ -55,7 +54,7 @@ module Versionomy
           @nodes = orig_.instance_variable_get(:@nodes).dup
           builder_ = Delimiter::Builder.new(@schema, @nodes,
             @default_parse_params, @default_unparse_params)
-          Blockenspiel.invoke(block_, builder_)
+          ::Blockenspiel.invoke(block_, builder_)
           return
         end
         
@@ -65,7 +64,7 @@ module Versionomy
         @default_unparse_params = {}
         builder_ = Delimiter::Builder.new(@schema, @nodes,
           @default_parse_params, @default_unparse_params)
-        Blockenspiel.invoke(block_, builder_)
+        ::Blockenspiel.invoke(block_, builder_)
         @schema.names.each do |name_|
           field_ = @schema.field_named(name_)
           @nodes[name_] ||=
@@ -101,9 +100,9 @@ module Versionomy
           field_ = field_.child(v_)
         end
         if parse_params_[:strict] && parse_params_[:string].length > 0
-          raise Versionomy::Errors::ParseError, "Extra characters: #{parse_params_[:string].inspect}"
+          raise Errors::ParseError, "Extra characters: #{parse_params_[:string].inspect}"
         end
-        Versionomy::Value._new(self, values_, unparse_params_)
+        Value.new(values_, self, unparse_params_)
       end
       
       
@@ -118,6 +117,7 @@ module Versionomy
               delimiters_ = node_.default_delimiters
               unparse_params_["#{f_}_delim".to_sym] ||= delimiters_[0]
               unparse_params_["#{f_}_postdelim".to_sym] ||= delimiters_[1]
+              unparse_params_["#{f_}_optional".to_sym] = false
             end
           end
         end
@@ -128,19 +128,17 @@ module Versionomy
           end
         end
         string_ = ''
-        value_.each_field do |field_, val_|
+        value_.each_field_object do |field_, val_|
           node_ = @nodes[field_.name]
           fragment_ = node_.unparse(val_, unparse_params_)
-#puts "#{field_.name}= #{fragment_.inspect}"
           if fragment_
             list_ = unparse_params_.delete(:skipped_node_list)
             if list_ && node_.requires_previous_field && !unparse_params_[:required_for_later]
               unparse_params_[:required_for_later] = true
               list_.each do |n_|
                 frag_ = n_[0].unparse(n_[1], unparse_params_)
-#puts "  in list: #{frag_.inspect}"
                 unless frag_
-                  raise Versionomy::Errors::UnparseError, "Field #{field_.name} empty although a prerequisite for a later field"
+                  raise Errors::UnparseError, "Field #{field_.name} empty although a prerequisite for a later field"
                 end
                 string_ << frag_
               end
@@ -176,7 +174,7 @@ module Versionomy
       
       class Builder
         
-        include Blockenspiel::DSL
+        include ::Blockenspiel::DSL
         
         def initialize(schema_, nodes_, default_parse_params_, default_unparse_params_)
           @schema = schema_
@@ -190,7 +188,7 @@ module Versionomy
           name_ = name_.to_sym
           field_ = @schema.field_named(name_)
           if field_.type != :integer
-            raise Versionomy::Errors::FormatCreationError, "Type mismatch"
+            raise Errors::FormatCreationError, "Type mismatch"
           end
           @nodes[name_] = Delimiter::BasicIntegerNode.new(field_, opts_)
         end
@@ -200,7 +198,7 @@ module Versionomy
           name_ = name_.to_sym
           field_ = @schema.field_named(name_)
           if field_.type != :string
-            raise Versionomy::Errors::FormatCreationError, "Type mismatch"
+            raise Errors::FormatCreationError, "Type mismatch"
           end
           @nodes[name_] = Delimiter::BasicStringNode.new(field_, opts_)
         end
@@ -210,7 +208,7 @@ module Versionomy
           name_ = name_.to_sym
           field_ = @schema.field_named(name_)
           if field_.type != :symbol
-            raise Versionomy::Errors::FormatCreationError, "Type mismatch"
+            raise Errors::FormatCreationError, "Type mismatch"
           end
           @nodes[name_] = Delimiter::BasicSymbolNode.new(field_, opts_, &block_)
         end
@@ -251,7 +249,7 @@ module Versionomy
           when :symbol
             builder_ = Delimiter::MultiNode::SymbolBuilder.new(@nodes, @forms, field_, default_opts_)
           end
-          Blockenspiel.invoke(block_, builder_)
+          ::Blockenspiel.invoke(block_, builder_)
           @default_form = @nodes.first[1] unless @forms[@default_form]
         end
         
@@ -283,7 +281,7 @@ module Versionomy
         def unparse(value_, unparse_params_)
           form_ = unparse_params_[@form_unparse_param_key] || @default_form
           case form_
-          when Integer
+          when ::Integer
             node_ = @nodes[form_]
             return nil unless node_
             node_.unparse(value_, unparse_params_)
@@ -321,7 +319,7 @@ module Versionomy
         
         class IntegerBuilder < BuilderBase
           
-          include Blockenspiel::DSL
+          include ::Blockenspiel::DSL
           
           def basic_parser(opts_={})
             _create_node(opts_) do |field_, real_opts_|
@@ -340,7 +338,7 @@ module Versionomy
         
         class StringBuilder < BuilderBase
           
-          include Blockenspiel::DSL
+          include ::Blockenspiel::DSL
           
           def basic_parser(opts_={})
             _create_node(opts_) do |field_, real_opts_|
@@ -353,7 +351,7 @@ module Versionomy
         
         class SymbolBuilder < BuilderBase
           
-          include Blockenspiel::DSL
+          include ::Blockenspiel::DSL
           
           def mapping_parser(opts_={}, &block_)
             _create_node(opts_) do |field_, real_opts_|
@@ -526,11 +524,11 @@ module Versionomy
           @chars = opts_[:chars] || '[a-zA-Z0-9]'
           @length = opts_[:length]
           case @length
-          when Integer
+          when ::Integer
             length_clause_ = '{#{@length}}'
-          when Range
+          when ::Range
             length_clause_ = '{#{@length.first},#{@length.last}}'
-          when Array
+          when ::Array
             if @length[0] && @length[1]
               length_clause_ = '{#{@length[0]},#{@length[1]}}'
             elsif @length[0]
@@ -562,7 +560,7 @@ module Versionomy
         def initialize(field_, opts_={}, &block_)
           @mappings = {}
           builder_ = Delimiter::MappingSymbolNode::Builder.new(@mappings)
-          Blockenspiel.invoke(block_, builder_)
+          ::Blockenspiel.invoke(block_, builder_)
           regexps_ = @mappings.values.map{ |r_| "(#{r_[0]})" }
           setup(field_.name, regexps_.join('|'), opts_)
           @mappings.each do |v_, r_|
@@ -585,7 +583,7 @@ module Versionomy
         
         class Builder
           
-          include Blockenspiel::DSL
+          include ::Blockenspiel::DSL
           
           def initialize(mappings_)
             @mappings = mappings_

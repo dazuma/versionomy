@@ -47,10 +47,13 @@ dir_ = File.expand_path('versionomy', File.dirname(__FILE__))
 includes_ = [
  'errors',
  'schema',
- 'value',
+ 'schema/field',
+ 'schema/wrapper',
+ 'format',
  'format/base',
  'format/delimiter',
- 'schemas/standard',
+ 'format/registry',
+ 'value',
  'interface',
  'version',
 ]

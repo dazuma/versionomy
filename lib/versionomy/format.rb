@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy version
+# Versionomy format module
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -36,17 +36,33 @@
 
 module Versionomy
   
-  # Current gem version, as a frozen string.
-  VERSION_STRING = '0.1.0'.freeze
   
-  # Current gem version, as a Versionomy::Value.
-  VERSION = Versionomy.parse(VERSION_STRING, Versionomy::Format.standard)
+  # === Version number format.
+  # 
+  # A format controls the parsing and unparsing of a version number.
+  # Any time a version number is parsed from a string, a format is provided
+  # to parse it. Similarly, every version number value references a format
+  # that is used to unparse it back into a string.
+  # 
+  # A format is always tied to a particular schema and knows how to parse
+  # only that schema's version numbers.
+  # 
+  # Under many circumstances, you should use the standard format, which
+  # can be retrieved by calling Versionomy::Format#standard. This format
+  # understands most of the common version numbers, including prerelease
+  # (e.g. alpha, beta, release candidate, etc.) forms and patchlevels.
+  # 
+  # You may also create your own formats, either by implementing the
+  # format contract (see Versionomy::Format::Base) or by using the
+  # Versionomy::Format::Delimiter tool, which can be used to construct
+  # parsers for many version number formats.
+  # 
+  # Formats may be registered with Versionomy and given a name using the
+  # methods of this module. This allows version numbers to be serialized
+  # with their format.
   
-end
-
-
-module Blockenspiel  # :nodoc:
+  module Format
+  end
   
-  VERSION = Versionomy.parse(VERSION_STRING, Versionomy::Format.standard)
   
 end

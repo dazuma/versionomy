@@ -7,60 +7,68 @@ numbers in the wide variety of versioning schemes in use.
 === Some examples
 
  v1 = Versionomy.parse('1.3.2')
- v1.major                       # => 1
- v1.minor                       # => 3
- v1.tiny                        # => 2
+ v1.major                                 # => 1
+ v1.minor                                 # => 3
+ v1.tiny                                  # => 2
  
  v2 = Versionomy.parse('1.4a3')
- v2.major                       # => 1
- v2.minor                       # => 4
- v2.tiny                        # => 0
- v2.release_type                # => :alpha
- v2.alpha_version               # => 3
- v2 > v1                        # => true
+ v2.major                                 # => 1
+ v2.minor                                 # => 4
+ v2.tiny                                  # => 0
+ v2.release_type                          # => :alpha
+ v2.alpha_version                         # => 3
+ v2 > v1                                  # => true
  
  v3 = Versionomy.parse('1.4.0b2')
- v3.major                       # => 1
- v3.minor                       # => 4
- v3.tiny                        # => 0
- v3.release_type                # => :beta
- v3.alpha_version               # raises NameError
- v3.beta_version                # => 2
- v3 > v2                        # => true
- v3.to_s                        # => '1.4.0b2'
+ v3.major                                 # => 1
+ v3.minor                                 # => 4
+ v3.tiny                                  # => 0
+ v3.release_type                          # => :beta
+ v3.alpha_version                         # raises NameError
+ v3.beta_version                          # => 2
+ v3 > v2                                  # => true
+ v3.to_s                                  # => '1.4.0b2'
  
  v4 = v3.bump(:beta_version)
- v4.to_s                        # => '1.4.0b3'
+ v4.to_s                                  # => '1.4.0b3'
  
  v5 = v3.bump(:release_type)
- v5.to_s                        # => '1.4.0rc1'
+ v5.to_s                                  # => '1.4.0rc1'
  
- v6 = v3.bump(:tiny)
- v6.to_s                        # => '1.4.1'
+ v6 = v5.bump(:release_type)
+ v6.to_s                                  # => '1.4.0'
  
- v7 = v3.bump(:major)
- v7.to_s                        # => '2.0.0'
- v7.parse_params[:required_fields] = 2
- v7.to_s                        # => '2.0'
+ v7 = v3.bump(:tiny)
+ v7.to_s                                  # => '1.4.1'
  
- v8 = Versionomy.parse('2.0.0.0')
- v8.to_s                        # => '2.0.0.0'
- v8 == v7                       # => true
+ v8 = v3.bump(:major)
+ v8.to_s                                  # => '2.0.0'
+ v8.unparse(:optional_fields => [:tiny])  # => '2.0'
  
- v9 = v7.bump(:patchlevel)
- v9.to_s                        # => '2.0-1'
+ v9 = Versionomy.parse('2.0.0.0')
+ v9.to_s                                  # => '2.0.0.0'
+ v9 == v8                                 # => true
  
- v10 = Versionomy.parse('2008 SP2', :patchlevel_separator => ' SP')
- v10.major                      # => 2008
- v10.minor                      # => 0
- v10.patchlevel                 # => 2
- v10.to_s                       # => '2008 SP2'
+ v10 = v8.bump(:patchlevel)
+ v10.to_s                                 # => '2.0-1'
+ 
+ microsoft_format = Versionomy.default_format.modified_copy do
+   basic_integer_field(:minor,
+                       :delimiter_regexp => '\s?sp',
+                       :default_delimiter => ' SP')
+ end
+ v11 = microsoft_format.parse('2008 SP2')
+ v11.major                                # => 2008
+ v11.minor                                # => 0
+ v11.patchlevel                           # => 2
+ v11.to_s                                 # => '2008 SP2'
+ v11 == Versionomy.parse('2008.2')        # => true
 
 === Feature list
 
 Versionomy's default versioning scheme handles four primary fields (labeled
 +major+, +minor+, +tiny+, and +tiny2+). It also supports prerelease versions
-such as "pre", development, alpha, beta, and release candidate. Finally, it
+such as preview, development, alpha, beta, and release candidate. Finally, it
 supports patchlevel numbers for released versions.
 
 Versionomy can compare any two version numbers, and "bump" versions at any

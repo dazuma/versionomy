@@ -41,41 +41,23 @@
 
 module Versionomy
   
-  @default_schema = nil
   @default_format = nil
   
   
   class << self
     
     
-    # Gets the current default schema.
-    # Usually this is Versionomy::Schemas::Standard.schema.
-    
-    def default_schema
-      @default_schema ||= Versionomy::Schemas::Standard.schema
-    end
-    
-    
-    # Sets the default schema.
-    # Usually this should be left as Versionomy::Schemas::Standard.schema.
-    # To reset to this value, pass nil.
-    
-    def default_schema=(schema_)
-      @default_schema = schema_
-    end
-    
-    
     # Gets the current default format.
-    # Usually this is Versionomy::Schemas::Standard.default_format.
+    # Usually this is the "standard" format returned by Versionomy::Format.standard.
     
     def default_format
-      @default_format ||= Versionomy::Schemas::Standard.default_format
+      @default_format ||= Format.standard
     end
     
     
     # Sets the default format.
-    # Usually this should be left as Versionomy::Schemas::Standard.default_format.
-    # To reset to this value, pass nil.
+    # Usually this should be left as the "standard" format returned by
+    # Versionomy::Format.standard. To reset to that value, pass nil.
     
     def default_format=(format_)
       @default_format = format_
@@ -83,26 +65,28 @@ module Versionomy
     
     
     # Create a new version number given a hash or array of values, and an
-    # optional schema.
+    # optional format.
     # 
     # The values should either be a hash of field names and values, or an array
     # of values that will be interpreted in field order.
     # 
-    # If schema is omitted, the default_schema will be used.
+    # If the format is omitted or set to nil, the default_format will be used.
+    # 
+    # You can also optionally provide default unparsing parameters for the value.
     
-    def create(values_=[], schema_=nil)
-      (schema_ || default_schema).create(values_)
+    def create(values_=[], format_=nil, unparse_params_=nil)
+      Value.new(values_, format_ || default_format, unparse_params_)
     end
     
     
     # Create a new version number given a string to parse, and an optional format.
     # 
-    # If format is omitted or set to nil, the default_format will be used.
+    # If the format is omitted or set to nil, the default_format will be used.
     # 
     # The params, if present, will be passed as parsing parameters to the format.
     
-    def parse(str_, format_=nil, params_=nil)
-      (format_ || default_format).parse(str_, params_)
+    def parse(str_, format_=nil, parse_params_=nil)
+      (format_ || default_format).parse(str_, parse_params_)
     end
     
   end

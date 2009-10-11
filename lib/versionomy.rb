@@ -52,7 +52,7 @@ includes_ = [
  'format',
  'format/base',
  'format/delimiter',
- 'format/registry',
+ 'format/standard',
  'value',
  'interface',
  'version',

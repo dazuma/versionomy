@@ -62,6 +62,32 @@ module Versionomy
   # with their format.
   
   module Format
+    
+    
+    @names = ::Hash.new
+    
+    
+    # Get the format with the given name.
+    
+    def self.get(name_)
+      @names[name_.to_s]
+    end
+    
+    
+    # Register the given format under the given name.
+    # 
+    # Raises Versionomy::Errors::FormatRedefinedError if the name has
+    # already been defined.
+    
+    def self.register(name_, format_)
+      name_ = name_.to_s
+      if @names.include?(name_)
+        raise Errors::FormatRedefinedError, name_
+      end
+      @names[name_] = format_
+    end
+    
+    
   end
   
   

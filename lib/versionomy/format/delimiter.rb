@@ -46,9 +46,9 @@ module Versionomy
     # 
     # In general, the strategy is to provide, for each field, a set of
     # regular expressions that recognize different formats for that field.
-    # Every field must be of the form "<pre><value><post>" where <pre> and
-    # <post> are delimiters preceding and following the value. Either or
-    # both delimiters may be the empty string.
+    # Every field must be of the form "(pre)(value)(post)"
+    # where (pre) and (post) are delimiters preceding and
+    # following the value. Either or both delimiters may be the empty string.
     # 
     # To parse a string, the string is scanned from left to right and
     # matched against the format for the fields in order. If the string

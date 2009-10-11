@@ -40,13 +40,10 @@ module Versionomy
   VERSION_STRING = '0.1.0'.freeze
   
   # Current gem version, as a Versionomy::Value.
-  VERSION = Versionomy.parse(VERSION_STRING, Versionomy::Format.standard)
+  VERSION = ::Versionomy.parse(VERSION_STRING, ::Versionomy::Format.standard)
   
 end
 
 
-module Blockenspiel  # :nodoc:
-  
-  VERSION = Versionomy.parse(VERSION_STRING, Versionomy::Format.standard)
-  
-end
+::Blockenspiel.const_set(:VERSION,
+  ::Versionomy.parse(::Blockenspiel::VERSION_STRING, ::Versionomy::Format.standard))

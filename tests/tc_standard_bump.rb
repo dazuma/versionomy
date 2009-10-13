@@ -54,7 +54,7 @@ module Versionomy
         assert_equal(0, value_.minor)
         assert_equal(1, value_.tiny)
         assert_equal(0, value_.tiny2)
-        assert_equal(:release, value_.release_type)
+        assert_equal(:final, value_.release_type)
         assert_equal(3, value_.patchlevel)
         assert_equal(1, value_.patchlevel_minor)
       end
@@ -69,7 +69,7 @@ module Versionomy
         assert_equal(0, value_.minor)
         assert_equal(1, value_.tiny)
         assert_equal(0, value_.tiny2)
-        assert_equal(:release, value_.release_type)
+        assert_equal(:final, value_.release_type)
         assert_equal(4, value_.patchlevel)
         assert_equal(0, value_.patchlevel_minor)
       end
@@ -84,7 +84,7 @@ module Versionomy
         assert_equal(0, value_.minor)
         assert_equal(1, value_.tiny)
         assert_equal(0, value_.tiny2)
-        assert_equal(:release, value_.release_type)
+        assert_equal(:final, value_.release_type)
         assert_equal(0, value_.patchlevel)
         assert_equal(0, value_.patchlevel_minor)
       end
@@ -129,7 +129,7 @@ module Versionomy
         assert_equal(0, value_.minor)
         assert_equal(1, value_.tiny)
         assert_equal(0, value_.tiny2)
-        assert_equal(:release, value_.release_type)
+        assert_equal(:final, value_.release_type)
         assert_equal(0, value_.patchlevel)
         assert_equal(0, value_.patchlevel_minor)
       end
@@ -144,7 +144,7 @@ module Versionomy
         assert_equal(0, value_.minor)
         assert_equal(2, value_.tiny)
         assert_equal(0, value_.tiny2)
-        assert_equal(:release, value_.release_type)
+        assert_equal(:final, value_.release_type)
         assert_equal(0, value_.patchlevel)
         assert_equal(0, value_.patchlevel_minor)
       end
@@ -159,7 +159,7 @@ module Versionomy
         assert_equal(0, value_.minor)
         assert_equal(0, value_.tiny)
         assert_equal(0, value_.tiny2)
-        assert_equal(:release, value_.release_type)
+        assert_equal(:final, value_.release_type)
         assert_equal(0, value_.patchlevel)
         assert_equal(0, value_.patchlevel_minor)
       end

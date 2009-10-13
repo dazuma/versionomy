@@ -53,7 +53,7 @@ module Versionomy
         assert_equal(0, value_.minor)
         assert_equal(1, value_.tiny)
         assert_equal(1, value_.tiny2)
-        assert_equal(:release, value_.release_type)
+        assert_equal(:final, value_.release_type)
         assert_equal(4, value_.patchlevel)
         assert_equal(6, value_.patchlevel_minor)
         assert_equal('2.0.1.1-4.6', value_.unparse)
@@ -68,7 +68,7 @@ module Versionomy
         assert_equal(0, value_.minor)
         assert_equal(1, value_.tiny)
         assert_equal(0, value_.tiny2)
-        assert_equal(:release, value_.release_type)
+        assert_equal(:final, value_.release_type)
         assert_equal(0, value_.patchlevel)
         assert_equal(0, value_.patchlevel_minor)
         assert_equal('2.0.1.0-0.0', value_.unparse(:required_fields => [:minor, :tiny, :tiny2, :patchlevel, :patchlevel_minor]))
@@ -85,7 +85,7 @@ module Versionomy
         assert_equal(0, value_.minor)
         assert_equal(0, value_.tiny)
         assert_equal(0, value_.tiny2)
-        assert_equal(:release, value_.release_type)
+        assert_equal(:final, value_.release_type)
         assert_equal(0, value_.patchlevel)
         assert_equal(0, value_.patchlevel_minor)
         assert_equal('2.0.0', value_.unparse)
@@ -180,6 +180,18 @@ module Versionomy
         value3_ = value2_.change(:tiny2 => 0)
         assert_equal(0, value3_.tiny2)
         assert_equal('2.0', value3_.unparse)
+      end
+      
+      
+      # Test delimiter changes in a multi-form field.
+      
+      def test_multi_form_delimiter_changes
+        value_ = Versionomy.parse('2.0 preview 1')
+        assert_equal('2.0 preview 1', value_.to_s)
+        value2_ = value_.change(:release_type => :final)
+        assert_equal('2.0', value2_.to_s)
+        value3_ = value2_.change(:release_type => :preview, :preview_version => 1)
+        assert_equal('2.0 preview 1', value3_.to_s)
       end
       
       

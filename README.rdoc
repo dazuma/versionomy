@@ -32,7 +32,7 @@ numbers in the wide variety of versioning schemes in use.
  v4 = v3.bump(:beta_version)
  v4.to_s                                  # => '1.4.0b3'
  
- v5 = v3.bump(:release_type)
+ v5 = v4.bump(:release_type)
  v5.to_s                                  # => '1.4.0rc1'
  
  v6 = v5.bump(:release_type)
@@ -50,7 +50,7 @@ numbers in the wide variety of versioning schemes in use.
  v9 == v8                                 # => true
  
  v10 = v8.bump(:patchlevel)
- v10.to_s                                 # => '2.0-1'
+ v10.to_s                                 # => '2.0.0-1'
  
  microsoft_format = Versionomy.default_format.modified_copy do
    basic_integer_field(:minor,
@@ -59,8 +59,8 @@ numbers in the wide variety of versioning schemes in use.
  end
  v11 = microsoft_format.parse('2008 SP2')
  v11.major                                # => 2008
- v11.minor                                # => 0
- v11.patchlevel                           # => 2
+ v11.minor                                # => 2
+ v11.tiny                                 # => 0
  v11.to_s                                 # => '2008 SP2'
  v11 == Versionomy.parse('2008.2')        # => true
 
@@ -68,21 +68,21 @@ numbers in the wide variety of versioning schemes in use.
 
 Versionomy's default versioning scheme handles four primary fields (labeled
 +major+, +minor+, +tiny+, and +tiny2+). It also supports prerelease versions
-such as preview, development, alpha, beta, and release candidate. Finally, it
-supports patchlevel numbers for released versions.
+such as preview, development, alpha, beta, and release candidate. Finally,
+it supports patchlevel numbers for released versions.
 
-Versionomy can compare any two version numbers, and "bump" versions at any
-level. It supports parsing and unparsing in most commonly-used formats, and
-allows you to extend the parsing to include custom formats.
+Versionomy can compare any two version numbers with compatible structure,
+and "bump" versions at any level. It supports parsing and unparsing in most
+commonly-used formats, and allows you to extend the parsing to include
+custom formats.
 
-Finally, Versionomy also lets you to specify any arbitrary versioning
-"schema". You can define any number of version number fields, and provide
-your own semantics and behavior for comparing, parsing, and modifying
-version numbers.
+Finally, Versionomy also lets you to create alternate versioning "schemas".
+You can define any number of version number fields, and provide your own
+semantics for comparing, parsing, and modifying version numbers.
 
 === Requirements
 
-* Ruby 1.8.6 or later, or JRuby 1.2 or later. Ruby 1.9 compatible.
+* Ruby 1.8.6 or later, Ruby 1.9.1 or later, or JRuby 1.2 or later.
 * blockenspiel gem.
 
 === Installation
@@ -91,7 +91,9 @@ version numbers.
 
 === Known issues and limitations
 
-* None at this time.
+* Test coverage is still a little skimpy. It is focused on the "standard"
+  version number format and schema, but doesn't fully exercise all the
+  capabilities of custom formats.
 
 === Development and support
 

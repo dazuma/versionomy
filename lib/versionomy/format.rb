@@ -48,7 +48,7 @@ module Versionomy
   # only that schema's version numbers.
   # 
   # Under many circumstances, you should use the standard format, which
-  # can be retrieved by calling Versionomy::Format#standard. This format
+  # can be retrieved by calling Versionomy::Formats#standard. This format
   # understands most of the common version numbers, including prerelease
   # (e.g. alpha, beta, release candidate, etc.) forms and patchlevels.
   # 
@@ -58,36 +58,10 @@ module Versionomy
   # parsers for many version number formats.
   # 
   # Formats may be registered with Versionomy and given a name using the
-  # methods of this module. This allows version numbers to be serialized
-  # with their format.
+  # methods of this Versionomy::Formats. This allows version numbers to be
+  # serialized with their format.
   
   module Format
-    
-    
-    @names = ::Hash.new
-    
-    
-    # Get the format with the given name.
-    
-    def self.get(name_)
-      @names[name_.to_s]
-    end
-    
-    
-    # Register the given format under the given name.
-    # 
-    # Raises Versionomy::Errors::FormatRedefinedError if the name has
-    # already been defined.
-    
-    def self.register(name_, format_)
-      name_ = name_.to_s
-      if @names.include?(name_)
-        raise Errors::FormatRedefinedError, name_
-      end
-      @names[name_] = format_
-    end
-    
-    
   end
   
   

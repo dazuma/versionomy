@@ -47,17 +47,17 @@ module Versionomy
   class << self
     
     
-    # Gets the current default format.
-    # Usually this is the "standard" format returned by Versionomy::Format.standard.
+    # Gets the current default format. Usually this is the "standard"
+    # format returned by Versionomy::Formats.standard.
     
     def default_format
-      @default_format ||= Format.standard
+      @default_format ||= Formats.standard
     end
     
     
     # Sets the default format.
     # Usually this should be left as the "standard" format returned by
-    # Versionomy::Format.standard. To reset to that value, pass nil.
+    # Versionomy::Formats.standard. To reset to that value, pass nil.
     
     def default_format=(format_)
       @default_format = format_

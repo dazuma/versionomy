@@ -49,7 +49,9 @@ module Versionomy
       
       def test_parsing_custom_patchlevel_format
         format_ = Versionomy.default_format.modified_copy do
-          basic_integer_field(:patchlevel, :requires_previous_field => false, :delimiter_regexp => '\s?sp', :default_delimiter => ' SP')
+          field(:patchlevel, :requires_previous_field => false) do
+            recognize_number(:delimiter_regexp => '\s?sp', :default_delimiter => ' SP')
+          end
         end
         value1_ = Versionomy.parse('2008 SP2', format_)
         assert_equal(2, value1_.patchlevel)

@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy version
+# Versionomy format module
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -36,14 +36,44 @@
 
 module Versionomy
   
-  # Current gem version, as a frozen string.
-  VERSION_STRING = '0.1.0'.freeze
   
-  # Current gem version, as a Versionomy::Value.
-  VERSION = ::Versionomy.parse(VERSION_STRING, ::Versionomy::Formats.standard)
+  # === Version number format regsitry.
+  # 
+  # Use the methods of this module to register formats with a name. This
+  # allows version numbers to be serialized with their format.
+  # 
+  # You may also access predefined formats such as the standard format from
+  # this module. It also contains the implementations of these formats as
+  # examples.
+  
+  module Formats
+    
+    
+    @names = ::Hash.new
+    
+    
+    # Get the format with the given name.
+    
+    def self.get(name_)
+      @names[name_.to_s]
+    end
+    
+    
+    # Register the given format under the given name.
+    # 
+    # Raises Versionomy::Errors::FormatRedefinedError if the name has
+    # already been defined.
+    
+    def self.register(name_, format_)
+      name_ = name_.to_s
+      if @names.include?(name_)
+        raise Errors::FormatRedefinedError, name_
+      end
+      @names[name_] = format_
+    end
+    
+    
+  end
+  
   
 end
-
-
-::Blockenspiel.const_set(:VERSION,
-  ::Versionomy.parse(::Blockenspiel::VERSION_STRING, ::Versionomy::Formats.standard))

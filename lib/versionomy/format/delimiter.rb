@@ -265,12 +265,15 @@ module Versionomy
         # 
         # The following options are recognized:
         # 
-        # <tt>:required_unparse</tt>::
-        #   If set to true, this field must be present in the formatted
-        #   version number value. If false, the field may be omitted if it
-        #   is set to its default value.
+        # <tt>:default_value_optional</tt>::
+        #   If set to true, this the field may be omitted in the unparsed
+        #   (formatted) version number, if the value is the default value
+        #   for this field. However, if the following field is present and
+        #   set as <tt>:requires_previous_field</tt>, then this field is
+        #   still unparsed even if it is its default value.
         #   For example, for a version number like "2.0.0", often the third
-        #   field is optional, but the first and second are required.
+        #   field is optional, but the first and second are required, so it
+        #   will often be unparsed as "2.0".
         #   Default is false.
         # <tt>:case_sensitive</tt>::
         #   If set to true, the regexps are case-sensitive. Default is false.
@@ -504,7 +507,7 @@ module Versionomy
         def map(value_, representation_, regexp_=nil)
           regexp_ ||= representation_
           array_ = [regexp_, representation_, value_]
-          @mappings_by_value[value_] = array_
+          @mappings_by_value[value_] ||= array_
           @mappings_in_order << array_
         end
         
@@ -546,7 +549,7 @@ module Versionomy
             pair_ = recog_.parse(parse_params_, unparse_params_)
             break if pair_
           end
-          pair_ ||= [@field.initial_value, @default_style]
+          pair_ ||= [@field.default_value, @default_style]
           if pair_[1] && pair_[1] != @default_style
             unparse_params_[@style_unparse_param_key] = pair_[1]
           end
@@ -561,7 +564,7 @@ module Versionomy
               return recog_.unparse(value_, style_, unparse_params_)
             end
           end
-          ''
+          unparse_params_[:required_for_later] ? '' : nil
         end
         
       end
@@ -571,7 +574,7 @@ module Versionomy
         
         def setup(field_, value_regexp_, opts_)
           @style = opts_[:style]
-          @required_unparse = opts_[:required_unparse]
+          @default_value_optional = opts_[:default_value_optional]
           @regexp_options = opts_[:case_sensitive] ? nil : ::Regexp::IGNORECASE
           @value_regexp = ::Regexp.new("^(#{value_regexp_})", @regexp_options)
           regexp_ = opts_.fetch(:delimiter_regexp, '\.')
@@ -584,6 +587,7 @@ module Versionomy
           @default_post_delimiter = opts_.fetch(:default_post_delimiter, '')
           @requires_previous_field = opts_.fetch(:requires_previous_field, true)
           name_ = field_.name
+          @default_field_value = field_.default_value
           @delim_unparse_param_key = "#{name_}_delim".to_sym
           @post_delim_unparse_param_key = "#{name_}_postdelim".to_sym
           @required_unparse_param_key = "#{name_}_required".to_sym
@@ -628,14 +632,15 @@ module Versionomy
           if post_delim_ && post_delim_ != @default_post_delimiter
             unparse_params_[@post_delim_unparse_param_key] = post_delim_
           end
-          unparse_params_[@required_unparse_param_key] = true unless @required_unparse
+          unparse_params_[@required_unparse_param_key] = true if @default_value_optional
           [value_, @style]
         end
         
         
         def unparse(value_, style_, unparse_params_)
           str_ = nil
-          if @required_unparse || value_ != 0 || unparse_params_[:required_for_later] ||
+          if !@default_value_optional || value_ != @default_field_value ||
+              unparse_params_[:required_for_later] ||
               unparse_params_[@required_unparse_param_key]
           then
             str_ = unparsed_value(value_, style_, unparse_params_)

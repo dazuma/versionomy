@@ -42,17 +42,19 @@ module Versionomy
     
     # The base format.
     # 
-    # This format doesn't actually do anything useful. It parses all strings to the
-    # schema's default initial value, and unparses all values to the empty string.
+    # This format doesn't actually do anything useful. It causes all strings
+    # to parse to the schema's default value, and unparses all values to the
+    # empty string.
     # 
-    # Instead, the purpose here is to define the API for a format.
-    # All formats must define the methods +schema+, +parse+, and +unparse+.
-    # Formats need not extend this base class, as long as they duck-type these methods.
+    # Instead, the purpose here is to define the API for a format. All
+    # formats must define the methods +schema+, +parse+, and +unparse+.
+    # Formats need not extend this base class, as long as they duck-type
+    # these methods.
     
     class Base
       
       
-      # Create an instance of this base format, connected to the given schema.
+      # Create an instance of this base format, with the given schema.
       
       def initialize(schema_)
         @schema = schema_
@@ -67,15 +69,21 @@ module Versionomy
       
       
       # Parse the given string and return a value.
+      # The optional parameter hash can be used to pass parameters to the
+      # parser to affect its behavior. The exact parameters supported are
+      # defined by the format.
       
-      def parse(string_, params_=nil)
+      def parse(string_, parse_params_=nil)
         Value.new([], self)
       end
       
       
       # Unparse the given value and return a string.
+      # The optional parameter hash can be used to pass parameters to the
+      # unparser to affect its behavior. The exact parameters supported
+      # are defined by the format.
       
-      def unparse(value_, params_=nil)
+      def unparse(value_, unparse_params_=nil)
         ''
       end
       

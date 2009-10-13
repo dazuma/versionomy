@@ -113,7 +113,8 @@ module Versionomy
       end
       
       
-      # Returns an array of names present in this schema, in no particular order.
+      # Returns an array of names present in this schema, in no particular
+      # order.
       
       def names
         @names.keys
@@ -140,18 +141,21 @@ module Versionomy
       # Recognized options include:
       # 
       # <tt>:type</tt>::
-      #   Type of field. This should be <tt>:integer</tt>, <tt>:string</tt>, or <tt>:symbol</tt>.
-      #   Default is <tt>:integer</tt>.
-      # <tt>:initial</tt>::
-      #   Initial value. Default is 0 for an integer field, the empty string for a string field,
-      #   or the first symbol added for a symbol field.
+      #   Type of field. This should be <tt>:integer</tt>, <tt>:string</tt>,
+      #   or <tt>:symbol</tt>. Default is <tt>:integer</tt>.
+      # <tt>:default_value</tt>::
+      #   Default value for the field if no value is explicitly set. Default
+      #   is 0 for an integer field, the empty string for a string field, or
+      #   the first symbol added for a symbol field.
       # 
-      # You may provide an optional block. Within the block, you may call methods of 
-      # Versionomy::Schema::FieldBuilder to customize this field.
+      # You may provide an optional block. Within the block, you may call
+      # methods of Versionomy::Schema::FieldBuilder to customize this field.
       # 
-      # Raises Versionomy::Errors::IllegalValueError if the given initial value is not legal.
+      # Raises Versionomy::Errors::IllegalValueError if the given default
+      # value is not legal.
       # 
-      # Raises Versionomy::Errors::RangeOverlapError if a root field has already been created.
+      # Raises Versionomy::Errors::RangeOverlapError if a root field has
+      # already been created.
       
       def field(name_, opts_={}, &block_)
         if @field

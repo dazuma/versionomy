@@ -54,21 +54,22 @@ module Versionomy
       # <tt>:type</tt>::
       #   Type of field. This should be <tt>:integer</tt>, <tt>:string</tt>,
       #   or <tt>:symbol</tt>. Default is <tt>:integer</tt>.
-      # <tt>:initial</tt>::
-      #   Initial value. Default is 0 for an integer field, the empty string
-      #   for a string field, or the first symbol added for a symbol field.
+      # <tt>:default_value</tt>::
+      #   Default value for the field if no value is explicitly set. Default
+      #   is 0 for an integer field, the empty string for a string field, or
+      #   the first symbol added for a symbol field.
       # 
       # You may provide an optional block. Within the block, you may call
       # methods of Versionomy::Schema::FieldBuilder to further customize the
       # field, or add child fields.
       # 
-      # Raises Versionomy::Errors::IllegalValueError if the given initial
+      # Raises Versionomy::Errors::IllegalValueError if the given default
       # value is not legal.
       
       def initialize(name_, opts_={}, &block_)
         @name = name_.to_sym
         @type = opts_[:type] || :integer
-        @initial_value = opts_[:initial]
+        @default_value = opts_[:default_value]
         if @type == :symbol
           @symbol_info = ::Hash.new
           @symbol_order = ::Array.new
@@ -83,12 +84,12 @@ module Versionomy
         @default_child = nil
         @children = []
         ::Blockenspiel.invoke(block_, Schema::FieldBuilder.new(self)) if block_
-        @initial_value = canonicalize_value(@initial_value)
+        @default_value = canonicalize_value(@default_value)
       end
       
       
-      def _set_initial_value(value_)  # :nodoc:
-        @initial_value = value_
+      def _set_default_value(value_)  # :nodoc:
+        @default_value = value_
       end
       
       def _add_symbol(symbol_, opts_={})  # :nodoc:
@@ -100,8 +101,8 @@ module Versionomy
         end
         @symbol_info[symbol_] = [@symbol_order.size, opts_[:bump]]
         @symbol_order << symbol_
-        if @initial_value.nil?
-          @initial_value = symbol_
+        if @default_value.nil?
+          @default_value = symbol_
         end
       end
       
@@ -143,10 +144,10 @@ module Versionomy
       end
       
       
-      # The initial value of the field
+      # The default value of the field
       
-      def initial_value
-        @initial_value
+      def default_value
+        @default_value
       end
       
       
@@ -394,10 +395,10 @@ module Versionomy
       end
       
       
-      # Provide an initial value.
+      # Provide a default value.
       
-      def initial_value(value_)
-        @field._set_initial_value(value_)
+      def default_value(value_)
+        @field._set_default_value(value_)
       end
       
       
@@ -435,34 +436,41 @@ module Versionomy
       # Recognized options include:
       # 
       # <tt>:only</tt>::
-      #   The child should be available only for the given values of this field.
-      #   See below for ways to specify this constraint.
+      #   The child should be available only for the given values of this
+      #   field. See below for ways to specify this constraint.
       # <tt>:type</tt>::
-      #   Type of field. This should be <tt>:integer</tt>, <tt>:string</tt>, or <tt>:symbol</tt>.
-      #   Default is <tt>:integer</tt>.
-      # <tt>:initial</tt>::
-      #   Initial value. Default is 0 for an integer field, the empty string for a string field,
-      #   or the first symbol added for a symbol field.
+      #   Type of field. This should be <tt>:integer</tt>, <tt>:string</tt>,
+      #   or <tt>:symbol</tt>. Default is <tt>:integer</tt>.
+      # <tt>:default_value</tt>::
+      #   Default value for the field if no value is explicitly set. Default
+      #   is 0 for an integer field, the empty string for a string field, or
+      #   the first symbol added for a symbol field.
       # 
-      # You may provide an optional block. Within the block, you may call methods of this
-      # class again to customize the child.
+      # You may provide an optional block. Within the block, you may call
+      # methods of this class again to customize the child.
       # 
-      # Raises Versionomy::Errors::IllegalValueError if the given initial value is not legal.
+      # Raises Versionomy::Errors::IllegalValueError if the given default
+      # value is not legal.
       # 
-      # The <tt>:only</tt> constraint may be specified in one of the following ways:
+      # The <tt>:only</tt> constraint may be specified in one of the
+      # following ways:
       # 
       # * A single value (integer, string, or symbol)
-      # * The result of calling range() to define an inclusive range of integers, strings, or symbols.
-      #   In this case, either element may be nil, specifying an open end of the range.
-      #   If the field type is symbol, the ordering of symbols for the range is defined by the
+      # * The result of calling range() to define an inclusive range of
+      #   integers, strings, or symbols. In this case, either element may be
+      #   nil, specifying an open end of the range. If the field type is
+      #   symbol, the ordering of symbols for the range is defined by the
       #   order in which the symbols were added to this schema.
       # * A Range object defining a range of integers or strings.
       #   Only inclusive, not exclusive, ranges are supported.
       # * An array of the above.
       # 
-      # Raises Versionomy::Errors::RangeSpecificationError if the given ranges are not legal.
-      # Raises Versionomy::Errors::RangeOverlapError if the given ranges overlap previously
-      # specified ranges, or more than one default schema is specified.
+      # Raises Versionomy::Errors::RangeSpecificationError if the given
+      # ranges are not legal.
+      # 
+      # Raises Versionomy::Errors::RangeOverlapError if the given ranges
+      # overlap previously specified ranges, or more than one default schema
+      # is specified.
       
       def field(name_, opts_={}, &block_)
         only_ = opts_.delete(:only)

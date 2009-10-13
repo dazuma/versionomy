@@ -104,7 +104,7 @@ module Versionomy
         # have a default value of 0. Thus, the default version number
         # overall is "1.0".
         # We first create the core version fields "major.minor.tiny.tiny2".
-        field(:major, :initial => 1) do
+        field(:major, :default_value => 1) do
           field(:minor) do
             field(:tiny) do
               field(:tiny2) do
@@ -142,44 +142,46 @@ module Versionomy
                   symbol(:preview, :bump => :final)
                   
                   # This type represents a final release. This is the
-                  # default initial value for the release_type field if no
-                  # value is explicitly provided.
+                  # default value for the release_type field if no value is
+                  # explicitly provided.
                   # Bumping the release type has no effect.
                   symbol(:final, :bump => :final)
-                  initial_value(:final)
+                  default_value(:final)
                   
                   # If the release type is development, these fields are
                   # made available to indicate which development release
                   # is being represented.
-                  field(:development_version, :only => :development, :initial => 1) do
+                  field(:development_version, :only => :development,
+                        :default_value => 1) do
                     field(:development_minor)
                   end
                   
                   # If the release type is alpha, these fields are made
                   # available to indicate which alpha release is being
                   # represented.
-                  field(:alpha_version, :only => :alpha, :initial => 1) do
+                  field(:alpha_version, :only => :alpha, :default_value => 1) do
                     field(:alpha_minor)
                   end
                   
                   # If the release type is beta, these fields are made
                   # available to indicate which beta release is being
                   # represented.
-                  field(:beta_version, :only => :beta, :initial => 1) do
+                  field(:beta_version, :only => :beta, :default_value => 1) do
                     field(:beta_minor)
                   end
                   
                   # If the release type is release candidate, these fields
                   # are made available to indicate which release candidate
                   # is being represented.
-                  field(:release_candidate_version, :only => :release_candidate, :initial => 1) do
+                  field(:release_candidate_version, :only => :release_candidate,
+                        :default_value => 1) do
                     field(:release_candidate_minor)
                   end
                   
                   # If the release type is preview, these fields are made
                   # available to indicate which preview release is being
                   # represented.
-                  field(:preview_version, :only => :preview, :initial => 1) do
+                  field(:preview_version, :only => :preview, :default_value => 1) do
                     field(:preview_minor)
                   end
                   
@@ -202,8 +204,7 @@ module Versionomy
         # All version number strings must start with the major version.
         # Unlike other fields, it is not preceded by any delimiter.
         field(:major) do
-          recognize_number(:required_unparse => true,
-                           :delimiter_regexp => '', :default_delimiter => '')
+          recognize_number(:delimiter_regexp => '', :default_delimiter => '')
         end
         
         # The remainder of the core version number are represented as
@@ -213,11 +214,13 @@ module Versionomy
         field(:minor) do
           recognize_number
         end
+        # The tiny and tiny2 fields are optional in an unparsed string if
+        # they are set to the default value of 0.
         field(:tiny) do
-          recognize_number
+          recognize_number(:default_value_optional => true)
         end
         field(:tiny2) do
-          recognize_number
+          recognize_number(:default_value_optional => true)
         end
         
         # The release type field is the most complex field because of the
@@ -235,13 +238,14 @@ module Versionomy
         # version number fields to be present. "1.0a5" and "1.0.0.0a5" are
         # both valid version numbers.
         field(:release_type, :requires_previous_field => false,
-              :required_unparse => true, :default_style => :short) do
+              :default_style => :short) do
           # First check for "short form" syntax. Not that we support post-
           # delimiters; that is, we recognize "1.0 pre-2" where the hyphen
           # is a post-delimiter. Also notice that we expect prerelease types
           # to be followed by a numeric prerelease version number.
-          recognize_regexp_map(:style => :short, :delimiter_regexp => '-|\.|\s?', 
-                               :post_delimiter_regexp => '\s?|-', :default_delimiter => '',
+          recognize_regexp_map(:style => :short, :default_delimiter => '',
+                               :delimiter_regexp => '-|\.|\s?',
+                               :post_delimiter_regexp => '\s?|-',
                                :expected_follower_regexp => '\d') do
             map(:development, 'd')
             map(:alpha, 'a')
@@ -254,8 +258,9 @@ module Versionomy
             # just allow it to fall through to the default.
           end
           # Check for "long form" syntax. Note again that we omit :final.
-          recognize_regexp_map(:style => :long, :delimiter_regexp => '-|\.|\s?',
-                               :post_delimiter_regexp => '\s?|-', :default_delimiter => '',
+          recognize_regexp_map(:style => :long, :default_delimiter => '',
+                               :delimiter_regexp => '-|\.|\s?',
+                               :post_delimiter_regexp => '\s?|-',
                                :expected_follower_regexp => '\d') do
             map(:development, 'dev')
             map(:alpha, 'alpha')
@@ -268,55 +273,51 @@ module Versionomy
         # The development version must appear in the string if it is present
         # in the value, even if the value is 0. Similar for all the other
         # prerelease version numbers: alpha, beta, release candidate, and
-        # preview.
+        # preview. However, the minor fields are optional.
         field(:development_version) do
-          recognize_number(:required_unparse => true,
-                           :delimiter_regexp => '', :default_delimiter => '')
+          recognize_number(:delimiter_regexp => '', :default_delimiter => '')
         end
         field(:development_minor) do
-          recognize_number
+          recognize_number(:default_value_optional => true)
         end
         field(:alpha_version) do
-          recognize_number(:required_unparse => true,
-                           :delimiter_regexp => '', :default_delimiter => '')
+          recognize_number(:delimiter_regexp => '', :default_delimiter => '')
         end
         field(:alpha_minor) do
-          recognize_number
+          recognize_number(:default_value_optional => true)
         end
         field(:beta_version) do
-          recognize_number(:required_unparse => true,
-                           :delimiter_regexp => '', :default_delimiter => '')
+          recognize_number(:delimiter_regexp => '', :default_delimiter => '')
         end
         field(:beta_minor) do
-          recognize_number
+          recognize_number(:default_value_optional => true)
         end
         field(:release_candidate_version) do
-          recognize_number(:required_unparse => true,
-                           :delimiter_regexp => '', :default_delimiter => '')
+          recognize_number(:delimiter_regexp => '', :default_delimiter => '')
         end
         field(:release_candidate_minor) do
-          recognize_number
+          recognize_number(:default_value_optional => true)
         end
         field(:preview_version) do
-          recognize_number(:required_unparse => true,
-                           :delimiter_regexp => '', :default_delimiter => '')
+          recognize_number(:delimiter_regexp => '', :default_delimiter => '')
         end
         field(:preview_minor) do
-          recognize_number
+          recognize_number(:default_value_optional => true)
         end
         
         # The patchlevel field does not require the previous field (which is
         # release_type). Here we also set up two styles: a numeric style and
         # a letter style. So "1.0a" and "1.0-1" are equivalent.
         field(:patchlevel, :requires_previous_field => false,
-              :default_style => :number) do
-          recognize_number(:style => :number, :delimiter_regexp => '-|(-|\.|\s?)p',
-                           :default_delimiter => '-')
-          recognize_letter(:style => :letter, :delimiter_regexp => '-|\.|\s?',
-                           :default_delimiter => '', :expected_follower_regexp => '$')
+              :default_value_optional => true, :default_style => :number) do
+          recognize_number(:style => :number, :default_delimiter => '-',
+                           :delimiter_regexp => '-|(-|\.|\s?)p',)
+          recognize_letter(:style => :letter, :default_delimiter => '',
+                           :delimiter_regexp => '-|\.|\s?',
+                           :expected_follower_regexp => '$')
         end
         field(:patchlevel_minor) do
-          recognize_number
+          recognize_number(:default_value_optional => true)
         end
         
         # By default, we require that at least the major and minor fields

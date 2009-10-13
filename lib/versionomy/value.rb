@@ -71,7 +71,7 @@ module Versionomy
       field_ = @format.schema.root_field
       while field_
         value_ = values_.kind_of?(Hash) ? values_[field_.name] : values_.shift
-        value_ = value_ ? field_.canonicalize_value(value_) : field_.initial_value
+        value_ = value_ ? field_.canonicalize_value(value_) : field_.default_value
         @field_path << field_
         @values[field_.name] = value_
         field_ = field_.child(value_)

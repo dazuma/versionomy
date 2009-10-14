@@ -105,6 +105,7 @@ module Versionomy
         builder_ = Delimiter::Builder.new(@schema, @field_handlers,
           @default_parse_params, @default_unparse_params)
         ::Blockenspiel.invoke(block_, builder_)
+        _interpret_field_lists(@default_unparse_params)
         @schema.names.each do |name_|
           @field_handlers[name_] ||= Delimiter::FieldHandler.new(@schema.field_named(name_), default_opts_)
         end

@@ -86,7 +86,7 @@ semantics for comparing, parsing, and modifying version numbers.
 
 === Requirements
 
-* Ruby 1.8.6 or later, Ruby 1.9.1 or later, or JRuby 1.2 or later.
+* Ruby 1.8.6 or later, Ruby 1.9.1 or later, or JRuby 1.4 or later.
 * blockenspiel gem.
 
 === Installation

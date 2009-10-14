@@ -73,7 +73,7 @@ module Versionomy
       # parser to affect its behavior. The exact parameters supported are
       # defined by the format.
       
-      def parse(string_, parse_params_=nil)
+      def parse(string_, params_=nil)
         Value.new([], self)
       end
       
@@ -83,7 +83,7 @@ module Versionomy
       # unparser to affect its behavior. The exact parameters supported
       # are defined by the format.
       
-      def unparse(value_, unparse_params_=nil)
+      def unparse(value_, params_=nil)
         ''
       end
       

@@ -80,6 +80,18 @@ module Versionomy
     #  2.0a5.3
     #  2.1.42.10-4.3
     # 
+    # Because the standard format is based on Versionomy::Format::Delimiter,
+    # a number of parameters are available for parsing and unparsing. See
+    # the documentation for the delimiter class for more information.
+    # 
+    # Two of the fields have styles that can be set when unparsing.
+    # The <tt>:release_type</tt> field can be unparsed as either
+    # <tt>:long</tt> style (e.g. "1.0alpha2") or <tt>:short</tt> style
+    # (e.g. "1.0a2"). The patchlevel field can be unparsed as either
+    # <tt>:number</tt> style (e.g. "2.1-1") or <tt>:letter</tt> style
+    # (e.g. "2.1a"). Most fields can have their delimiter specified during
+    # unparsing as well.
+    # 
     # For the exact annotated definition of the standard schema and format,
     # see the source code for the _create_standard method.
     
@@ -210,12 +222,11 @@ module Versionomy
         # The remainder of the core version number are represented as
         # integers delimited by periods by default. Each is also dependent
         # on the presence of the previous field, so :requires_previous_field
-        # retains its default value of true.
+        # retains its default value of true. Finally, they can be optional
+        # in an unparsed string if they are set to the default value of 0.
         field(:minor) do
-          recognize_number
+          recognize_number(:default_value_optional => true)
         end
-        # The tiny and tiny2 fields are optional in an unparsed string if
-        # they are set to the default value of 0.
         field(:tiny) do
           recognize_number(:default_value_optional => true)
         end

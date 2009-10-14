@@ -1,10 +1,10 @@
-=== 0.1.0 / 2009-??-??
+=== 0.1.0 / 2009-10-14
 
 * Alpha release, opened for public feedback
 * General rearchitecture. Better distinction between format and schema. Schema split into schema and field objects so the API makes more sense. Values are tighter and easier to use. Formats can now be built using a DSL. A bunch of API changes and bug fixes accompanied this-- too many to list.
 * In the standard schema, renamed release type "release" to "final". Also renamed release type "prerelease" to "preview", now sorted between "release candidate" and "final".
-* Now compatible with Ruby 1.9.
-* Now compatible with JRuby 1.2.
+* Documentation is much more complete.
+* Now tested and confirmed compatible with Matz Ruby 1.9.1 and JRuby 1.4.
 * Now uses blockenspiel 0.2; thus longer requires the mixology gem.
 * Building no longer requires hoe.
 

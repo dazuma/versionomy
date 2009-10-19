@@ -1,3 +1,10 @@
+=== 0.1.1 / 2009-10-19
+
+* Formats can now be specified by name in the convenience interface.
+* FormatRedefinedError no longer subclasses FormatCreationError.
+* Some documentation updates.
+* Rakefile updates for publishing to rubyforge and gemcutter.
+
 === 0.1.0 / 2009-10-14
 
 * Alpha release, opened for public feedback

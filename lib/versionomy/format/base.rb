@@ -69,6 +69,7 @@ module Versionomy
       
       
       # Parse the given string and return a value.
+      # 
       # The optional parameter hash can be used to pass parameters to the
       # parser to affect its behavior. The exact parameters supported are
       # defined by the format.
@@ -79,6 +80,7 @@ module Versionomy
       
       
       # Unparse the given value and return a string.
+      # 
       # The optional parameter hash can be used to pass parameters to the
       # unparser to affect its behavior. The exact parameters supported
       # are defined by the format.

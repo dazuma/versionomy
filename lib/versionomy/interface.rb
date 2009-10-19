@@ -55,11 +55,21 @@ module Versionomy
     end
     
     
-    # Sets the default format.
-    # Usually this should be left as the "standard" format returned by
-    # Versionomy::Formats.standard. To reset to that value, pass nil.
+    # Sets the default format used by other methods of this convenience
+    # interface. Usually, this is set to the "standard" format returned by
+    # Versionomy::Formats.standard and should not be changed.
+    # 
+    # The format can be specified as a format object or the name of a format
+    # registered with Versionomy::Formats. If the format is set to nil, the
+    # default_format will be reset to the "standard" format.
+    # 
+    # Raises Versionomy::Errors::UnknownFormatError if a name is given that
+    # is not registered.
     
     def default_format=(format_)
+      if format_.kind_of?(String) || format_.kind_of?(Symbol)
+        format_ = Formats.get(format_, true)
+      end
       @default_format = format_
     end
     
@@ -67,26 +77,49 @@ module Versionomy
     # Create a new version number given a hash or array of values, and an
     # optional format.
     # 
-    # The values should either be a hash of field names and values, or an array
-    # of values that will be interpreted in field order.
+    # The values should either be a hash of field names and values, or an
+    # array of values that will be interpreted in field order.
     # 
-    # If the format is omitted or set to nil, the default_format will be used.
+    # The format can be specified as a format object or the name of a format
+    # registered with Versionomy::Formats. If the format is omitted or set
+    # to nil, the default_format will be used.
     # 
-    # You can also optionally provide default unparsing parameters for the value.
+    # You can also optionally provide default parameters to be used when
+    # unparsing this value or any derived from it.
+    # 
+    # Raises Versionomy::Errors::UnknownFormatError if a name is given that
+    # is not registered.
     
     def create(values_=[], format_=nil, unparse_params_=nil)
-      Value.new(values_, format_ || default_format, unparse_params_)
+      if format_.kind_of?(String) || format_.kind_of?(Symbol)
+        format_ = Formats.get(format_, true)
+      end
+      format_ ||= default_format
+      Value.new(values_, format_, unparse_params_)
     end
     
     
-    # Create a new version number given a string to parse, and an optional format.
+    # Create a new version number given a string to parse, and an optional
+    # format.
     # 
-    # If the format is omitted or set to nil, the default_format will be used.
+    # The format can be specified as a format object or the name of a format
+    # registered with Versionomy::Formats. If the format is omitted or set
+    # to nil, the default_format will be used.
     # 
-    # The params, if present, will be passed as parsing parameters to the format.
+    # The parameter hash, if present, will be passed as parsing parameters
+    # to the format.
+    # 
+    # Raises Versionomy::Errors::UnknownFormatError if a name is given that
+    # is not registered.
+    # 
+    # May raise Versionomy::Errors::ParseError if parsing failed.
     
     def parse(str_, format_=nil, parse_params_=nil)
-      (format_ || default_format).parse(str_, parse_params_)
+      if format_.kind_of?(String) || format_.kind_of?(Symbol)
+        format_ = Formats.get(format_, true)
+      end
+      format_ ||= default_format
+      format_.parse(str_, parse_params_)
     end
     
   end

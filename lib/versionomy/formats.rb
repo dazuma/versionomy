@@ -53,9 +53,17 @@ module Versionomy
     
     
     # Get the format with the given name.
+    # 
+    # If the given name has not been defined, and strict is set to true,
+    # raises Versionomy::Errors::UnknownFormatError. If strict is set to
+    # false, returns nil if the given name has not been defined.
     
-    def self.get(name_)
-      @names[name_.to_s]
+    def self.get(name_, strict_=false)
+      format_ = @names[name_.to_s]
+      if format_.nil? && strict_
+        raise Errors::UnknownFormatError, name_
+      end
+      format_
     end
     
     

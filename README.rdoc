@@ -86,7 +86,7 @@ semantics for comparing, parsing, and modifying version numbers.
 
 === Requirements
 
-* Ruby 1.8.6 or later, Ruby 1.9.1 or later, or JRuby 1.4 or later.
+* Ruby 1.8.6 or later (1.8.7 recommended), Ruby 1.9.1 or later, or JRuby 1.4 or later.
 * blockenspiel gem.
 
 === Installation
@@ -101,11 +101,11 @@ semantics for comparing, parsing, and modifying version numbers.
 
 === Development and support
 
-Documentation is available at http://virtuoso.rubyforge.org/versionomy
+Documentation is available at http://virtuoso.rubyforge.org/versionomy/README_rdoc.html
 
-Source code is hosted by Github at http://github.com/dazuma/versionomy
+Source code is hosted on Github at http://github.com/dazuma/versionomy
 
-Report bugs on RubyForge at http://rubyforge.org/projects/virtuoso
+Report bugs on Github issues at http://github.org/dazuma/versionomy/issues
 
 Contact the author at dazuma at gmail dot com.
 

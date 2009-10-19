@@ -48,7 +48,7 @@ extra_rdoc_files_ = ['README.rdoc', 'History.rdoc']
 
 
 # Default task
-task :default => [:clean, :rdoc, :test]
+task :default => [:clean, :rdoc, :package, :test]
 
 
 # Clean task
@@ -98,7 +98,7 @@ end
 
 # Publish RDocs
 desc 'Publishes RDocs to RubyForge'
-task :publish_rdoc => [:rerdoc] do
+task :publish_rdoc_to_rubyforge => [:rerdoc] do
   config_ = YAML.load(File.read(File.expand_path("~/.rubyforge/user-config.yml")))
   username_ = config_['username']
   sh "rsync -av --delete doc/ #{username_}@rubyforge.org:/var/www/gforge-projects/virtuoso/versionomy"
@@ -106,7 +106,7 @@ end
 
 
 # Publish gem
-task :publish_gem => [:package] do |t_|
+task :publish_gem_to_rubyforge => [:package] do |t_|
   v_ = ENV["VERSION"]
   abort "Must supply VERSION=x.y.z" unless v_
   if v_ != Versionomy::VERSION_STRING
@@ -125,6 +125,22 @@ task :publish_gem => [:package] do |t_|
   config_["release_notes"] = release_notes_
   config_["release_changes"] = release_changes_
   config_["preformatted"] = true
-  puts "Releasing versionomy #{v_}"
+  puts "Releasing versionomy #{v_} to RubyForge"
   rf_.add_release('virtuoso', 'versionomy', v_, gem_pkg_, tgz_pkg_)
 end
+
+
+# Publish gem
+task :publish_gem_to_gemcutter => [:package] do |t_|
+  v_ = ENV["VERSION"]
+  abort "Must supply VERSION=x.y.z" unless v_
+  if v_ != Versionomy::VERSION_STRING
+    abort "Versions don't match: #{v_} vs #{Versionomy::VERSION_STRING}"
+  end
+  puts "Releasing versionomy #{v_} to GemCutter"
+  `cd pkg && gem push versionomy-#{v_}.gem`
+end
+
+
+# Publish everything
+task :publish => [:publish_gem_to_gemcutter, :publish_gem_to_rubyforge, :publish_rdoc_to_rubyforge]

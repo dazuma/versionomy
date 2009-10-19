@@ -115,7 +115,7 @@ module Versionomy
     end
     
     
-    # Base class for all Versionomy format creation exceptions
+    # Base class for all Versionomy format creation exceptions.
     
     class FormatCreationError < VersionomyError
     end
@@ -124,7 +124,14 @@ module Versionomy
     # This exception is raised if you try to register a format
     # with a name that has already been used.
     
-    class FormatRedefinedError < FormatCreationError
+    class FormatRedefinedError < VersionomyError
+    end
+    
+    
+    # Raised by the Formats registry if you try to retrieve a format with
+    # an unrecognized name in strict mode.
+    
+    class UnknownFormatError < VersionomyError
     end
     
     

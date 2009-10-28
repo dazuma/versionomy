@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy schema module
+# Versionomy schema namespace
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -83,7 +83,7 @@ module Versionomy
   # The Versionomy::Schema::Wrapper class represents a full schema object.
   # 
   # Generally, you should create schemas using Versionomy::Schema#create.
-  # This method provides a DSL that lets you quickly create the fields.
+  # That method provides a DSL that lets you quickly create the fields.
   
   module Schema
   end

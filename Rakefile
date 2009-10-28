@@ -33,6 +33,7 @@
 # -----------------------------------------------------------------------------
 
 
+require 'rubygems'
 require 'rake'
 require 'rake/clean'
 require 'rake/gempackagetask'
@@ -88,7 +89,7 @@ gemspec_ = Gem::Specification.new do |s_|
   s_.has_rdoc = true
   s_.test_files = FileList['tests/tc_*.rb']
   s_.platform = Gem::Platform::RUBY
-  s_.add_dependency('blockenspiel', '>= 0.2.1')
+  s_.add_dependency('blockenspiel', '>= 0.2.2')
 end
 Rake::GemPackageTask.new(gemspec_) do |task_|
   task_.need_zip = false
@@ -106,7 +107,7 @@ end
 
 
 # Publish gem
-task :publish_gem_to_rubyforge => [:package] do |t_|
+task :release_gem_to_rubyforge => [:package] do |t_|
   v_ = ENV["VERSION"]
   abort "Must supply VERSION=x.y.z" unless v_
   if v_ != Versionomy::VERSION_STRING
@@ -131,7 +132,7 @@ end
 
 
 # Publish gem
-task :publish_gem_to_gemcutter => [:package] do |t_|
+task :release_gem_to_gemcutter => [:package] do |t_|
   v_ = ENV["VERSION"]
   abort "Must supply VERSION=x.y.z" unless v_
   if v_ != Versionomy::VERSION_STRING
@@ -143,4 +144,4 @@ end
 
 
 # Publish everything
-task :publish => [:publish_gem_to_gemcutter, :publish_gem_to_rubyforge, :publish_rdoc_to_rubyforge]
+task :release => [:release_gem_to_gemcutter, :release_gem_to_rubyforge, :publish_rdoc_to_rubyforge]

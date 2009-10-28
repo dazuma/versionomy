@@ -141,6 +141,34 @@ module Versionomy
       end
       
       
+      # Test specifying fields by index.
+      
+      def test_field_get_index
+        value_ = Versionomy.create(:major => 2, :tiny => 1, :release_type => :beta, :beta_version => 3)
+        assert_equal(2, value_[0])
+        assert_equal(0, value_[1])
+        assert_equal(1, value_[2])
+        assert_equal(0, value_[3])
+        assert_equal(:beta, value_[4])
+        assert_equal(3, value_[5])
+        assert_equal(0, value_[6])
+      end
+      
+      
+      # Test specifying fields by name.
+      
+      def test_field_get_name
+        value_ = Versionomy.create(:major => 2, :tiny => 1, :release_type => :beta, :beta_version => 3)
+        assert_equal(2, value_[:major])
+        assert_equal(0, value_[:minor])
+        assert_equal(1, value_[:tiny])
+        assert_equal(0, value_[:tiny2])
+        assert_equal(:beta, value_[:release_type])
+        assert_equal(3, value_[:beta_version])
+        assert_equal(0, value_[:beta_minor])
+      end
+      
+      
     end
     
   end

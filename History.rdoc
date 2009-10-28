@@ -1,3 +1,8 @@
+=== 0.1.2 / 2009-10-28
+
+* You can now specify fields by index in methods of Versionomy::Value.
+* Minor rakefile and documentation updates.
+
 === 0.1.1 / 2009-10-19
 
 * Formats can now be specified by name in the convenience interface.

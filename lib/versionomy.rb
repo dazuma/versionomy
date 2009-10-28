@@ -36,13 +36,13 @@
 
 begin
   require 'blockenspiel'
-rescue LoadError
+rescue ::LoadError
   require 'rubygems'
   require 'blockenspiel'
 end
 
 
-dir_ = File.expand_path('versionomy', File.dirname(__FILE__))
+dir_ = ::File.expand_path('versionomy', ::File.dirname(__FILE__))
 
 includes_ = [
  'errors',

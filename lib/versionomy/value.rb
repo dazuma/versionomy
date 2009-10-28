@@ -165,12 +165,14 @@ module Versionomy
     
     
     # Returns true if this value contains the given field, which may be specified
-    # as a field object or name.
+    # as a field object, name, or index.
     
     def has_field?(field_)
       case field_
       when Schema::Field
         @field_path.include?(field_)
+      when ::Integer
+        @field_path.size > field_ && field_ >= 0
       when ::String, ::Symbol
         @values.has_key?(field_.to_sym)
       else
@@ -179,12 +181,14 @@ module Versionomy
     end
     
     
-    # Returns the value of the given field, or nil if the field is not recognized.
-    # The field may be specified as a field object or field name.
+    # Returns the value of the given field, or nil if the field is not
+    # recognized. The field may be specified as a field object, field name,
+    # or field index.
     
     def [](field_)
+      field_ = @field_path[field_] if field_.kind_of?(::Integer)
       field_ = field_.name if field_.kind_of?(Schema::Field)
-      @values[field_.to_sym]
+      field_ ? @values[field_.to_sym] : nil
     end
     
     
@@ -202,11 +206,17 @@ module Versionomy
     end
     
     
-    # Returns a new version number created by bumping the given field.
+    # Returns a new version number created by bumping the given field. The
+    # field may be specified as a field object, field name, or field index.
+    # Returns self if value could not be changed.
+    # Returns nil if the field was not recognized.
     
     def bump(name_)
+      name_ = @field_path[name_] if name_.kind_of?(::Integer)
       name_ = name_.name if name_.kind_of?(Schema::Field)
+      return nil unless name_
       name_ = name_.to_sym
+      return nil unless @values.include?(name_)
       values_ = []
       @field_path.each do |field_|
         oldval_ = @values[field_.name]

@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy format registry
+# Versionomy standard format implementation
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma

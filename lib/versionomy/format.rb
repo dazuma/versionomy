@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy format module
+# Versionomy format namespace
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -49,7 +49,7 @@ module Versionomy
   # 
   # Under many circumstances, you should use the standard format, which
   # can be retrieved by calling Versionomy::Formats#standard. This format
-  # understands most of the common version numbers, including prerelease
+  # understands most common version numbers, including prerelease
   # (e.g. alpha, beta, release candidate, etc.) forms and patchlevels.
   # 
   # You may also create your own formats, either by implementing the

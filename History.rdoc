@@ -1,3 +1,7 @@
+=== 0.1.3 / 2009-10-29
+
+* Fixed an issue with parsing the "-p" patchlevel delimiter (e.g. "1.9.1-p243").
+
 === 0.1.2 / 2009-10-28
 
 * You can now specify fields by index in methods of Versionomy::Value.

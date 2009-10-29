@@ -195,6 +195,18 @@ module Versionomy
       end
       
       
+      # Test different patchlevel separators.
+      
+      def test_patchlevel_separators
+        expected_ = [1,9,1,0,:final,243,0]
+        assert_equal(expected_, Versionomy.parse('1.9.1-p243').values_array)
+        assert_equal(expected_, Versionomy.parse('1.9.1p243').values_array)
+        assert_equal(expected_, Versionomy.parse('1.9.1.p243').values_array)
+        assert_equal(expected_, Versionomy.parse('1.9.1 p243').values_array)
+        assert_equal(expected_, Versionomy.parse('1.9.1-243').values_array)
+      end
+      
+      
     end
     
   end

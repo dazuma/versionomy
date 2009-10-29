@@ -322,7 +322,7 @@ module Versionomy
         field(:patchlevel, :requires_previous_field => false,
               :default_value_optional => true, :default_style => :number) do
           recognize_number(:style => :number, :default_delimiter => '-',
-                           :delimiter_regexp => '-|(-|\.|\s?)p')
+                           :delimiter_regexp => '(-|\.|\s?)p|-')
           recognize_letter(:style => :letter, :default_delimiter => '',
                            :delimiter_regexp => '-|\.|\s?',
                            :expected_follower_regexp => '$')

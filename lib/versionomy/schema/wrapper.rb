@@ -46,7 +46,7 @@ module Versionomy
     # fields. If you provide a block, you must use the methods in
     # Versionomy::Schema::Builder in the block to create the root field.
     
-    def self.create(field_=nil, &block_)
+    def self.create(field_=nil, opts_={}, &block_)
       if field_ && block_
         raise ::ArgumentError, 'You may provide either a root field or block but not both'
       end
@@ -54,8 +54,11 @@ module Versionomy
         builder_ = Schema::Builder.new
         ::Blockenspiel.invoke(block_, builder_)
         field_ = builder_._get_field
+        modules_ = builder_._get_modules
+      else
+        modules_ = opts_[:modules] || []
       end
-      Schema::Wrapper.new(field_)
+      Schema::Wrapper.new(field_, modules_)
     end
     
     
@@ -68,9 +71,10 @@ module Versionomy
       # This is a low-level method. Usually you should call
       # Versionomy::Schema#create instead.
       
-      def initialize(field_)
+      def initialize(field_, modules_=[])
         @root_field = field_
         @names = @root_field._descendants_by_name
+        @modules = modules_
       end
       
       
@@ -80,7 +84,7 @@ module Versionomy
       
       def eql?(obj_)
         return false unless obj_.kind_of?(Schema::Wrapper)
-        return @root_field == obj_.root_field
+        return @root_field == obj_.root_field && @modules == obj_.modules
       end
       
       
@@ -121,6 +125,14 @@ module Versionomy
       end
       
       
+      # Returns an array of modules that should be included in values that
+      # use this schema.
+      
+      def modules
+        @modules.dup
+      end
+      
+      
     end
     
     
@@ -133,6 +145,8 @@ module Versionomy
       
       def initialize()  # :nodoc:
         @field = nil
+        @modules = []
+        @defaults = { :integer => {}, :string => {}, :symbol => {} }
       end
       
       
@@ -161,12 +175,47 @@ module Versionomy
         if @field
           raise Errors::RangeOverlapError, "Root field already defined"
         end
-        @field = Schema::Field.new(name_, opts_, &block_)
+        @field = Schema::Field.new(name_, opts_.merge(:master_builder => self), &block_)
+      end
+      
+      
+      # Add a module to values that use this schema.
+      
+      def add_module(mod_)
+        @modules << mod_
+      end
+      
+      
+      def to_bump_type(type_, &block_)
+        @defaults[type_][:bump] = block_
+      end
+      
+      
+      def to_compare_type(type_, &block_)
+        @defaults[type_][:compare] = block_
+      end
+      
+      
+      def to_canonicalize_type(type_, &block_)
+        @defaults[type_][:canonicalize] = block_
+      end
+      
+      
+      def default_value_for_type(type_, value_)
+        @defaults[type_][:value] = value_
       end
       
       
       def _get_field  # :nodoc:
         @field
+      end
+      
+      def _get_modules  # :nodoc:
+        @modules
+      end
+      
+      def _get_default_setting(type_, setting_)  # :nodoc:
+        @defaults[type_][setting_]
       end
       
     end

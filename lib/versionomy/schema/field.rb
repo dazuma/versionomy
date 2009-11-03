@@ -69,7 +69,6 @@ module Versionomy
       def initialize(name_, opts_={}, &block_)
         @name = name_.to_sym
         @type = opts_[:type] || :integer
-        @default_value = opts_[:default_value]
         if @type == :symbol
           @symbol_info = ::Hash.new
           @symbol_order = ::Array.new
@@ -77,13 +76,21 @@ module Versionomy
           @symbol_info = nil
           @symbol_order = nil
         end
+        @default_value = opts_[:default_value]
         @bump_proc = nil
         @compare_proc = nil
         @canonicalize_proc = nil
+        master_builder_ = opts_[:master_builder]
+        if master_builder_
+          @bump_proc = master_builder_._get_default_setting(@type, :bump)
+          @compare_proc = master_builder_._get_default_setting(@type, :compare)
+          @canonicalize_proc = master_builder_._get_default_setting(@type, :canonicalize)
+          @default_value ||= master_builder_._get_default_setting(@type, :value)
+        end
         @ranges = nil
         @default_child = nil
         @children = []
-        ::Blockenspiel.invoke(block_, Schema::FieldBuilder.new(self)) if block_
+        ::Blockenspiel.invoke(block_, Schema::FieldBuilder.new(self, master_builder_)) if block_
         @default_value = canonicalize_value(@default_value)
       end
       
@@ -371,8 +378,9 @@ module Versionomy
       
       include ::Blockenspiel::DSL
       
-      def initialize(field_)  # :nodoc:
+      def initialize(field_, master_builder_)  # :nodoc:
         @field = field_
+        @master_builder = master_builder_
       end
       
       
@@ -474,6 +482,7 @@ module Versionomy
       
       def field(name_, opts_={}, &block_)
         only_ = opts_.delete(:only)
+        opts_.merge!(:master_builder => @master_builder)
         @field.add_child(Schema::Field.new(name_, opts_, &block_), only_)
       end
       

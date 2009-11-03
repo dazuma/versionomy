@@ -54,6 +54,7 @@ includes_ = [
  'format/delimiter',
  'formats',
  'formats/standard',
+ 'formats/rubygems',
  'value',
  'interface',
  'version',

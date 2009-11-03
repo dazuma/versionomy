@@ -90,12 +90,12 @@ module Versionomy
     # Raises Versionomy::Errors::UnknownFormatError if a name is given that
     # is not registered.
     
-    def create(values_=[], format_=nil, unparse_params_=nil)
+    def create(values_=nil, format_=nil, unparse_params_=nil)
       if format_.kind_of?(String) || format_.kind_of?(Symbol)
         format_ = Formats.get(format_, true)
       end
       format_ ||= default_format
-      Value.new(values_, format_, unparse_params_)
+      Value.new(values_ || [], format_, unparse_params_)
     end
     
     

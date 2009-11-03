@@ -876,7 +876,7 @@ module Versionomy
         end
         
         def unparsed_value(value_, style_, unparse_params_)
-          value_
+          value_.to_s
         end
         
       end

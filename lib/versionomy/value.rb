@@ -68,7 +68,8 @@ module Versionomy
       @unparse_params = unparse_params_
       @field_path = []
       @values = {}
-      field_ = @format.schema.root_field
+      schema_ = @format.schema
+      field_ = schema_.root_field
       while field_
         value_ = values_.kind_of?(Hash) ? values_[field_.name] : values_.shift
         value_ = value_ ? field_.canonicalize_value(value_) : field_.default_value
@@ -76,6 +77,8 @@ module Versionomy
         @values[field_.name] = value_
         field_ = field_.child(value_)
       end
+      modules_ = schema_.modules
+      extend(*modules_) if modules_.size > 0
     end
     
     

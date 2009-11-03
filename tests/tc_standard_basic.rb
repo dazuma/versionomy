@@ -169,6 +169,18 @@ module Versionomy
       end
       
       
+      # Test "prerelase?" custom method
+      
+      def test_prereleasep
+        value_ = Versionomy.create(:major => 2, :tiny => 1, :release_type => :beta, :beta_version => 3)
+        assert_equal(true, value_.prerelease?)
+        value_ = Versionomy.create(:major => 2, :tiny => 1, :release_type => :final, :patchlevel => 1)
+        assert_equal(false, value_.prerelease?)
+        value_ = Versionomy.create(:major => 2, :tiny => 1)
+        assert_equal(false, value_.prerelease?)
+      end
+      
+      
     end
     
   end

@@ -128,7 +128,7 @@ module Versionomy
     end
     
     
-    # Raised by the Formats registry if you try to retrieve a format with
+    # Raised by the Format registry if you try to retrieve a format with
     # an unrecognized name in strict mode.
     
     class UnknownFormatError < VersionomyError
@@ -152,6 +152,12 @@ module Versionomy
     # exists for its schemas.
     
     class ConversionRedefinedError < VersionomyError
+    end
+    
+    
+    # Raised when serialization or deserialization fails.
+    
+    class SerializationError < VersionomyError
     end
     
     

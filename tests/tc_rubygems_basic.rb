@@ -108,18 +108,18 @@ module Versionomy
       # Test parsing numeric.
       
       def test_parsing_numeric
-        value_ = Versionomy.parse('2.0.1.1-4.6', :rubygems)
+        value_ = Versionomy.parse('2.0.1.1.4.6', :rubygems)
         assert_equal([2, 0, 1, 1, 4, 6, 0, 0], value_.values_array)
-        assert_equal('2.0.1.1-4.6', value_.unparse)
+        assert_equal('2.0.1.1.4.6', value_.unparse)
       end
       
       
       # Test parsing with a string.
       
       def test_parsing_with_string
-        value_ = Versionomy.parse('1.9.2 pre-2', :rubygems)
+        value_ = Versionomy.parse('1.9.2.pre.2', :rubygems)
         assert_equal([1, 9, 2, 'pre', 2, 0, 0, 0], value_.values_array)
-        assert_equal('1.9.2 pre-2', value_.unparse)
+        assert_equal('1.9.2.pre.2', value_.unparse)
       end
       
       
@@ -154,11 +154,33 @@ module Versionomy
       
       # Test "prerelase?" custom method
       
-      def test_prereleasep
+      def test_method_prereleasep
         value_ = Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
         assert_equal(true, value_.prerelease?)
         value_ = Versionomy.create([1, 9, 2, 2], :rubygems)
         assert_equal(false, value_.prerelease?)
+      end
+      
+      
+      # Test "relase" custom method
+      
+      def test_method_release
+        value_ = Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
+        value2_ = value_.release
+        assert_equal([1, 9, 2, 0, 0, 0, 0, 0], value2_.values_array)
+        value_ = Versionomy.create([1, 9, 2, 5, 2], :rubygems)
+        value2_ = value_.release
+        assert_equal(value_, value2_)
+      end
+      
+      
+      # Test marshalling
+      
+      def test_marshal
+        value_ = Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
+        str_ = ::Marshal.dump(value_)
+        value2_ = ::Marshal.load(str_)
+        assert_equal(value_, value2_)
       end
       
       

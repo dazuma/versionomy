@@ -110,6 +110,28 @@ module Versionomy
     end
     
     
+    # Marshal this version number.
+    
+    def marshal_dump
+      format_name_ = Format.canonical_name_for(@format)
+      unless format_name_
+        raise Errors::SerializationError, "Cannot marshal because the format is not registered"
+      end
+      [format_name_, @unparse_params, values_array]
+    end
+    
+    
+    # Unmarshal this version number.
+    
+    def marshal_load(data_)
+      format_ = Format.get(data_[0])
+      unless format_
+        raise Errors::SerializationError, "Cannot unmarshal because the format is not registered"
+      end
+      initialize(data_[2], format_, data_[1])
+    end
+    
+    
     # Unparse this version number.
     # 
     # Raises Versionomy::Errors::UnparseError if unparsing failed.
@@ -250,14 +272,16 @@ module Versionomy
     # be converted.
     
     def convert(format_, convert_params_=nil)
-      format_ = Formats.get(format_) if format_.kind_of?(::String) || format_.kind_of?(::Symbol)
+      if format_.kind_of?(::String) || format_.kind_of?(::Symbol)
+        format_ = Format.get(format_)
+      end
       return self if @format == format_
       from_schema_ = @format.schema
       to_schema_ = format_.schema
       if from_schema_ == to_schema_
         return Value.new(@values, format_, convert_params_)
       end
-      conversion_ = Conversions.get(from_schema_, to_schema_, true)
+      conversion_ = Conversion.get(from_schema_, to_schema_, true)
       conversion_.convert_value(self, format_, convert_params_)
     end
     
@@ -269,6 +293,7 @@ module Versionomy
     
     # Returns true if this version number is equal to the given verison number.
     # This type of equality means the schemas and values are the same.
+    # Note that this is different from the definition of <tt>==</tt>.
     
     def eql?(obj_)
       if obj_.kind_of?(::String)
@@ -286,7 +311,8 @@ module Versionomy
     
     # Returns true if this version number is equal to the given verison number.
     # This type of equality means that the values are the same, possibly after
-    # suitable conversion of the RHS.
+    # suitable automatic conversion of the RHS.
+    # Note that this is different from the definition of <tt>eql?</tt>.
     
     def ==(obj_)
       (self <=> obj_) == 0
@@ -335,6 +361,9 @@ module Versionomy
       end
       val_ > 0
     end
+    
+    
+    include ::Comparable
     
     
     # Field values may be retrieved by calling them as methods.

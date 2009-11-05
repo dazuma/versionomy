@@ -63,6 +63,15 @@ module Versionomy
       end
       
       
+      def inspect   # :nodoc:
+        "#<#{self.class}:0x#{object_id.to_s(16)} schema=#{@schema.inspect}>"
+      end
+      
+      def to_s   # :nodoc:
+        inspect
+      end
+      
+      
       # Returns the schema understood by this format.
       
       def schema

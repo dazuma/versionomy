@@ -127,11 +127,11 @@ module Versionomy
       
       
       def inspect   # :nodoc:
-        to_s
+        "#<#{self.class}:0x#{object_id.to_s(16)} name=#{@name}>"
       end
       
       def to_s   # :nodoc:
-        "#<#{self.class}:0x#{object_id.to_s(16)} name=#{@name}>"
+        inspect
       end
       
       

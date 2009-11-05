@@ -49,13 +49,24 @@ module Versionomy
     class Base
       
       
-      # Convert the given value.
-      # Returns an equivalent value in the to_schema.
+      # Returns a value equivalent to the given value in the given format.
+      # 
+      # The convert_params may be interpreted differently for different
+      # conversion implementations.
       # 
       # Raises Versionomy::Errors::ConversionError if the conversion failed.
       
       def convert_value(value_, format_, convert_params_=nil)
         raise Errors::ConversionError, "Conversion not implemented"
+      end
+      
+      
+      def inspect   # :nodoc:
+        "#<#{self.class}:0x#{object_id.to_s(16)}>"
+      end
+      
+      def to_s   # :nodoc:
+        inspect
       end
       
       

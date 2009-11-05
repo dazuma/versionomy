@@ -36,7 +36,7 @@
 
 module Versionomy
   
-  module Formats
+  module Format
     
     
     # Get the standard format.
@@ -93,12 +93,15 @@ module Versionomy
     # unparsing as well.
     # 
     # For the exact annotated definition of the standard schema and format,
-    # see the source code for Versionomy::Formats::Standard#_create.
+    # see the source code for Versionomy::Format::Standard#create.
     
     def self.standard
       get('standard')
     end
     
+    
+    # This is a namespace for the implementation of the Standard schema
+    # and format.
     
     module Standard
       
@@ -115,6 +118,15 @@ module Versionomy
         end
         
         
+        # Returns the release for this version.
+        # For example, converts "1.2.0a1" to "1.2.0".
+        # Non-prerelease versions return themselves.
+        
+        def release
+          self.change(:release_type => :final)
+        end
+        
+        
       end
       
       
@@ -125,7 +137,7 @@ module Versionomy
       # contains useful examples of how to use the schema and format
       # definition DSLs.
       
-      def self._create
+      def self.create
         
         # The following is the definition of the standard schema
         schema_ = Schema.create do
@@ -227,7 +239,7 @@ module Versionomy
           end
           
           # Add the methods in this module to each value
-          add_module(Formats::Standard::ExtraMethods)
+          add_module(Format::Standard::ExtraMethods)
         end
         
         # The following is the definition of the standard format. It
@@ -362,7 +374,7 @@ module Versionomy
     end
     
     
-    register('standard', Standard._create) unless get('standard')
+    register('standard', Format::Standard.create) unless get('standard')
     
     
   end

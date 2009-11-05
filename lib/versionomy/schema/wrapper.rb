@@ -78,19 +78,31 @@ module Versionomy
       end
       
       
-      # Returns true if this schema is equivalent to the other schema.
-      # Two schemas are equivalent if their root fields are the same--
-      # which means that the entire field tree is the same.
+      def inspect   # :nodoc:
+        "#<#{self.class}:0x#{object_id.to_s(16)} root=#{@root_field.inspect}>"
+      end
       
-      def eql?(obj_)
-        return false unless obj_.kind_of?(Schema::Wrapper)
-        return @root_field == obj_.root_field
+      def to_s   # :nodoc:
+        inspect
       end
       
       
       # Returns true if this schema is equivalent to the other schema.
       # Two schemas are equivalent if their root fields are the same--
+      # which means that the entire field tree is the same-- and they
+      # include the same modules.
+      # Note that this is different from the definition of <tt>==</tt>.
+      
+      def eql?(obj_)
+        return false unless obj_.kind_of?(Schema::Wrapper)
+        return @root_field == obj_.root_field && @modules == obj_.modules
+      end
+      
+      
+      # Returns true if this schema is compatible with the other schema.
+      # Two schemas are equivalent if their root fields are the same--
       # which means that the entire field tree is the same.
+      # Note that this is different from the definition of <tt>eql?</tt>.
       
       def ==(obj_)
         eql?(obj_)
@@ -110,7 +122,7 @@ module Versionomy
       
       
       def hash  # :nodoc:
-        @hash ||= @root_field.hash
+        @hash ||= @root_field.hash ^ @modules.hash
       end
       
       

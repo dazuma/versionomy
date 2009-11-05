@@ -36,7 +36,7 @@
 
 module Versionomy
   
-  module Formats
+  module Format
     
     
     # Get the rubygems format.
@@ -45,13 +45,16 @@ module Versionomy
     # The rubygems format is designed to be parse-compatible with the
     # Gem::Version class used in rubygems.
     # 
-    # For the exact annotated definition of the standard schema and format,
-    # see the source code for Versionomy::Formats::Rubygems#_create.
+    # For the exact annotated definition of the rubygems schema and format,
+    # see the source code for Versionomy::Format::Rubygems#create.
     
     def self.rubygems
       get('rubygems')
     end
     
+    
+    # This is a namespace for the implementation of the Rubygems schema
+    # and format.
     
     module Rubygems
       
@@ -64,7 +67,21 @@ module Versionomy
         # Returns true if the version is a prerelease version
         
         def prerelease?
-          values_array.any?{ |val_| val_.kind_of?(String) }
+          values_array.any?{ |val_| val_.kind_of?(::String) }
+        end
+        
+        
+        # Returns the release for this version.
+        # For example, converts "1.2.0.a.1" to "1.2.0".
+        # Non-prerelease versions return themselves.
+        
+        def release
+          values_ = []
+          self.each_field_object do |field_, val_|
+            break unless val_.kind_of?(::Integer)
+            values_ << val_
+          end
+          Value.new(values_, self.format, self.unparse_params)
         end
         
         
@@ -78,7 +95,7 @@ module Versionomy
       # contains useful examples of how to use the schema and format
       # definition DSLs.
       
-      def self._create
+      def self.create
         
         # The following is the definition of the rubygems schema
         schema_ = Schema.create do
@@ -117,7 +134,7 @@ module Versionomy
           # The first field has the default value of 1. All other fields
           # have a default value of 0. Thus, the default version number
           # overall is "1.0".
-          field(:field0, :type => :string, :default_value => 1) do
+          field(:field0, :type => :integer, :default_value => 1) do
             field(:field1, :type => :string) do
               field(:field2, :type => :string) do
                 field(:field3, :type => :string) do
@@ -134,7 +151,7 @@ module Versionomy
           end
           
           # Add the methods in this module to each value
-          add_module(Formats::Rubygems::ExtraMethods)
+          add_module(Format::Rubygems::ExtraMethods)
         end
         
         # The following is the definition of the standard format. It
@@ -144,7 +161,7 @@ module Versionomy
           # All version number strings must start with the major version.
           # Unlike other fields, it is not preceded by any delimiter.
           field(:field0) do
-            recognize_regexp('[0-9a-zA-Z]+', :delimiter_regexp => '', :default_delimiter => '')
+            recognize_number(:delimiter_regexp => '', :default_delimiter => '')
           end
           
           # The remainder of the version number are represented as strings
@@ -154,32 +171,25 @@ module Versionomy
           # Finally, they can be optional in an unparsed string if they are
           # set to the default value of 0.
           field(:field1) do
-            recognize_regexp('[0-9a-zA-Z]+', :delimiter_regexp => '[^0-9a-zA-Z]+',
-                             :default_value_optional => true)
+            recognize_regexp('[0-9a-zA-Z]+', :default_value_optional => true)
           end
           field(:field2) do
-            recognize_regexp('[0-9a-zA-Z]+', :delimiter_regexp => '[^0-9a-zA-Z]+',
-                             :default_value_optional => true)
+            recognize_regexp('[0-9a-zA-Z]+', :default_value_optional => true)
           end
           field(:field3) do
-            recognize_regexp('[0-9a-zA-Z]+', :delimiter_regexp => '[^0-9a-zA-Z]+',
-                             :default_value_optional => true)
+            recognize_regexp('[0-9a-zA-Z]+', :default_value_optional => true)
           end
           field(:field4) do
-            recognize_regexp('[0-9a-zA-Z]+', :delimiter_regexp => '[^0-9a-zA-Z]+',
-                             :default_value_optional => true)
+            recognize_regexp('[0-9a-zA-Z]+', :default_value_optional => true)
           end
           field(:field5) do
-            recognize_regexp('[0-9a-zA-Z]+', :delimiter_regexp => '[^0-9a-zA-Z]+',
-                             :default_value_optional => true)
+            recognize_regexp('[0-9a-zA-Z]+', :default_value_optional => true)
           end
           field(:field6) do
-            recognize_regexp('[0-9a-zA-Z]+', :delimiter_regexp => '[^0-9a-zA-Z]+',
-                             :default_value_optional => true)
+            recognize_regexp('[0-9a-zA-Z]+', :default_value_optional => true)
           end
           field(:field7) do
-            recognize_regexp('[0-9a-zA-Z]+', :delimiter_regexp => '[^0-9a-zA-Z]+',
-                             :default_value_optional => true)
+            recognize_regexp('[0-9a-zA-Z]+', :default_value_optional => true)
           end
           
           # By default, we require that at least the first two fields
@@ -192,7 +202,7 @@ module Versionomy
     end
     
     
-    register('rubygems', Rubygems._create) unless get('rubygems')
+    register('rubygems', Format::Rubygems.create) unless get('rubygems')
     
     
   end

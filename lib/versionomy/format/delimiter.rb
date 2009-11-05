@@ -70,7 +70,7 @@ module Versionomy
     # the parse and unparse methods for details.
     # 
     # For a usage example, see the definition of the standard format in
-    # Versionomy::Formats#_create_standard.
+    # Versionomy::Format::Standard#create.
     
     class Delimiter < Base
       
@@ -412,7 +412,7 @@ module Versionomy
         # 
         # The standard format uses styles to preserve the different
         # syntaxes for the release_type field. See the source code in
-        # Versionomy::Formats#_create_standard for this example.
+        # Versionomy::Format::Standard#create for this example.
         
         def field(name_, opts_={}, &block_)
           name_ = name_.to_sym

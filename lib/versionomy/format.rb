@@ -48,7 +48,7 @@ module Versionomy
   # only that schema's version numbers.
   # 
   # Under many circumstances, you should use the standard format, which
-  # can be retrieved by calling Versionomy::Formats#standard. This format
+  # can be retrieved by calling Versionomy::Format#standard. This format
   # understands most common version numbers, including prerelease
   # (e.g. alpha, beta, release candidate, etc.) forms and patchlevels.
   # 
@@ -58,11 +58,67 @@ module Versionomy
   # parsers for many version number formats.
   # 
   # Formats may be registered with Versionomy and given a name using the
-  # methods of this Versionomy::Formats. This allows version numbers to be
-  # serialized with their format.
+  # methods of this module. This allows version numbers to be serialized
+  # with their format.
+  # 
+  # Finally, this module serves as a namespace for format implementations.
   
   module Format
+    
+    @names_to_formats = ::Hash.new
+    @formats_to_names = ::Hash.new
+    
+    class << self
+      
+      
+      # Get the format with the given name.
+      # 
+      # If the given name has not been defined, and strict is set to true,
+      # raises Versionomy::Errors::UnknownFormatError. If strict is set to
+      # false, returns nil if the given name has not been defined.
+      
+      def get(name_, strict_=false)
+        format_ = @names_to_formats[name_.to_s]
+        if format_.nil? && strict_
+          raise Errors::UnknownFormatError, name_
+        end
+        format_
+      end
+      
+      
+      # Register the given format under the given name.
+      # 
+      # Raises Versionomy::Errors::FormatRedefinedError if the name has
+      # already been defined.
+      
+      def register(name_, format_)
+        name_ = name_.to_s
+        if @names_to_formats.include?(name_)
+          raise Errors::FormatRedefinedError, name_
+        end
+        @names_to_formats[name_] = format_
+        @formats_to_names[format_.object_id] = name_
+      end
+      
+      
+      # Get the canonical name for the given format, as a string.
+      # This is the first name the format was registered under.
+      # Returns nil if this format was never registered.
+      
+      def canonical_name_for(format_)
+        @formats_to_names[format_.object_id]
+      end
+      
+      
+    end
+    
   end
+  
+  
+  # Versionomy::Formats is an alias for Versionomy::Format, for backward
+  # compatibility with version 0.1.0 code. It is deprecated; use
+  # Versionomy::Format instead.
+  Formats = Format
   
   
 end

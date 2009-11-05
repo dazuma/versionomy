@@ -61,12 +61,12 @@ module Versionomy
       # Create an instance of this base format, with the given schema.
       
       def initialize(schema_)
-        @schema = schema_
+        @_schema = schema_
       end
       
       
       def inspect   # :nodoc:
-        "#<#{self.class}:0x#{object_id.to_s(16)} schema=#{@schema.inspect}>"
+        "#<#{self.class}:0x#{object_id.to_s(16)} schema=#{@_schema.inspect}>"
       end
       
       def to_s   # :nodoc:
@@ -77,7 +77,7 @@ module Versionomy
       # Returns the schema understood by this format.
       
       def schema
-        @schema
+        @_schema
       end
       
       

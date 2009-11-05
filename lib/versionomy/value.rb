@@ -71,7 +71,7 @@ module Versionomy
       schema_ = @format.schema
       field_ = schema_.root_field
       while field_
-        value_ = values_.kind_of?(Hash) ? values_[field_.name] : values_.shift
+        value_ = values_.kind_of?(::Hash) ? values_[field_.name] : values_.shift
         value_ = value_ ? field_.canonicalize_value(value_) : field_.default_value
         @field_path << field_
         @values[field_.name] = value_
@@ -244,13 +244,31 @@ module Versionomy
     end
     
     
+    # Returns this value converted to the given format.
+    # 
+    # Raises Versionomy::Errors::ConversionError if the value could not
+    # be converted.
+    
+    def convert(format_, convert_params_=nil)
+      format_ = Formats.get(format_) if format_.kind_of?(::String) || format_.kind_of?(::Symbol)
+      return self if @format == format_
+      from_schema_ = @format.schema
+      to_schema_ = format_.schema
+      if from_schema_ == to_schema_
+        return Value.new(@values, format_, convert_params_)
+      end
+      conversion_ = Conversions.get(from_schema_, to_schema_, true)
+      conversion_.convert_value(self, format_, convert_params_)
+    end
+    
+    
     def hash  # :nodoc:
       @hash ||= @values.hash
     end
     
     
     # Returns true if this version number is equal to the given verison number.
-    # Equality means the schemas and values are the same.
+    # This type of equality means the schemas and values are the same.
     
     def eql?(obj_)
       if obj_.kind_of?(::String)
@@ -267,10 +285,11 @@ module Versionomy
     
     
     # Returns true if this version number is equal to the given verison number.
-    # Equality means the schemas and values are the same.
+    # This type of equality means that the values are the same, possibly after
+    # suitable conversion of the RHS.
     
     def ==(obj_)
-      eql?(obj_)
+      (self <=> obj_) == 0
     end
     
     
@@ -281,12 +300,16 @@ module Versionomy
         obj_ = @format.parse(obj_)
       end
       return nil unless obj_.kind_of?(Value)
-      index_ = 0
+      if obj_.schema != @format.schema
+        begin
+          obj_ = obj_.convert(@format)
+        rescue
+          return nil
+        end
+      end
       obj_.each_field_object do |field_, value_|
-        return nil unless field_ == @field_path[index_]
         val_ = field_.compare_values(@values[field_.name], value_)
         return val_ if val_ != 0
-        index_ += 1
       end
       0
     end

@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy format registry
+# Versionomy conversion interface and registry
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -37,51 +37,58 @@
 module Versionomy
   
   
-  # === Version number format regsitry.
+  # === Version number conversions regsitry.
   # 
-  # Use the methods of this module to register formats with a name. This
-  # allows version numbers to be serialized with their format.
-  # 
-  # You may also access predefined formats such as the standard format from
-  # this module. It also contains the implementations of these formats as
-  # examples.
+  # Use the methods of this module to register conversions with Versionomy.
   # 
   # This module also serves as a convenient namespace for implementations
-  # of formats.
+  # of conversions.
   
-  module Formats
+  module Conversions
     
-    @names = ::Hash.new
+    @registry = ::Hash.new
     
     class << self
       
       
-      # Get the format with the given name.
-      # 
-      # If the given name has not been defined, and strict is set to true,
-      # raises Versionomy::Errors::UnknownFormatError. If strict is set to
-      # false, returns nil if the given name has not been defined.
+      # Get a conversion capable of converting between the given schemas.
+      # Returns nil if no such conversion could be found.
       
-      def get(name_, strict_=false)
-        format_ = @names[name_.to_s]
-        if format_.nil? && strict_
-          raise Errors::UnknownFormatError, name_
+      def get(from_schema_, to_schema_, strict_=false)
+        key_ = _get_key(from_schema_, to_schema_)
+        conversion_ = @registry[key_]
+        if strict_ && conversion_.nil?
+          raise Errors::UnknownConversionError
         end
-        format_
+        conversion_
       end
       
       
-      # Register the given format under the given name.
+      # Register the given conversion.
       # 
-      # Raises Versionomy::Errors::FormatRedefinedError if the name has
-      # already been defined.
+      # Raises Versionomy::Errors::ConversionRedefinedError if a conversion
+      # has already been registered for the given schemas.
       
-      def register(name_, format_)
-        name_ = name_.to_s
-        if @names.include?(name_)
-          raise Errors::FormatRedefinedError, name_
+      def register(from_schema_, to_schema_, conversion_)
+        key_ = _get_key(from_schema_, to_schema_)
+        if @registry.include?(key_)
+          raise Errors::ConversionRedefinedError
         end
-        @names[name_] = format_
+        @registry[key_] = conversion_
+      end
+      
+      
+      private
+      
+      def _get_key(from_schema_, to_schema_)  # :nodoc:
+        [_get_schema(from_schema_), _get_schema(to_schema_)]
+      end
+      
+      def _get_schema(schema_)  # :nodoc:
+        schema_ = Formats.get(schema_, true) if schema_.kind_of?(::String) || schema_.kind_of?(::Symbol)
+        schema_ = schema_.schema if schema_.respond_to?(:schema)
+        schema_ = schema_.root_field if schema_.respond_to?(:root_field)
+        schema_
       end
       
       

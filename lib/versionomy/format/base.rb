@@ -48,6 +48,8 @@ module Versionomy
     # 
     # Instead, the purpose here is to define the API for a format. All
     # formats must define the methods +schema+, +parse+, and +unparse+.
+    # It is also recommended that formats define the <tt>===</tt> method,
+    # though this is not strictly required.
     # Formats need not extend this base class, as long as they duck-type
     # these methods.
     
@@ -87,6 +89,17 @@ module Versionomy
       
       def unparse(value_, params_=nil)
         ''
+      end
+      
+      
+      # Determine whether the given value uses this format.
+      
+      def ===(obj_)
+        if obj_.kind_of?(Value)
+          obj_.format == self
+        else
+          obj_ == self
+        end
       end
       
       

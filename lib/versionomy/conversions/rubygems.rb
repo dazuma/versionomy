@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy format registry
+# Versionomy standard format implementation
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -36,58 +36,53 @@
 
 module Versionomy
   
-  
-  # === Version number format regsitry.
-  # 
-  # Use the methods of this module to register formats with a name. This
-  # allows version numbers to be serialized with their format.
-  # 
-  # You may also access predefined formats such as the standard format from
-  # this module. It also contains the implementations of these formats as
-  # examples.
-  # 
-  # This module also serves as a convenient namespace for implementations
-  # of formats.
-  
-  module Formats
+  module Conversions
     
-    @names = ::Hash.new
     
-    class << self
+    # This module contains methods that create conversions between the
+    # standard and rubygems formats.
+    
+    module Rubygems
       
-      
-      # Get the format with the given name.
-      # 
-      # If the given name has not been defined, and strict is set to true,
-      # raises Versionomy::Errors::UnknownFormatError. If strict is set to
-      # false, returns nil if the given name has not been defined.
-      
-      def get(name_, strict_=false)
-        format_ = @names[name_.to_s]
-        if format_.nil? && strict_
-          raise Errors::UnknownFormatError, name_
+      class << self
+        
+        
+        # Create and register the rubygems conversions.
+        
+        def create_and_register
+          rubygems_ = Formats.get(:rubygems, true)
+          standard_ = Formats.get(:standard, true)
+          unless Conversions.get(standard_, rubygems_)
+            conversion_ = Conversion::Parsing.new do
+              to_modify_unparse_params do |params_|
+                params_[:release_type_delim] = '.' if params_[:release_type_delim].to_s.length == 0
+                params_[:release_type_postdelim] = '.' if params_[:release_type_postdelim].to_s.length == 0
+                params_[:patchlevel_delim] = nil
+                params_
+              end
+            end
+            Conversions.register(standard_, rubygems_, conversion_)
+          end
+          unless Conversions.get(rubygems_, standard_)
+            conversion_ = Conversion::Parsing.new do
+              to_modify_string do |str_|
+                str_.gsub(/[^0-9a-zA-Z\s-]+/, '.')
+              end
+              parse_params(:extra_characters => :error)
+            end
+            Conversions.register(rubygems_, standard_, conversion_)
+          end
         end
-        format_
+        
+        
       end
       
       
-      # Register the given format under the given name.
-      # 
-      # Raises Versionomy::Errors::FormatRedefinedError if the name has
-      # already been defined.
-      
-      def register(name_, format_)
-        name_ = name_.to_s
-        if @names.include?(name_)
-          raise Errors::FormatRedefinedError, name_
-        end
-        @names[name_] = format_
-      end
-      
+      create_and_register
       
     end
     
+    
   end
-  
   
 end

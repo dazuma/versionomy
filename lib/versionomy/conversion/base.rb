@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy format registry
+# Versionomy conversion base class
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -37,57 +37,31 @@
 module Versionomy
   
   
-  # === Version number format regsitry.
-  # 
-  # Use the methods of this module to register formats with a name. This
-  # allows version numbers to be serialized with their format.
-  # 
-  # You may also access predefined formats such as the standard format from
-  # this module. It also contains the implementations of these formats as
-  # examples.
-  # 
-  # This module also serves as a convenient namespace for implementations
-  # of formats.
-  
-  module Formats
+  module Conversion
     
-    @names = ::Hash.new
     
-    class << self
+    # The base conversion class.
+    # 
+    # This base class defines the API for a conversion. All conversions must
+    # define the method <tt>convert_value</tt>. Actual objects need not
+    # extend this base class, as long as they duck-type this method.
+    
+    class Base
       
       
-      # Get the format with the given name.
+      # Convert the given value.
+      # Returns an equivalent value in the to_schema.
       # 
-      # If the given name has not been defined, and strict is set to true,
-      # raises Versionomy::Errors::UnknownFormatError. If strict is set to
-      # false, returns nil if the given name has not been defined.
+      # Raises Versionomy::Errors::ConversionError if the conversion failed.
       
-      def get(name_, strict_=false)
-        format_ = @names[name_.to_s]
-        if format_.nil? && strict_
-          raise Errors::UnknownFormatError, name_
-        end
-        format_
-      end
-      
-      
-      # Register the given format under the given name.
-      # 
-      # Raises Versionomy::Errors::FormatRedefinedError if the name has
-      # already been defined.
-      
-      def register(name_, format_)
-        name_ = name_.to_s
-        if @names.include?(name_)
-          raise Errors::FormatRedefinedError, name_
-        end
-        @names[name_] = format_
+      def convert_value(value_, format_, convert_params_=nil)
+        raise Errors::ConversionError, "Conversion not implemented"
       end
       
       
     end
     
+    
   end
-  
   
 end

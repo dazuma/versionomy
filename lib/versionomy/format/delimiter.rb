@@ -72,7 +72,7 @@ module Versionomy
     # For a usage example, see the definition of the standard format in
     # Versionomy::Formats#_create_standard.
     
-    class Delimiter
+    class Delimiter < Base
       
       
       # Create a format using delimiter tools.
@@ -690,14 +690,16 @@ module Versionomy
           @default_value_optional = opts_[:default_value_optional]
           @regexp_options = opts_[:case_sensitive] ? nil : ::Regexp::IGNORECASE
           @value_regexp = ::Regexp.new("^(#{value_regexp_})", @regexp_options)
-          regexp_ = opts_.fetch(:delimiter_regexp, '\.')
+          regexp_ = opts_[:delimiter_regexp] || '\.'
           @delimiter_regexp = regexp_.length > 0 ? ::Regexp.new("^(#{regexp_})", @regexp_options) : nil
-          regexp_ = opts_.fetch(:post_delimiter_regexp, '')
+          @full_delimiter_regexp = regexp_.length > 0 ? ::Regexp.new("^(#{regexp_})$", @regexp_options) : nil
+          regexp_ = opts_[:post_delimiter_regexp] || ''
           @post_delimiter_regexp = regexp_.length > 0 ? ::Regexp.new("^(#{regexp_})", @regexp_options) : nil
-          regexp_ = opts_.fetch(:expected_follower_regexp, '')
+          @full_post_delimiter_regexp = regexp_.length > 0 ? ::Regexp.new("^(#{regexp_})$", @regexp_options) : nil
+          regexp_ = opts_[:expected_follower_regexp] || ''
           @follower_regexp = regexp_.length > 0 ? ::Regexp.new("^(#{regexp_})", @regexp_options) : nil
-          @default_delimiter = opts_.fetch(:default_delimiter, '.')
-          @default_post_delimiter = opts_.fetch(:default_post_delimiter, '')
+          @default_delimiter = opts_[:default_delimiter] || '.'
+          @default_post_delimiter = opts_[:default_post_delimiter] || ''
           @requires_previous_field = opts_.fetch(:requires_previous_field, true)
           name_ = field_.name
           @default_field_value = field_.default_value
@@ -777,13 +779,21 @@ module Versionomy
           then
             str_ = unparsed_value(value_, style_, unparse_params_)
             if str_
-              delim_ = unparse_params_[@delim_unparse_param_key]
-              if !delim_ || @delimiter_regexp && @delimiter_regexp !~ delim_
-                delim_ = @default_delimiter
+              if !@full_delimiter_regexp
+                delim_ = ''
+              else
+                delim_ = unparse_params_[@delim_unparse_param_key] || @default_delimiter
+                if @full_delimiter_regexp !~ delim_
+                  delim_ = @default_delimiter
+                end
               end
-              post_delim_ = unparse_params_[@post_delim_unparse_param_key]
-              if !post_delim_ || @post_delimiter_regexp && @post_delimiter_regexp !~ post_delim_
-                post_delim_ = @default_post_delimiter
+              if !@full_post_delimiter_regexp
+                post_delim_ = ''
+              else
+                post_delim_ = unparse_params_[@post_delim_unparse_param_key] || @default_post_delimiter
+                if @full_post_delimiter_regexp !~ post_delim_
+                  post_delim_ = @default_post_delimiter
+                end
               end
               str_ = delim_ + str_ + post_delim_
             end

@@ -1,8 +1,11 @@
 === 0.2.0 / 2009-??-??
 
+* Added a mechanism for converting from one format/schema to another.
+* Added Rubygems format, along with conversions to and from the standard format.
+* Slight change to value comparison semantics. Value#eql? returns true only if the schemas are the same, whereas Value#== and the greater than and less than comparisons attempt to compare the semantic value, and thus may perform automatic schema conversion on the RHS.
 * Schemas can now add custom methods to value objects.
 * Added default field settings to schema DSL.
-* Added Rubygems format.
+* Implemented #=== for schemas and formats.
 
 === 0.1.3 / 2009-10-29
 

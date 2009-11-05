@@ -207,6 +207,17 @@ module Versionomy
       end
       
       
+      # Test setting delimiters on unparse, including testing for illegal delimiters
+      
+      def test_unparse_with_custom_delimiters
+        value_ = Versionomy.parse('1.2b3')
+        assert_equal('1.2.b.3', value_.unparse(:release_type_delim => '.', :release_type_postdelim => '.'))
+        assert_equal('1.2b3', value_.unparse(:release_type_delim => '=', :release_type_postdelim => '*'))
+        value_ = Versionomy.parse('1.2-4')
+        assert_equal('1.2-4', value_.unparse(:release_type_delim => '.', :release_type_postdelim => '.'))
+      end
+      
+      
     end
     
   end

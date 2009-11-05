@@ -1,8 +1,8 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy basic tests on standard schema
+# Versionomy basic tests on rubygems schema
 # 
-# This file contains tests for the basic use cases on the standard schema
+# This file contains tests for the basic use cases on the rubygems schema
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma

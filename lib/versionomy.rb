@@ -56,6 +56,11 @@ includes_ = [
  'formats/standard',
  'formats/rubygems',
  'value',
+ 'conversion',
+ 'conversion/base',
+ 'conversion/parsing',
+ 'conversions',
+ 'conversions/rubygems',
  'interface',
  'version',
 ]

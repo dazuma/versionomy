@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy format registry
+# Versionomy conversion interface and registry
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -37,51 +37,22 @@
 module Versionomy
   
   
-  # === Version number format regsitry.
+  # === Conversion between version schemas.
   # 
-  # Use the methods of this module to register formats with a name. This
-  # allows version numbers to be serialized with their format.
   # 
-  # You may also access predefined formats such as the standard format from
-  # this module. It also contains the implementations of these formats as
-  # examples.
-  # 
-  # This module also serves as a convenient namespace for implementations
-  # of formats.
   
-  module Formats
-    
-    @names = ::Hash.new
+  module Conversion
     
     class << self
       
       
-      # Get the format with the given name.
+      # Convert the given value to the given format.
       # 
-      # If the given name has not been defined, and strict is set to true,
-      # raises Versionomy::Errors::UnknownFormatError. If strict is set to
-      # false, returns nil if the given name has not been defined.
+      # Raises Versionomy::Errors::ConversionError if the value could not
+      # be converted.
       
-      def get(name_, strict_=false)
-        format_ = @names[name_.to_s]
-        if format_.nil? && strict_
-          raise Errors::UnknownFormatError, name_
-        end
-        format_
-      end
-      
-      
-      # Register the given format under the given name.
-      # 
-      # Raises Versionomy::Errors::FormatRedefinedError if the name has
-      # already been defined.
-      
-      def register(name_, format_)
-        name_ = name_.to_s
-        if @names.include?(name_)
-          raise Errors::FormatRedefinedError, name_
-        end
-        @names[name_] = format_
+      def convert(value_, format_, convert_params_=nil)
+        value_.convert(format_, convert_params_)
       end
       
       

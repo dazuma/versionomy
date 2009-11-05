@@ -135,6 +135,26 @@ module Versionomy
     end
     
     
+    # Raised when a conversion fails.
+    
+    class ConversionError < VersionomyError
+    end
+    
+    
+    # Raised when a conversion fails because no conversion implementation
+    # was found.
+    
+    class UnknownConversionError < ConversionError
+    end
+    
+    
+    # Raised when you try to register a conversion when one already
+    # exists for its schemas.
+    
+    class ConversionRedefinedError < VersionomyError
+    end
+    
+    
   end
   
 end

@@ -67,7 +67,7 @@ module Versionomy
     # is not registered.
     
     def default_format=(format_)
-      if format_.kind_of?(String) || format_.kind_of?(Symbol)
+      if format_.kind_of?(::String) || format_.kind_of?(::Symbol)
         format_ = Formats.get(format_, true)
       end
       @default_format = format_
@@ -91,7 +91,7 @@ module Versionomy
     # is not registered.
     
     def create(values_=nil, format_=nil, unparse_params_=nil)
-      if format_.kind_of?(String) || format_.kind_of?(Symbol)
+      if format_.kind_of?(::String) || format_.kind_of?(::Symbol)
         format_ = Formats.get(format_, true)
       end
       format_ ||= default_format
@@ -115,7 +115,7 @@ module Versionomy
     # May raise Versionomy::Errors::ParseError if parsing failed.
     
     def parse(str_, format_=nil, parse_params_=nil)
-      if format_.kind_of?(String) || format_.kind_of?(Symbol)
+      if format_.kind_of?(::String) || format_.kind_of?(::Symbol)
         format_ = Formats.get(format_, true)
       end
       format_ ||= default_format

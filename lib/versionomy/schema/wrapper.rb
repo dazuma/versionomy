@@ -84,7 +84,7 @@ module Versionomy
       
       def eql?(obj_)
         return false unless obj_.kind_of?(Schema::Wrapper)
-        return @root_field == obj_.root_field && @modules == obj_.modules
+        return @root_field == obj_.root_field
       end
       
       
@@ -94,6 +94,18 @@ module Versionomy
       
       def ==(obj_)
         eql?(obj_)
+      end
+      
+      
+      # If the RHS is a schema, returns true if the schemas are equivalent.
+      # If the RHS is a value, returns true if the value uses this schema.
+      
+      def ===(obj_)
+        if obj_.kind_of?(Value)
+          obj_.schema == self
+        else
+          obj_ == self
+        end
       end
       
       

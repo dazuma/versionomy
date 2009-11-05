@@ -277,7 +277,7 @@ module Versionomy
             # to be followed by a numeric prerelease version number.
             recognize_regexp_map(:style => :short, :default_delimiter => '',
                                  :delimiter_regexp => '-|\.|\s?',
-                                 :post_delimiter_regexp => '\s?|-',
+                                 :post_delimiter_regexp => '-|\.|\s?',
                                  :expected_follower_regexp => '\d') do
               map(:development, 'd')
               map(:alpha, 'a')
@@ -292,7 +292,7 @@ module Versionomy
             # Check for "long form" syntax. Note again that we omit :final.
             recognize_regexp_map(:style => :long, :default_delimiter => '',
                                  :delimiter_regexp => '-|\.|\s?',
-                                 :post_delimiter_regexp => '\s?|-',
+                                 :post_delimiter_regexp => '-|\.|\s?',
                                  :expected_follower_regexp => '\d') do
               map(:development, 'dev')
               map(:alpha, 'alpha')

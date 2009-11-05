@@ -10,7 +10,7 @@
 * Schemas can now add custom methods to value objects. Added "prerelease?" and "release" methods to rubygems and standard format values.
 * Added default field settings to schema DSL.
 * Implemented #=== for schemas and formats.
-* Many minor bug fixes.
+* Many minor bug fixes and documentation updates.
 
 === 0.1.3 / 2009-10-29
 

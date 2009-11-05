@@ -44,7 +44,7 @@ module Versionomy
     # Essentially, it unparses the value and then attempts to parse it with
     # the new format.
     
-    class Parsing
+    class Parsing < Base
       
       
       # Create a parsing conversion.
@@ -53,7 +53,7 @@ module Versionomy
       # parse settings. In some cases, this may be enough, but you may
       # wish to improve the reliability of the conversion by tweaking the
       # parsing settings. To do so, pass a block to the new method, and
-      # call methds of Versionomy::Conversion::Parsing::Builder in that
+      # call methods of Versionomy::Conversion::Parsing::Builder in that
       # block.
       
       def initialize(&block_)
@@ -64,15 +64,6 @@ module Versionomy
           @unparse_params_modifier = builder_._get_unparse_params_modifier
           @parse_params_generator ||= builder_._get_parse_params_generator
         end
-      end
-      
-      
-      def inspect   # :nodoc:
-        "#<#{self.class}:0x#{object_id.to_s(16)}>"
-      end
-      
-      def to_s   # :nodoc:
-        inspect
       end
       
       

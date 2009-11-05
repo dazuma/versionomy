@@ -44,7 +44,7 @@ module Versionomy
     
     module Rubygems
       
-        
+      
       # Create the conversion from standard to rubygems format.
       # This method is called internally when Versionomy initializes itself,
       # and you should not need to call it again. It is documented, however,
@@ -53,7 +53,7 @@ module Versionomy
         
       def self.create_standard_to_rubygems
         
-        # We'll use a parsing conversion to do this conversion.
+        # We'll use a parsing conversion.
         Conversion::Parsing.new do
           
           # We're going to modify how the standard format version is
@@ -105,10 +105,19 @@ module Versionomy
       
       def self.create_rubygems_to_standard
         
-        # We'll use a parsing conversion to do this conversion.
-        # The standard format generally understands the rubygems format
-        # already, so we don't need to do any special configuration.
-        Conversion::Parsing.new
+        # We'll use a parsing conversion.
+        Conversion::Parsing.new do
+          
+          # Handle the case where the rubygems version ends with a string
+          # field, e.g. "1.0.b". We want to treat this like "1.0b0" rather
+          # than "1.0-2" since the rubygems semantic states that this is a
+          # prerelease version. So we add 0 to the end of the parsed string
+          # if it ends in a letter.
+          to_modify_string do |str_, convert_params_|
+            str_.gsub(/([[:alpha:]])\z/, '\10')
+          end
+          
+        end
         
       end
       

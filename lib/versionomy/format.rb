@@ -96,7 +96,7 @@ module Versionomy
       
       def register(name_, format_)
         name_ = name_.to_s
-        unless name_ =~ /^[\w.-]+$/
+        unless name_ =~ /\A[\w.-]+\z/
           raise ::ArgumentError, "Illegal name: #{name_.inspect}"
         end
         if @names_to_formats.include?(name_)

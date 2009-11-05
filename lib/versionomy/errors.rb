@@ -109,7 +109,7 @@ module Versionomy
     
     
     # This exception is raised during schema creation if you try to
-    # create a circular dependency.
+    # create a circular graph.
     
     class CircularDescendantError < SchemaCreationError
     end
@@ -152,12 +152,6 @@ module Versionomy
     # exists for its schemas.
     
     class ConversionRedefinedError < VersionomyError
-    end
-    
-    
-    # Raised when serialization or deserialization fails.
-    
-    class SerializationError < VersionomyError
     end
     
     

@@ -43,16 +43,19 @@ module Versionomy
     # The base conversion class.
     # 
     # This base class defines the API for a conversion. All conversions must
-    # define the method <tt>convert_value</tt>. Actual objects need not
-    # extend this base class, as long as they duck-type this method.
+    # define the method <tt>convert_value</tt> documented here. Conversions
+    # need not actually extend this base class, as long as they duck-type
+    # this method. However, this base class does provide a few convenience
+    # methods such as a sane implementation of inspect.
     
     class Base
       
       
-      # Returns a value equivalent to the given value in the given format.
+      # Convert the given value to the given format and return the converted
+      # value.
       # 
-      # The convert_params may be interpreted differently for different
-      # conversion implementations.
+      # The convert_params may be interpreted however the particular
+      # conversion wishes.
       # 
       # Raises Versionomy::Errors::ConversionError if the conversion failed.
       
@@ -61,11 +64,16 @@ module Versionomy
       end
       
       
-      def inspect   # :nodoc:
+      # Inspect this conversion.
+      
+      def inspect
         "#<#{self.class}:0x#{object_id.to_s(16)}>"
       end
       
-      def to_s   # :nodoc:
+      
+      # The default to_s implementation just calls inspect.
+      
+      def to_s
         inspect
       end
       

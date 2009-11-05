@@ -174,6 +174,16 @@ module Versionomy
       end
       
       
+      # Test "parts" custom method
+      
+      def test_method_parts
+        value_ = ::Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
+        assert_equal([1, 9, 2, 'a', 2], value_.parts)
+        value_ = ::Versionomy.create([1, 9, 0], :rubygems)
+        assert_equal([1, 9], value_.parts)
+      end
+      
+      
       # Test marshalling
       
       def test_marshal

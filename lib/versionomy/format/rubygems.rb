@@ -66,7 +66,11 @@ module Versionomy
       module ExtraMethods
         
         
-        # Returns true if the version is a prerelease version
+        # Returns true if the version is a prerelease version-- that is,
+        # if any of the fields is non-numeric.
+        # 
+        # This behaves the same as the Gem::Version#prerelease? method
+        # in rubygems.
         
         def prerelease?
           values_array.any?{ |val_| val_.kind_of?(::String) }
@@ -76,6 +80,9 @@ module Versionomy
         # Returns the release for this version.
         # For example, converts "1.2.0.a.1" to "1.2.0".
         # Non-prerelease versions return themselves.
+        # 
+        # This behaves the same as the Gem::Version#release method
+        # in rubygems.
         
         def release
           values_ = []
@@ -84,6 +91,21 @@ module Versionomy
             values_ << val_
           end
           Value.new(values_, self.format, self.unparse_params)
+        end
+        
+        
+        # Returns a list of the field values, in field order, with
+        # trailing zeroes stripped off.
+        # 
+        # This behaves the same as the Gem::Version#parts method
+        # in rubygems.
+        
+        def parts
+          unless @parts
+            @parts = values_array
+            @parts.pop while @parts.size > 1 && @parts.last == 0
+          end
+          @parts
         end
         
         

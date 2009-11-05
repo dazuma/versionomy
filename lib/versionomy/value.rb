@@ -67,17 +67,17 @@ module Versionomy
       unless values_.kind_of?(::Hash) || values_.kind_of?(::Array)
         raise ::ArgumentError, "Expected hash or array but got #{values_.class}"
       end
-      @format = format_
-      @unparse_params = unparse_params_
-      @field_path = []
-      @values = {}
-      schema_ = @format.schema
+      @_format = format_
+      @_unparse_params = unparse_params_
+      @_field_path = []
+      @_values = {}
+      schema_ = @_format.schema
       field_ = schema_.root_field
       while field_
         value_ = values_.kind_of?(::Hash) ? values_[field_.name] : values_.shift
         value_ = value_ ? field_.canonicalize_value(value_) : field_.default_value
-        @field_path << field_
-        @values[field_.name] = value_
+        @_field_path << field_
+        @_values[field_.name] = value_
         field_ = field_.child(value_)
       end
       modules_ = schema_.modules
@@ -96,7 +96,7 @@ module Versionomy
     
     def _inspect  # :nodoc:
       "#<#{self.class}:0x#{object_id.to_s(16)} " +
-        @field_path.map{ |field_| "#{field_.name}=#{@values[field_.name].inspect}" }.join(' ')
+        @_field_path.map{ |field_| "#{field_.name}=#{@_values[field_.name].inspect}" }.join(' ')
     end
     
     
@@ -116,12 +116,12 @@ module Versionomy
     # Marshal this version number.
     
     def marshal_dump  # :nodoc:
-      format_name_ = Format.canonical_name_for(@format, true)
+      format_name_ = Format.canonical_name_for(@_format, true)
       unparsed_data_ = nil
-      if @format.respond_to?(:unparse_for_serialization)
-        unparsed_data_ = @format.unparse_for_serialization(self) rescue nil
+      if @_format.respond_to?(:unparse_for_serialization)
+        unparsed_data_ = @_format.unparse_for_serialization(self) rescue nil
       end
-      unparsed_data_ ||= @format.unparse(self) rescue nil
+      unparsed_data_ ||= @_format.unparse(self) rescue nil
       data_ = [format_name_]
       case unparsed_data_
       when ::Array
@@ -131,7 +131,7 @@ module Versionomy
         data_ << unparsed_data_
       else
         data_ << values_array
-        data_ << @unparse_params if @unparse_params
+        data_ << @_unparse_params if @_unparse_params
       end
       data_
     end
@@ -193,7 +193,7 @@ module Versionomy
     # Raises Versionomy::Errors::UnparseError if unparsing failed.
     
     def unparse(params_=nil)
-      @format.unparse(self, params_)
+      @_format.unparse(self, params_)
     end
     
     
@@ -201,7 +201,7 @@ module Versionomy
     # version number.
     
     def schema
-      @format.schema
+      @_format.schema
     end
     
     
@@ -209,7 +209,7 @@ module Versionomy
     # this version number.
     
     def format
-      @format
+      @_format
     end
     
     
@@ -217,15 +217,15 @@ module Versionomy
     # Returns nil if this value was not created using a parser.
     
     def unparse_params
-      @unparse_params ? @unparse_params.dup : nil
+      @_unparse_params ? @_unparse_params.dup : nil
     end
     
     
     # Iterates over each field, in field order, yielding the field name and value.
     
     def each_field
-      @field_path.each do |field_|
-        yield(field_, @values[field_.name])
+      @_field_path.each do |field_|
+        yield(field_, @_values[field_.name])
       end
     end
     
@@ -234,8 +234,8 @@ module Versionomy
     # Versionomy::Schema::Field object and value.
     
     def each_field_object  # :nodoc:
-      @field_path.each do |field_|
-        yield(field_, @values[field_.name])
+      @_field_path.each do |field_|
+        yield(field_, @_values[field_.name])
       end
     end
     
@@ -245,7 +245,7 @@ module Versionomy
     # order from most to least significant.
     
     def field_names
-      @field_path.map{ |field_| field_.name }
+      @_field_path.map{ |field_| field_.name }
     end
     
     
@@ -255,11 +255,11 @@ module Versionomy
     def has_field?(field_)
       case field_
       when Schema::Field
-        @field_path.include?(field_)
+        @_field_path.include?(field_)
       when ::Integer
-        @field_path.size > field_ && field_ >= 0
+        @_field_path.size > field_ && field_ >= 0
       when ::String, ::Symbol
-        @values.has_key?(field_.to_sym)
+        @_values.has_key?(field_.to_sym)
       else
         raise ::ArgumentError
       end
@@ -271,9 +271,9 @@ module Versionomy
     # or field index.
     
     def [](field_)
-      field_ = @field_path[field_] if field_.kind_of?(::Integer)
+      field_ = @_field_path[field_] if field_.kind_of?(::Integer)
       field_ = field_.name if field_.kind_of?(Schema::Field)
-      field_ ? @values[field_.to_sym] : nil
+      field_ ? @_values[field_.to_sym] : nil
     end
     
     
@@ -282,14 +282,14 @@ module Versionomy
     # order from most to least significant.
     
     def values_array
-      @field_path.map{ |field_| @values[field_.name] }
+      @_field_path.map{ |field_| @_values[field_.name] }
     end
     
     
     # Returns the value as a hash of values keyed by field name.
     
     def values_hash
-      @values.dup
+      @_values.dup
     end
     
     
@@ -299,19 +299,19 @@ module Versionomy
     # be modified.
     
     def bump(name_)
-      name_ = @field_path[name_] if name_.kind_of?(::Integer)
+      name_ = @_field_path[name_] if name_.kind_of?(::Integer)
       name_ = name_.name if name_.kind_of?(Schema::Field)
       return self unless name_
       name_ = name_.to_sym
-      return self unless @values.include?(name_)
+      return self unless @_values.include?(name_)
       values_ = []
-      @field_path.each do |field_|
-        oldval_ = @values[field_.name]
+      @_field_path.each do |field_|
+        oldval_ = @_values[field_.name]
         if field_.name == name_
           newval_ = field_.bump_value(oldval_)
           return self if newval_ == oldval_
           values_ << newval_
-          return Value.new(values_, @format, @unparse_params)
+          return Value.new(values_, @_format, @_unparse_params)
         else
           values_ << oldval_
         end
@@ -333,8 +333,8 @@ module Versionomy
     # the value.
     
     def change(values_={}, unparse_params_={})
-      unparse_params_ = @unparse_params.merge(unparse_params_) if @unparse_params
-      Value.new(@values.merge(values_), @format, unparse_params_)
+      unparse_params_ = @_unparse_params.merge(unparse_params_) if @_unparse_params
+      Value.new(@_values.merge(values_), @_format, unparse_params_)
     end
     
     
@@ -348,11 +348,11 @@ module Versionomy
       if format_.kind_of?(::String) || format_.kind_of?(::Symbol)
         format_ = Format.get(format_)
       end
-      return self if @format == format_
-      from_schema_ = @format.schema
+      return self if @_format == format_
+      from_schema_ = @_format.schema
       to_schema_ = format_.schema
       if from_schema_ == to_schema_
-        return Value.new(@values, format_, convert_params_)
+        return Value.new(@_values, format_, convert_params_)
       end
       conversion_ = Conversion.get(from_schema_, to_schema_, true)
       conversion_.convert_value(self, format_, convert_params_)
@@ -360,7 +360,7 @@ module Versionomy
     
     
     def hash  # :nodoc:
-      @hash ||= @values.hash
+      @_hash ||= @_values.hash
     end
     
     
@@ -371,12 +371,12 @@ module Versionomy
     
     def eql?(obj_)
       if obj_.kind_of?(::String)
-        obj_ = @format.parse(obj_) rescue nil
+        obj_ = @_format.parse(obj_) rescue nil
       end
       return false unless obj_.kind_of?(Value)
       index_ = 0
       obj_.each_field_object do |field_, value_|
-        return false if field_ != @field_path[index_] || value_ != @values[field_.name]
+        return false if field_ != @_field_path[index_] || value_ != @_values[field_.name]
         index_ += 1
       end
       true
@@ -402,18 +402,18 @@ module Versionomy
     
     def <=>(obj_)
       if obj_.kind_of?(::String)
-        obj_ = @format.parse(obj_)
+        obj_ = @_format.parse(obj_)
       end
       return nil unless obj_.kind_of?(Value)
-      if obj_.schema != @format.schema
+      if obj_.schema != @_format.schema
         begin
-          obj_ = obj_.convert(@format)
+          obj_ = obj_.convert(@_format)
         rescue
           return nil
         end
       end
       obj_.each_field_object do |field_, value_|
-        val_ = field_.compare_values(@values[field_.name], value_)
+        val_ = field_.compare_values(@_values[field_.name], value_)
         return val_ if val_ != 0
       end
       0

@@ -1,8 +1,8 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy parsing tests on standard schema
+# Versionomy basic tests on standard schema
 # 
-# This file contains tests for parsing on the standard schema
+# This file contains tests for the basic use cases on the standard schema
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -42,21 +42,50 @@ require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/versionomy.rb")
 module Versionomy
   module Tests  # :nodoc:
     
-    class TestCustomFormat < ::Test::Unit::TestCase  # :nodoc:
+    class TestStandardMisc < ::Test::Unit::TestCase  # :nodoc:
       
       
-      # Test parsing with custom format for patchlevel
+      # Test "prerelase?" custom method
       
-      def test_parsing_custom_patchlevel_format
-        format_ = ::Versionomy.default_format.modified_copy do
-          field(:patchlevel, :requires_previous_field => false) do
-            recognize_number(:delimiter_regexp => '\s?sp', :default_delimiter => ' SP')
-          end
-        end
-        value1_ = ::Versionomy.parse('2008 SP2', format_)
-        assert_equal(2, value1_.patchlevel)
-        value2_ = value1_.format.parse('2008 sp3')
-        assert_equal(3, value2_.patchlevel)
+      def test_method_prereleasep
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :release_type => :beta, :beta_version => 3)
+        assert_equal(true, value_.prerelease?)
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :release_type => :final, :patchlevel => 1)
+        assert_equal(false, value_.prerelease?)
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1)
+        assert_equal(false, value_.prerelease?)
+      end
+      
+      
+      # Test "relase" custom method
+      
+      def test_method_release
+        value_ = ::Versionomy.create(:major => 1, :minor => 9, :tiny => 2, :release_type => :alpha, :alpha_version => 4)
+        value2_ = value_.release
+        assert_equal([1, 9, 2, 0, :final, 0, 0], value2_.values_array)
+        value_ = ::Versionomy.create(:major => 1, :minor => 9, :tiny => 2)
+        value2_ = value_.release
+        assert_equal(value_, value2_)
+      end
+      
+      
+      # Test marshalling
+      
+      def test_marshal
+        value_ = ::Versionomy.create(:major => 1, :minor => 9, :tiny => 2, :release_type => :alpha, :alpha_version => 4)
+        str_ = ::Marshal.dump(value_)
+        value2_ = ::Marshal.load(str_)
+        assert_equal(value_, value2_)
+      end
+      
+      
+      # Test YAML
+      
+      def test_yaml
+        value_ = ::Versionomy.create(:major => 1, :minor => 9, :tiny => 2, :release_type => :alpha, :alpha_version => 4)
+        str_ = ::YAML.dump(value_)
+        value2_ = ::YAML.load(str_)
+        assert_equal(value_, value2_)
       end
       
       

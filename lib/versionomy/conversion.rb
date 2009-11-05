@@ -51,6 +51,12 @@ module Versionomy
   # it will use your conversion. You can register the same conversion object
   # for multiple pairs of schemas, but you can register only one conversion
   # object for any pair.
+  # 
+  # A common technique for doing conversions is to unparse the version to a
+  # string, and then parse it in the new format. Versionomy provides a tool,
+  # Versionomy::Conversion::Parsing, for performing such conversions. The
+  # conversions between the standard and rubygems formats uses this tool.
+  # See Versionomy::Conversion::Rubygems for annotated examples.
   
   module Conversion
     

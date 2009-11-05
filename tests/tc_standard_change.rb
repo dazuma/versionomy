@@ -36,19 +36,19 @@
 
 
 require 'test/unit'
-require File.expand_path("#{File.dirname(__FILE__)}/../lib/versionomy.rb")
+require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/versionomy.rb")
 
 
 module Versionomy
   module Tests  # :nodoc:
     
-    class TestStandardChange < Test::Unit::TestCase  # :nodoc:
+    class TestStandardChange < ::Test::Unit::TestCase  # :nodoc:
       
       
       # Test with a changed tiny
       
       def test_change_tiny
-        value_ = Versionomy.create(:major => 2, :tiny => 1, :tiny2 => 3, :release_type => :release_candidate, :release_candidate_version => 2)
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :tiny2 => 3, :release_type => :release_candidate, :release_candidate_version => 2)
         value_ = value_.change(:tiny => 4)
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
@@ -63,7 +63,7 @@ module Versionomy
       # Test with several changed fields
       
       def test_change_several
-        value_ = Versionomy.create(:major => 2, :tiny => 1, :tiny2 => 3, :release_type => :release_candidate, :release_candidate_version => 2)
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :tiny2 => 3, :release_type => :release_candidate, :release_candidate_version => 2)
         value_ = value_.change(:tiny => 4, :release_candidate_version => 5)
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
@@ -78,7 +78,7 @@ module Versionomy
       # Test with a changed release type
       
       def test_change_release_type
-        value_ = Versionomy.create(:major => 2, :tiny => 1, :tiny2 => 3, :release_type => :release_candidate, :release_candidate_version => 2)
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :tiny2 => 3, :release_type => :release_candidate, :release_candidate_version => 2)
         value_ = value_.change(:release_type => :beta)
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)

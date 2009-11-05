@@ -36,13 +36,13 @@
 
 
 require 'test/unit'
-require File.expand_path("#{File.dirname(__FILE__)}/../lib/versionomy.rb")
+require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/versionomy.rb")
 
 
 module Versionomy
   module Tests  # :nodoc:
     
-    class TestReadmeExamples < Test::Unit::TestCase  # :nodoc:
+    class TestReadmeExamples < ::Test::Unit::TestCase  # :nodoc:
       
       
       # Test the README file.
@@ -51,7 +51,7 @@ module Versionomy
       
       def test_readme_file
         binding_ = _get_binding
-        File.open("#{File.dirname(__FILE__)}/../README.rdoc") do |io_|
+        ::File.open("#{::File.dirname(__FILE__)}/../README.rdoc") do |io_|
           running_ = false
           buffer_ = ''
           buffer_start_line_ = nil
@@ -77,7 +77,7 @@ module Versionomy
             # At this point, we have an expects clause. First run any buffer
             # accumulated up to now.
             if buffer_.length > 0
-              Kernel.eval(buffer_, binding_, 'README.rdoc', buffer_start_line_)
+              ::Kernel.eval(buffer_, binding_, 'README.rdoc', buffer_start_line_)
               buffer_ = ''
               buffer_start_line_ = nil
             end
@@ -88,17 +88,17 @@ module Versionomy
             
             if expect_ =~ /^=> (.*)$/
               # Expect a value
-              expect_value_ = Kernel.eval($1, binding_, 'README.rdoc', io_.lineno)
-              actual_value_ = Kernel.eval(expr_, binding_, 'README.rdoc', io_.lineno)
+              expect_value_ = ::Kernel.eval($1, binding_, 'README.rdoc', io_.lineno)
+              actual_value_ = ::Kernel.eval(expr_, binding_, 'README.rdoc', io_.lineno)
               assert_equal(expect_value_, actual_value_,
                            "Values did not match on line #{io_.lineno} of README.rdoc")
               
             elsif expect_ =~ /^raises (.*)$/
               # Expect an exception to be raised
-              expect_error_ = Kernel.eval($1, binding_, 'README.rdoc', io_.lineno)
+              expect_error_ = ::Kernel.eval($1, binding_, 'README.rdoc', io_.lineno)
               got_error_ = false
               assert_raise(expect_error_) do
-                Kernel.eval(expr_, binding_, 'README.rdoc', io_.lineno)
+                ::Kernel.eval(expr_, binding_, 'README.rdoc', io_.lineno)
               end
               
             else

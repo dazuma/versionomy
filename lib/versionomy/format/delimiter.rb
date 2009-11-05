@@ -128,11 +128,11 @@ module Versionomy
       # 
       # <tt>:extra_characters</tt>::
       #   Determines what to do if the entire string cannot be consumed by
-      #   the parsing process. If set to <tt>:ignore</tt> (the default),
-      #   any extra characters are ignored. If set to <tt>:suffix</tt>,
-      #   the extra characters are set as the <tt>:suffix</tt> unparse
-      #   parameter and are thus appended to the end of the string when
-      #   unparsing takes place. If set to <tt>:error</tt>, causes a
+      #   the parsing process. If set to <tt>:ignore</tt>, any extra
+      #   characters are ignored. If set to <tt>:suffix</tt>, the extra
+      #   characters are set as the <tt>:suffix</tt> unparse parameter and
+      #   are thus appended to the end of the string when unparsing takes
+      #   place. If set to <tt>:error</tt> (the default), causes a
       #   Versionomy::Errors::ParseError to be raised if there are
       #   uninterpreted characters.
       
@@ -152,10 +152,12 @@ module Versionomy
         end
         if parse_params_[:string].length > 0
           case parse_params_[:extra_characters]
-          when :error
-            raise Errors::ParseError, "Extra characters: #{parse_params_[:string].inspect}"
+          when :ignore
+            # do nothing
           when :suffix
             unparse_params_[:suffix] = parse_params_[:string]
+          else
+            raise Errors::ParseError, "Extra characters: #{parse_params_[:string].inspect}"
           end
         end
         Value.new(values_, self, unparse_params_)
@@ -689,15 +691,15 @@ module Versionomy
           @style = opts_[:style]
           @default_value_optional = opts_[:default_value_optional]
           @regexp_options = opts_[:case_sensitive] ? nil : ::Regexp::IGNORECASE
-          @value_regexp = ::Regexp.new("^(#{value_regexp_})", @regexp_options)
+          @value_regexp = ::Regexp.new("\\A(#{value_regexp_})", @regexp_options)
           regexp_ = opts_[:delimiter_regexp] || '\.'
-          @delimiter_regexp = regexp_.length > 0 ? ::Regexp.new("^(#{regexp_})", @regexp_options) : nil
-          @full_delimiter_regexp = regexp_.length > 0 ? ::Regexp.new("^(#{regexp_})$", @regexp_options) : nil
+          @delimiter_regexp = regexp_.length > 0 ? ::Regexp.new("\\A(#{regexp_})", @regexp_options) : nil
+          @full_delimiter_regexp = regexp_.length > 0 ? ::Regexp.new("\\A(#{regexp_})\\z", @regexp_options) : nil
           regexp_ = opts_[:post_delimiter_regexp] || ''
-          @post_delimiter_regexp = regexp_.length > 0 ? ::Regexp.new("^(#{regexp_})", @regexp_options) : nil
-          @full_post_delimiter_regexp = regexp_.length > 0 ? ::Regexp.new("^(#{regexp_})$", @regexp_options) : nil
+          @post_delimiter_regexp = regexp_.length > 0 ? ::Regexp.new("\\A(#{regexp_})", @regexp_options) : nil
+          @full_post_delimiter_regexp = regexp_.length > 0 ? ::Regexp.new("\\A(#{regexp_})\\z", @regexp_options) : nil
           regexp_ = opts_[:expected_follower_regexp] || ''
-          @follower_regexp = regexp_.length > 0 ? ::Regexp.new("^(#{regexp_})", @regexp_options) : nil
+          @follower_regexp = regexp_.length > 0 ? ::Regexp.new("\\A(#{regexp_})", @regexp_options) : nil
           @default_delimiter = opts_[:default_delimiter] || '.'
           @default_post_delimiter = opts_[:default_post_delimiter] || ''
           @requires_previous_field = opts_.fetch(:requires_previous_field, true)
@@ -931,7 +933,7 @@ module Versionomy
           regexps_ = @mappings_in_order.map{ |map_| "(#{map_[0]})" }
           setup(field_, regexps_.join('|'), opts_)
           @mappings_in_order.each do |map_|
-            map_[0] = ::Regexp.new("^(#{map_[0]})", @regexp_options)
+            map_[0] = ::Regexp.new("\\A(#{map_[0]})", @regexp_options)
           end
         end
         

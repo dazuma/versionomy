@@ -36,19 +36,19 @@
 
 
 require 'test/unit'
-require File.expand_path("#{File.dirname(__FILE__)}/../lib/versionomy.rb")
+require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/versionomy.rb")
 
 
 module Versionomy
   module Tests  # :nodoc:
     
-    class TestRubygemsBasic < Test::Unit::TestCase  # :nodoc:
+    class TestRubygemsBasic < ::Test::Unit::TestCase  # :nodoc:
       
       
       # Test the default version value.
       
       def test_default_value
-        value_ = Versionomy.create(nil, :rubygems)
+        value_ = ::Versionomy.create(nil, :rubygems)
         assert_equal(1, value_.field0)
         assert_equal(0, value_.field1)
         assert_equal(0, value_.field2)
@@ -63,7 +63,7 @@ module Versionomy
       # Test an arbitrary value.
       
       def test_arbitrary_value
-        value_ = Versionomy.create([1, 9, 2, 'pre', 2], :rubygems)
+        value_ = ::Versionomy.create([1, 9, 2, 'pre', 2], :rubygems)
         assert_equal(1, value_.field0)
         assert_equal(9, value_.field1)
         assert_equal(2, value_.field2)
@@ -78,11 +78,11 @@ module Versionomy
       # Test comparison of numeric values.
       
       def test_numeric_comparison
-        value1_ = Versionomy.create([1, 9, 2], :rubygems)
-        value2_ = Versionomy.create([1, 9], :rubygems)
+        value1_ = ::Versionomy.create([1, 9, 2], :rubygems)
+        value2_ = ::Versionomy.create([1, 9], :rubygems)
         assert(value2_ < value1_)
-        value1_ = Versionomy.create([1, 9, 0], :rubygems)
-        value2_ = Versionomy.create([1, 9], :rubygems)
+        value1_ = ::Versionomy.create([1, 9, 0], :rubygems)
+        value2_ = ::Versionomy.create([1, 9], :rubygems)
         assert(value2_ == value1_)
       end
       
@@ -90,8 +90,8 @@ module Versionomy
       # Test comparison of string values.
       
       def test_string_comparison
-        value1_ = Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
-        value2_ = Versionomy.create([1, 9, 2, 'b', 1], :rubygems)
+        value1_ = ::Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
+        value2_ = ::Versionomy.create([1, 9, 2, 'b', 1], :rubygems)
         assert(value2_ > value1_)
       end
       
@@ -99,8 +99,8 @@ module Versionomy
       # Test comparison of numeric and string values.
       
       def test_numeric_and_string_comparison
-        value1_ = Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
-        value2_ = Versionomy.create([1, 9, 2, 1], :rubygems)
+        value1_ = ::Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
+        value2_ = ::Versionomy.create([1, 9, 2, 1], :rubygems)
         assert(value2_ > value1_)
       end
       
@@ -108,7 +108,7 @@ module Versionomy
       # Test parsing numeric.
       
       def test_parsing_numeric
-        value_ = Versionomy.parse('2.0.1.1.4.6', :rubygems)
+        value_ = ::Versionomy.parse('2.0.1.1.4.6', :rubygems)
         assert_equal([2, 0, 1, 1, 4, 6, 0, 0], value_.values_array)
         assert_equal('2.0.1.1.4.6', value_.unparse)
       end
@@ -117,7 +117,7 @@ module Versionomy
       # Test parsing with a string.
       
       def test_parsing_with_string
-        value_ = Versionomy.parse('1.9.2.pre.2', :rubygems)
+        value_ = ::Versionomy.parse('1.9.2.pre.2', :rubygems)
         assert_equal([1, 9, 2, 'pre', 2, 0, 0, 0], value_.values_array)
         assert_equal('1.9.2.pre.2', value_.unparse)
       end
@@ -126,7 +126,7 @@ module Versionomy
       # Test parsing with trailing zeros.
       
       def test_parsing_trailing_zeros
-        value_ = Versionomy.parse('2.0.0', :rubygems)
+        value_ = ::Versionomy.parse('2.0.0', :rubygems)
         assert_equal([2, 0, 0, 0, 0, 0, 0, 0], value_.values_array)
         assert_equal('2.0.0', value_.unparse)
         assert_equal('2.0.0.0.0', value_.unparse(:required_fields => [:field4]))
@@ -137,7 +137,7 @@ module Versionomy
       # Test bumping a numeric field.
       
       def test_bump_numeric
-        value_ = Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
+        value_ = ::Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
         value_ = value_.bump(:field2)
         assert_equal([1, 9, 3, 0, 0, 0, 0, 0], value_.values_array)
       end
@@ -146,7 +146,7 @@ module Versionomy
       # Test bumping a string field.
       
       def test_bump_string
-        value_ = Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
+        value_ = ::Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
         value_ = value_.bump(:field3)
         assert_equal([1, 9, 2, 'b', 0, 0, 0, 0], value_.values_array)
       end
@@ -155,9 +155,9 @@ module Versionomy
       # Test "prerelase?" custom method
       
       def test_method_prereleasep
-        value_ = Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
+        value_ = ::Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
         assert_equal(true, value_.prerelease?)
-        value_ = Versionomy.create([1, 9, 2, 2], :rubygems)
+        value_ = ::Versionomy.create([1, 9, 2, 2], :rubygems)
         assert_equal(false, value_.prerelease?)
       end
       
@@ -165,10 +165,10 @@ module Versionomy
       # Test "relase" custom method
       
       def test_method_release
-        value_ = Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
+        value_ = ::Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
         value2_ = value_.release
         assert_equal([1, 9, 2, 0, 0, 0, 0, 0], value2_.values_array)
-        value_ = Versionomy.create([1, 9, 2, 5, 2], :rubygems)
+        value_ = ::Versionomy.create([1, 9, 2, 5, 2], :rubygems)
         value2_ = value_.release
         assert_equal(value_, value2_)
       end
@@ -177,9 +177,19 @@ module Versionomy
       # Test marshalling
       
       def test_marshal
-        value_ = Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
+        value_ = ::Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
         str_ = ::Marshal.dump(value_)
         value2_ = ::Marshal.load(str_)
+        assert_equal(value_, value2_)
+      end
+      
+      
+      # Test YAML
+      
+      def test_yaml
+        value_ = ::Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
+        str_ = ::YAML.dump(value_)
+        value2_ = ::YAML.load(str_)
         assert_equal(value_, value2_)
       end
       

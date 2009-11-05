@@ -123,7 +123,7 @@ module Versionomy
               val_
             else
               val_ = val_.to_s
-              if val_ =~ /^\d*$/
+              if val_ =~ /\A\d*\z/
                 val_.to_i
               else
                 val_

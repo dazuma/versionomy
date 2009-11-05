@@ -36,19 +36,19 @@
 
 
 require 'test/unit'
-require File.expand_path("#{File.dirname(__FILE__)}/../lib/versionomy.rb")
+require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/versionomy.rb")
 
 
 module Versionomy
   module Tests  # :nodoc:
     
-    class TestStandardBump < Test::Unit::TestCase  # :nodoc:
+    class TestStandardBump < ::Test::Unit::TestCase  # :nodoc:
       
       
       # Test bumping a minor patchlevel.
       
       def test_bump_patchlevel_minor
-        value_ = Versionomy.create(:major => 2, :tiny => 1, :patchlevel => 3, :patchlevel_minor => 0)
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :patchlevel => 3, :patchlevel_minor => 0)
         value_ = value_.bump(:patchlevel_minor)
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
@@ -63,7 +63,7 @@ module Versionomy
       # Test bumping a major patchlevel.
       
       def test_bump_patchlevel
-        value_ = Versionomy.create(:major => 2, :tiny => 1, :patchlevel => 3, :patchlevel_minor => 1)
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :patchlevel => 3, :patchlevel_minor => 1)
         value_ = value_.bump(:patchlevel)
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
@@ -78,7 +78,7 @@ module Versionomy
       # Test bumping release type preview.
       
       def test_bump_preview_to_release
-        value_ = Versionomy.create(:major => 2, :tiny => 1, :release_type => :preview)
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :release_type => :preview)
         value_ = value_.bump(:release_type)
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
@@ -93,7 +93,7 @@ module Versionomy
       # Test bumping release type development.
       
       def test_bump_development_to_alpha
-        value_ = Versionomy.create(:major => 2, :tiny => 1, :release_type => :development, :development_version => 7)
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :release_type => :development, :development_version => 7)
         value_ = value_.bump(:release_type)
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
@@ -108,7 +108,7 @@ module Versionomy
       # Test bumping release type alpha.
       
       def test_bump_alpha_to_beta
-        value_ = Versionomy.create(:major => 2, :tiny => 1, :release_type => :alpha)
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :release_type => :alpha)
         value_ = value_.bump(:release_type)
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
@@ -123,7 +123,7 @@ module Versionomy
       # Test bumping release type release_candidate.
       
       def test_bump_release_candidate_to_release
-        value_ = Versionomy.create(:major => 2, :tiny => 1, :release_type => :release_candidate, :release_candidate_version => 2)
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :release_type => :release_candidate, :release_candidate_version => 2)
         value_ = value_.bump(:release_type)
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
@@ -138,7 +138,7 @@ module Versionomy
       # Test bumping tiny.
       
       def test_bump_tiny
-        value_ = Versionomy.create(:major => 2, :tiny => 1, :tiny2 => 3, :release_type => :release_candidate, :release_candidate_version => 2)
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :tiny2 => 3, :release_type => :release_candidate, :release_candidate_version => 2)
         value_ = value_.bump(:tiny)
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
@@ -153,7 +153,7 @@ module Versionomy
       # Test bumping major.
       
       def test_bump_major
-        value_ = Versionomy.create(:major => 2, :tiny => 1, :tiny2 => 3, :release_type => :release_candidate, :release_candidate_version => 2)
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :tiny2 => 3, :release_type => :release_candidate, :release_candidate_version => 2)
         value_ = value_.bump(:major)
         assert_equal(3, value_.major)
         assert_equal(0, value_.minor)

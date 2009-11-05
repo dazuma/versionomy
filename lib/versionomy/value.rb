@@ -34,6 +34,9 @@
 ;
 
 
+require 'yaml'
+
+
 module Versionomy
   
   
@@ -112,23 +115,72 @@ module Versionomy
     
     # Marshal this version number.
     
-    def marshal_dump
-      format_name_ = Format.canonical_name_for(@format)
-      unless format_name_
-        raise Errors::SerializationError, "Cannot marshal because the format is not registered"
+    def marshal_dump  # :nodoc:
+      format_name_ = Format.canonical_name_for(@format, true)
+      unparsed_data_ = nil
+      if @format.respond_to?(:unparse_for_serialization)
+        unparsed_data_ = @format.unparse_for_serialization(self) rescue nil
       end
-      [format_name_, @unparse_params, values_array]
+      unparsed_data_ ||= @format.unparse(self) rescue nil
+      data_ = [format_name_]
+      case unparsed_data_
+      when ::Array
+        data_ << unparsed_data_[0]
+        data_ << unparsed_data_[1] if unparsed_data_[1]
+      when ::String
+        data_ << unparsed_data_
+      else
+        data_ << values_array
+        data_ << @unparse_params if @unparse_params
+      end
+      data_
     end
     
     
     # Unmarshal this version number.
     
-    def marshal_load(data_)
-      format_ = Format.get(data_[0])
-      unless format_
-        raise Errors::SerializationError, "Cannot unmarshal because the format is not registered"
+    def marshal_load(data_)  # :nodoc:
+      format_ = Format.get(data_[0], true)
+      if data_[1].kind_of?(::String)
+        val_ = format_.parse(data_[1], data_[2])
+        initialize(val_.values_array, format_, val_.unparse_params)
+      else
+        initialize(data_[1], format_, data_[2])
       end
-      initialize(data_[2], format_, data_[1])
+    end
+    
+    
+    yaml_as "tag:danielazuma.com,2009:version"
+    
+    
+    def self.yaml_new(klass_, tag_, data_)  # :nodoc:
+      unless data_.kind_of?(::Hash)
+        raise ::YAML::TypeError, "Invalid version format: #{val_.inspect}"
+      end
+      format_ = Format.get(data_['format'], true)
+      value_ = data_['value']
+      if value_
+        format_.parse(value_, data_['parse_params'])
+      else
+        Value.new(format_, data_['fields'], data_['unparse_params'])
+      end
+    end
+    
+    
+    def to_yaml(opts_={})  # :nodoc:
+      data_ = marshal_dump
+      ::YAML::quick_emit(nil, opts_) do |out_|
+        out_.map(taguri, to_yaml_style) do |map_|
+          map_.add('format', data_[0])
+          if data_[1].kind_of?(::String)
+            map_.add('value', data_[1])
+            map_.add('parse_params', data_[2]) if data_[2]
+          else
+            map_.add('fields', data_[1])
+            map_.add('unparse_params', data_[2]) if data_[2]
+          end
+        end
+      end
     end
     
     

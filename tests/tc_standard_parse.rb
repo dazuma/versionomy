@@ -36,19 +36,19 @@
 
 
 require 'test/unit'
-require File.expand_path("#{File.dirname(__FILE__)}/../lib/versionomy.rb")
+require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/versionomy.rb")
 
 
 module Versionomy
   module Tests  # :nodoc:
     
-    class TestStandardParse < Test::Unit::TestCase  # :nodoc:
+    class TestStandardParse < ::Test::Unit::TestCase  # :nodoc:
       
       
       # Test parsing full.
       
       def test_parsing_full_release
-        value_ = Versionomy.parse('2.0.1.1-4.6')
+        value_ = ::Versionomy.parse('2.0.1.1-4.6')
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
         assert_equal(1, value_.tiny)
@@ -63,7 +63,7 @@ module Versionomy
       # Test parsing abbreviated.
       
       def test_parsing_abbrev_release
-        value_ = Versionomy.parse('2.0.1')
+        value_ = ::Versionomy.parse('2.0.1')
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
         assert_equal(1, value_.tiny)
@@ -80,7 +80,7 @@ module Versionomy
       # Test parsing with trailing zeros.
       
       def test_parsing_trailing_zeros
-        value_ = Versionomy.parse('2.0.0')
+        value_ = ::Versionomy.parse('2.0.0')
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
         assert_equal(0, value_.tiny)
@@ -95,7 +95,7 @@ module Versionomy
       # Test parsing preview.
       
       def test_parsing_preview
-        value_ = Versionomy.parse('2.0.1pre4')
+        value_ = ::Versionomy.parse('2.0.1pre4')
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
         assert_equal(1, value_.tiny)
@@ -111,7 +111,7 @@ module Versionomy
       # Test parsing alpha.
       
       def test_parsing_alpha
-        value_ = Versionomy.parse('2.0.1a4.1')
+        value_ = ::Versionomy.parse('2.0.1a4.1')
         assert_equal(2, value_.major)
         assert_equal(0, value_.minor)
         assert_equal(1, value_.tiny)
@@ -127,7 +127,7 @@ module Versionomy
       # Test parsing beta.
       
       def test_parsing_beta
-        value_ = Versionomy.parse('2.52.1b4.0')
+        value_ = ::Versionomy.parse('2.52.1b4.0')
         assert_equal(2, value_.major)
         assert_equal(52, value_.minor)
         assert_equal(1, value_.tiny)
@@ -143,20 +143,20 @@ module Versionomy
       # Test parsing beta alternates
       
       def test_parsing_beta_alternates
-        assert_equal(Versionomy.parse('2.52.1 beta4'), '2.52.1b4')
-        assert_equal(Versionomy.parse('2.52.1-b4'), '2.52.1b4')
-        assert_equal(Versionomy.parse('2.52.1.b4'), '2.52.1b4')
-        assert_equal(Versionomy.parse('2.52.1B4'), '2.52.1b4')
-        assert_equal(Versionomy.parse('2.52.1BETA4'), '2.52.1b4')
-        assert_equal(Versionomy.parse('2.52.1 Beta4'), '2.52.1b4')
-        assert_equal(Versionomy.parse('2.52.1 eta4'), '2.52.1')
+        assert_equal(::Versionomy.parse('2.52.1 beta4'), '2.52.1b4')
+        assert_equal(::Versionomy.parse('2.52.1-b4'), '2.52.1b4')
+        assert_equal(::Versionomy.parse('2.52.1.b4'), '2.52.1b4')
+        assert_equal(::Versionomy.parse('2.52.1B4'), '2.52.1b4')
+        assert_equal(::Versionomy.parse('2.52.1BETA4'), '2.52.1b4')
+        assert_equal(::Versionomy.parse('2.52.1 Beta4'), '2.52.1b4')
+        assert_equal(::Versionomy.parse('2.52.1 eta4', :extra_characters => :ignore), '2.52.1')
       end
       
       
       # Test parsing release candidate.
       
       def test_parsing_release_candidate
-        value_ = Versionomy.parse('0.2rc0')
+        value_ = ::Versionomy.parse('0.2rc0')
         assert_equal(0, value_.major)
         assert_equal(2, value_.minor)
         assert_equal(0, value_.tiny)
@@ -173,7 +173,7 @@ module Versionomy
       # Test unparsing a value that requires lookback.
       
       def test_unparsing_with_lookback
-        value_ = Versionomy.parse('2.0')
+        value_ = ::Versionomy.parse('2.0')
         value2_ = value_.change(:tiny2 => 1)
         assert_equal(1, value2_.tiny2)
         assert_equal('2.0.0.1', value2_.unparse)
@@ -186,7 +186,7 @@ module Versionomy
       # Test delimiter changes in a multi-form field.
       
       def test_multi_form_delimiter_changes
-        value_ = Versionomy.parse('2.0 preview 1')
+        value_ = ::Versionomy.parse('2.0 preview 1')
         assert_equal('2.0 preview 1', value_.to_s)
         value2_ = value_.change(:release_type => :final)
         assert_equal('2.0', value2_.to_s)
@@ -199,22 +199,31 @@ module Versionomy
       
       def test_patchlevel_separators
         expected_ = [1,9,1,0,:final,243,0]
-        assert_equal(expected_, Versionomy.parse('1.9.1-p243').values_array)
-        assert_equal(expected_, Versionomy.parse('1.9.1p243').values_array)
-        assert_equal(expected_, Versionomy.parse('1.9.1.p243').values_array)
-        assert_equal(expected_, Versionomy.parse('1.9.1 p243').values_array)
-        assert_equal(expected_, Versionomy.parse('1.9.1-243').values_array)
+        assert_equal(expected_, ::Versionomy.parse('1.9.1-p243').values_array)
+        assert_equal(expected_, ::Versionomy.parse('1.9.1p243').values_array)
+        assert_equal(expected_, ::Versionomy.parse('1.9.1.p243').values_array)
+        assert_equal(expected_, ::Versionomy.parse('1.9.1 p243').values_array)
+        assert_equal(expected_, ::Versionomy.parse('1.9.1-243').values_array)
       end
       
       
       # Test setting delimiters on unparse, including testing for illegal delimiters
       
       def test_unparse_with_custom_delimiters
-        value_ = Versionomy.parse('1.2b3')
+        value_ = ::Versionomy.parse('1.2b3')
         assert_equal('1.2.b.3', value_.unparse(:release_type_delim => '.', :release_type_postdelim => '.'))
         assert_equal('1.2b3', value_.unparse(:release_type_delim => '=', :release_type_postdelim => '*'))
-        value_ = Versionomy.parse('1.2-4')
+        value_ = ::Versionomy.parse('1.2-4')
         assert_equal('1.2-4', value_.unparse(:release_type_delim => '.', :release_type_postdelim => '.'))
+      end
+      
+      
+      # Test parse errors
+      
+      def test_parsing_errors
+        assert_raise(::Versionomy::Errors::ParseError) do
+          ::Versionomy.parse('2.52.1 eta4')
+        end
       end
       
       

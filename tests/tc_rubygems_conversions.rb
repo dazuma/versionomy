@@ -36,13 +36,13 @@
 
 
 require 'test/unit'
-require File.expand_path("#{File.dirname(__FILE__)}/../lib/versionomy.rb")
+require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/versionomy.rb")
 
 
 module Versionomy
   module Tests  # :nodoc:
     
-    class TestRubygemsConversions < Test::Unit::TestCase  # :nodoc:
+    class TestRubygemsConversions < ::Test::Unit::TestCase  # :nodoc:
       
       
       def setup
@@ -54,11 +54,11 @@ module Versionomy
       # Test simple conversion from standard to rubygems.
       
       def test_standard_to_rubygems_simple
-        value_ = Versionomy.parse('1.2')
+        value_ = ::Versionomy.parse('1.2')
         value2_ = value_.convert(:rubygems)
         assert_equal(@rubygems_format, value2_.format)
         assert_equal([1, 2, 0, 0, 0, 0, 0, 0], value2_.values_array)
-        value_ = Versionomy.parse('1.2.4.1')
+        value_ = ::Versionomy.parse('1.2.4.1')
         value2_ = value_.convert(:rubygems)
         assert_equal(@rubygems_format, value2_.format)
         assert_equal([1, 2, 4, 1, 0, 0, 0, 0], value2_.values_array)
@@ -68,15 +68,15 @@ module Versionomy
       # Test conversion from standard to rubygems including a patchlevel
       
       def test_standard_to_rubygems_with_patchlevel
-        value_ = Versionomy.parse('1.2-3')
+        value_ = ::Versionomy.parse('1.2-3')
         value2_ = value_.convert(:rubygems)
         assert_equal(@rubygems_format, value2_.format)
         assert_equal([1, 2, 3, 0, 0, 0, 0, 0], value2_.values_array)
-        value_ = Versionomy.parse('1.2p3')
+        value_ = ::Versionomy.parse('1.2p3')
         value2_ = value_.convert(:rubygems)
         assert_equal(@rubygems_format, value2_.format)
         assert_equal([1, 2, 3, 0, 0, 0, 0, 0], value2_.values_array)
-        value_ = Versionomy.parse('1.2c')
+        value_ = ::Versionomy.parse('1.2c')
         value2_ = value_.convert(:rubygems)
         assert_equal(@rubygems_format, value2_.format)
         assert_equal([1, 2, 3, 0, 0, 0, 0, 0], value2_.values_array)
@@ -86,11 +86,11 @@ module Versionomy
       # Test conversion from standard to rubygems with a beta version
       
       def test_standard_to_rubygems_beta
-        value_ = Versionomy.parse('1.2b3')
+        value_ = ::Versionomy.parse('1.2b3')
         value2_ = value_.convert(:rubygems)
         assert_equal(@rubygems_format, value2_.format)
         assert_equal([1, 2, 'b', 3, 0, 0, 0, 0], value2_.values_array)
-        value_ = Versionomy.parse('1.2 beta 3.4')
+        value_ = ::Versionomy.parse('1.2 beta 3.4')
         value2_ = value_.convert(:rubygems)
         assert_equal(@rubygems_format, value2_.format)
         assert_equal([1, 2, 'beta', 3, 4, 0, 0, 0], value2_.values_array)
@@ -100,11 +100,11 @@ module Versionomy
       # Test simple conversion from rubygems to standard.
       
       def test_rubygems_to_standard_simple
-        value_ = Versionomy.parse('1.2', :rubygems)
+        value_ = ::Versionomy.parse('1.2', :rubygems)
         value2_ = value_.convert(:standard)
         assert_equal(@standard_format, value2_.format)
         assert_equal([1, 2, 0, 0, :final, 0, 0], value2_.values_array)
-        value_ = Versionomy.parse('1.2.4.1', :rubygems)
+        value_ = ::Versionomy.parse('1.2.4.1', :rubygems)
         value2_ = value_.convert(:standard)
         assert_equal(@standard_format, value2_.format)
         assert_equal([1, 2, 4, 1, :final, 0, 0], value2_.values_array)
@@ -114,15 +114,15 @@ module Versionomy
       # Test conversion from rubygems to standard with a beta version
       
       def test_rubygems_to_standard_beta
-        value_ = Versionomy.parse('1.2.b.3', :rubygems)
+        value_ = ::Versionomy.parse('1.2.b.3', :rubygems)
         value2_ = value_.convert(:standard)
         assert_equal(@standard_format, value2_.format)
         assert_equal([1, 2, 0, 0, :beta, 3, 0], value2_.values_array)
-        value_ = Versionomy.parse('1.2.b3', :rubygems)
+        value_ = ::Versionomy.parse('1.2.b3', :rubygems)
         value2_ = value_.convert(:standard)
         assert_equal(@standard_format, value2_.format)
         assert_equal([1, 2, 0, 0, :beta, 3, 0], value2_.values_array)
-        value_ = Versionomy.parse('1.2.beta3', :rubygems)
+        value_ = ::Versionomy.parse('1.2.beta3', :rubygems)
         value2_ = value_.convert(:standard)
         assert_equal(@standard_format, value2_.format)
         assert_equal([1, 2, 0, 0, :beta, 3, 0], value2_.values_array)
@@ -132,12 +132,12 @@ module Versionomy
       # Test conversion from rubygems to standard with an expectation of failure
       
       def test_rubygems_to_standard_fail
-        value_ = Versionomy.parse('1.2.b.3.4.5', :rubygems)
-        assert_raise(Versionomy::Errors::ConversionError) do
+        value_ = ::Versionomy.parse('1.2.b.3.4.5', :rubygems)
+        assert_raise(::Versionomy::Errors::ConversionError) do
           value2_ = value_.convert(:standard)
         end
-        value_ = Versionomy.parse('1.2.c.3', :rubygems)
-        assert_raise(Versionomy::Errors::ConversionError) do
+        value_ = ::Versionomy.parse('1.2.c.3', :rubygems)
+        assert_raise(::Versionomy::Errors::ConversionError) do
           value2_ = value_.convert(:standard)
         end
       end
@@ -146,34 +146,34 @@ module Versionomy
       # Test equality comparisons between rubygems and standard
       
       def test_rubygems_to_standard_equality_comparison
-        assert_operator(Versionomy.parse('1.2.0', :rubygems), :==, Versionomy.parse('1.2'))
-        assert_operator(Versionomy.parse('1.2.b.3', :rubygems), :==, Versionomy.parse('1.2b3'))
+        assert_operator(::Versionomy.parse('1.2.0', :rubygems), :==, ::Versionomy.parse('1.2'))
+        assert_operator(::Versionomy.parse('1.2.b.3', :rubygems), :==, ::Versionomy.parse('1.2b3'))
       end
       
       
       # Test inequality comparisons between rubygems and standard
       
       def test_rubygems_to_standard_equality_comparison
-        assert_operator(Versionomy.parse('1.2.3', :rubygems), :<, Versionomy.parse('1.2.4'))
-        assert_operator(Versionomy.parse('1.2.b.3', :rubygems), :>, Versionomy.parse('1.2b2'))
-        assert_operator(Versionomy.parse('1.2', :rubygems), :>, Versionomy.parse('1.2b1'))
+        assert_operator(::Versionomy.parse('1.2.3', :rubygems), :<, ::Versionomy.parse('1.2.4'))
+        assert_operator(::Versionomy.parse('1.2.b.3', :rubygems), :>, ::Versionomy.parse('1.2b2'))
+        assert_operator(::Versionomy.parse('1.2', :rubygems), :>, ::Versionomy.parse('1.2b1'))
       end
       
       
       # Test equality comparisons between standard and rubygems
       
       def test_standard_to_rubygems_equality_comparison
-        assert_operator(Versionomy.parse('1.2.0'), :==, Versionomy.parse('1.2', :rubygems))
-        assert_operator(Versionomy.parse('1.2b3'), :==, Versionomy.parse('1.2.beta.3', :rubygems))
+        assert_operator(::Versionomy.parse('1.2.0'), :==, ::Versionomy.parse('1.2', :rubygems))
+        assert_operator(::Versionomy.parse('1.2b3'), :==, ::Versionomy.parse('1.2.beta.3', :rubygems))
       end
       
       
       # Test inequality comparisons between standard and rubygems
       
       def test_standard_to_rubygems_inequality_comparison
-        assert_operator(Versionomy.parse('1.2.4'), :>, Versionomy.parse('1.2.3', :rubygems))
-        assert_operator(Versionomy.parse('1.2b2'), :<, Versionomy.parse('1.2.beta.3', :rubygems))
-        assert_operator(Versionomy.parse('1.2b2'), :<, Versionomy.parse('1.2', :rubygems))
+        assert_operator(::Versionomy.parse('1.2.4'), :>, ::Versionomy.parse('1.2.3', :rubygems))
+        assert_operator(::Versionomy.parse('1.2b2'), :<, ::Versionomy.parse('1.2.beta.3', :rubygems))
+        assert_operator(::Versionomy.parse('1.2b2'), :<, ::Versionomy.parse('1.2', :rubygems))
       end
       
       

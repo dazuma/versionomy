@@ -358,7 +358,7 @@ module Versionomy
                              :delimiter_regexp => '(-|\.|\s?)p|-')
             recognize_letter(:style => :letter, :default_delimiter => '',
                              :delimiter_regexp => '-|\.|\s?',
-                             :expected_follower_regexp => '$')
+                             :expected_follower_regexp => '\z')
           end
           field(:patchlevel_minor) do
             recognize_number(:default_value_optional => true)

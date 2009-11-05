@@ -106,17 +106,9 @@ module Versionomy
       def self.create_rubygems_to_standard
         
         # We'll use a parsing conversion to do this conversion.
-        Conversion::Parsing.new do
-          
-          # The standard format generally will understand the rubygems
-          # format, except that the standard format supports only four
-          # fields (plus prerelease versions or patchlevel). So cause the
-          # parser to error out if rubygems unparses too many fields.
-          to_generate_parse_params do |convert_params_|
-            {:extra_characters => :error}
-          end
-          
-        end
+        # The standard format generally understands the rubygems format
+        # already, so we don't need to do any special configuration.
+        Conversion::Parsing.new
         
       end
       

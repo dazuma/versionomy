@@ -44,12 +44,14 @@ module Versionomy
     # 
     # This format doesn't actually do anything useful. It causes all strings
     # to parse to the schema's default value, and unparses all values to the
-    # empty string.
+    # empty string. Instead, the purpose here is to define the API for a
+    # format.
     # 
-    # Instead, the purpose here is to define the API for a format. All
-    # formats must define the methods +schema+, +parse+, and +unparse+.
+    # All formats must define the methods +schema+, +parse+, and +unparse+.
     # It is also recommended that formats define the <tt>===</tt> method,
-    # though this is not strictly required.
+    # though this is not strictly required. Finally, formats may optionally
+    # implement <tt>uparse_for_serialize</tt>.
+    # 
     # Formats need not extend this base class, as long as they duck-type
     # these methods.
     
@@ -98,6 +100,30 @@ module Versionomy
       
       def unparse(value_, params_=nil)
         ''
+      end
+      
+      
+      # An optional method that does unparsing especially for serialization.
+      # Implement this if normal unparsing is "lossy" and doesn't guarantee
+      # reconstruction of the version number. This method should attempt to
+      # unparse in such a way that the entire version value can be
+      # reconstructed from the unparsed string. Serialization routines will
+      # first attempt to call this method to unparse for serialization. If
+      # this method is not present, the normal unparse method will be used.
+      # 
+      # Return either the unparsed string, or an array consisting of the
+      # unparsed string and a hash of parse params to pass to the parser
+      # when the string is to be reconstructed. You may also either return
+      # nil or raise Versionomy::Errors::UnparseError if the unparsing
+      # cannot be done satisfactorily for serialization. In this case,
+      # serialization will be done using the raw value data rather than an
+      # unparsed string.
+      # 
+      # This default implementation just turns around and calls unparse.
+      # Thus it is equivalent to the method not being present at all.
+      
+      def unparse_for_serialization(value_)
+        unparse(value_)
       end
       
       

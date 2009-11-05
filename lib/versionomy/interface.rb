@@ -91,6 +91,10 @@ module Versionomy
     # is not registered.
     
     def create(values_=nil, format_=nil, unparse_params_=nil)
+      if format_.kind_of?(::Hash) && unparse_params_.nil?
+        unparse_params_ = format_
+        format_ = nil
+      end
       if format_.kind_of?(::String) || format_.kind_of?(::Symbol)
         format_ = Format.get(format_, true)
       end
@@ -115,6 +119,10 @@ module Versionomy
     # May raise Versionomy::Errors::ParseError if parsing failed.
     
     def parse(str_, format_=nil, parse_params_=nil)
+      if format_.kind_of?(::Hash) && parse_params_.nil?
+        parse_params_ = format_
+        format_ = nil
+      end
       if format_.kind_of?(::String) || format_.kind_of?(::Symbol)
         format_ = Format.get(format_, true)
       end

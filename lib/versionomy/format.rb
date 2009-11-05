@@ -53,7 +53,7 @@ module Versionomy
   # (e.g. alpha, beta, release candidate, etc.) forms and patchlevels.
   # 
   # You may also create your own formats, either by implementing the
-  # format contract (see Versionomy::Format::Base) or by using the
+  # format contract (see Versionomy::Format::Base), or by using the
   # Versionomy::Format::Delimiter tool, which can be used to construct
   # parsers for many version number formats.
   # 
@@ -88,11 +88,17 @@ module Versionomy
       
       # Register the given format under the given name.
       # 
+      # Valid names may contain only letters, digits, underscores, dashes,
+      # and periods.
+      # 
       # Raises Versionomy::Errors::FormatRedefinedError if the name has
       # already been defined.
       
       def register(name_, format_)
         name_ = name_.to_s
+        unless name_ =~ /^[\w.-]+$/
+          raise ::ArgumentError, "Illegal name: #{name_.inspect}"
+        end
         if @names_to_formats.include?(name_)
           raise Errors::FormatRedefinedError, name_
         end
@@ -103,10 +109,17 @@ module Versionomy
       
       # Get the canonical name for the given format, as a string.
       # This is the first name the format was registered under.
-      # Returns nil if this format was never registered.
+      # 
+      # If the given format was never registered, and strict is set to true,
+      # raises Versionomy::Errors::UnknownFormatError. If strict is set to
+      # false, returns nil if the given format was never registered.
       
-      def canonical_name_for(format_)
-        @formats_to_names[format_.object_id]
+      def canonical_name_for(format_, strict_=false)
+        name_ = @formats_to_names[format_.object_id]
+        if name_.nil? && strict_
+          raise Errors::UnknownFormatError
+        end
+        name_
       end
       
       

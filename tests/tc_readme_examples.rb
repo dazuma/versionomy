@@ -68,7 +68,7 @@ module Versionomy
             # a buffer to run all at once, because it might be code that
             # gets spread over multiple lines.
             delim_index_ = line_.index(' # ')
-            unless delim_index_
+            if !delim_index_ || line_[0, delim_index_].strip.length == 0
               buffer_start_line_ ||= io_.lineno
               buffer_ << line_
               next

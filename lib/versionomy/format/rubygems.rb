@@ -43,7 +43,9 @@ module Versionomy
     # This is identical to calling <tt>get('rubygems')</tt>.
     # 
     # The rubygems format is designed to be parse-compatible with the
-    # Gem::Version class used in rubygems.
+    # Gem::Version class used in rubygems. The only caveat is, whereas
+    # Gem::Version handles an arbitrary number of fields, this format is
+    # limited to a maximum of 8.
     # 
     # For the exact annotated definition of the rubygems schema and format,
     # see the source code for Versionomy::Format::Rubygems#create.

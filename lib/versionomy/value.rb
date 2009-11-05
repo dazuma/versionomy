@@ -153,6 +153,8 @@ module Versionomy
     yaml_as "tag:danielazuma.com,2009:version"
     
     
+    # Deserialize a version number from YAML
+    
     def self.yaml_new(klass_, tag_, data_)  # :nodoc:
       unless data_.kind_of?(::Hash)
         raise ::YAML::TypeError, "Invalid version format: #{val_.inspect}"
@@ -167,7 +169,9 @@ module Versionomy
     end
     
     
-    def to_yaml(opts_={})  # :nodoc:
+    # Serialize this version number to YAML format.
+    
+    def to_yaml(opts_={})
       data_ = marshal_dump
       ::YAML::quick_emit(nil, opts_) do |out_|
         out_.map(taguri, to_yaml_style) do |map_|
@@ -184,7 +188,7 @@ module Versionomy
     end
     
     
-    # Unparse this version number.
+    # Unparse this version number and return a string.
     # 
     # Raises Versionomy::Errors::UnparseError if unparsing failed.
     
@@ -193,14 +197,16 @@ module Versionomy
     end
     
     
-    # Return the schema defining the form of this version number
+    # Return the schema defining the structure and semantics of this
+    # version number.
     
     def schema
       @format.schema
     end
     
     
-    # Return the format defining the form of this version number
+    # Return the format defining the schema and formatting/parsing of
+    # this version number.
     
     def format
       @format
@@ -235,6 +241,8 @@ module Versionomy
     
     
     # Returns an array of recognized field names for this value, in field order.
+    # This is the order of the fields actually present in this value, in
+    # order from most to least significant.
     
     def field_names
       @field_path.map{ |field_| field_.name }
@@ -270,6 +278,8 @@ module Versionomy
     
     
     # Returns the value as an array of field values, in field order.
+    # This is the order of the fields actually present in this value, in
+    # order from most to least significant.
     
     def values_array
       @field_path.map{ |field_| @values[field_.name] }
@@ -285,15 +295,15 @@ module Versionomy
     
     # Returns a new version number created by bumping the given field. The
     # field may be specified as a field object, field name, or field index.
-    # Returns self if value could not be changed.
-    # Returns nil if the field was not recognized.
+    # Returns self unchanged if the field was not recognized or could not
+    # be modified.
     
     def bump(name_)
       name_ = @field_path[name_] if name_.kind_of?(::Integer)
       name_ = name_.name if name_.kind_of?(Schema::Field)
-      return nil unless name_
+      return self unless name_
       name_ = name_.to_sym
-      return nil unless @values.include?(name_)
+      return self unless @values.include?(name_)
       values_ = []
       @field_path.each do |field_|
         oldval_ = @values[field_.name]
@@ -310,7 +320,17 @@ module Versionomy
     end
     
     
-    # Returns a new version number created by changing the given field values.
+    # Returns a new version number created by cloning this version number
+    # and changing the given field values.
+    # 
+    # You should pass in a hash of field names to values. These are the
+    # fields to modify; any other fields will be left alone, unless they
+    # are implicitly changed by the modifications you are making.
+    # For example, changing the :release_type on a value using the standard
+    # format, may change which fields are present in the resulting value.
+    # 
+    # You may also pass a delta hash to modify the unparse params stored in
+    # the value.
     
     def change(values_={}, unparse_params_={})
       unparse_params_ = @unparse_params.merge(unparse_params_) if @unparse_params
@@ -318,7 +338,8 @@ module Versionomy
     end
     
     
-    # Returns this value converted to the given format.
+    # Attempts to convert this value to the given format, and returns the
+    # resulting value.
     # 
     # Raises Versionomy::Errors::ConversionError if the value could not
     # be converted.
@@ -343,8 +364,9 @@ module Versionomy
     end
     
     
-    # Returns true if this version number is equal to the given verison number.
-    # This type of equality means the schemas and values are the same.
+    # Returns true if this version number is equivalent to the given number.
+    # This type of equality means their schemas are compatible and their
+    # field values are equal.
     # Note that this is different from the definition of <tt>==</tt>.
     
     def eql?(obj_)
@@ -361,9 +383,10 @@ module Versionomy
     end
     
     
-    # Returns true if this version number is equal to the given verison number.
-    # This type of equality means that the values are the same, possibly after
-    # suitable automatic conversion of the RHS.
+    # Returns true if this version number is value-equal to the given number.
+    # This type of equality means that they are equivalent, or that it is
+    # possible to convert the RHS to the LHS's format, and that they would
+    # be equivalent after such a conversion has taken place.
     # Note that this is different from the definition of <tt>eql?</tt>.
     
     def ==(obj_)
@@ -371,7 +394,11 @@ module Versionomy
     end
     
     
-    # Compare this version number with the given version number.
+    # Compare this version number with the given version number,
+    # returning 0 if the two are value-equal, a negative number if the RHS
+    # is greater, or a positive number if the LHS is greater.
+    # The comparison may succeed even if the two have different schemas,
+    # if the RHS can be converted to the LHS's format.
     
     def <=>(obj_)
       if obj_.kind_of?(::String)
@@ -394,6 +421,8 @@ module Versionomy
     
     
     # Compare this version number with the given version number.
+    # The comparison may succeed even if the two have different schemas,
+    # if the RHS can be converted to the LHS's format.
     
     def <(obj_)
       val_ = (self <=> obj_)
@@ -405,6 +434,8 @@ module Versionomy
     
     
     # Compare this version number with the given version number.
+    # The comparison may succeed even if the two have different schemas,
+    # if the RHS can be converted to the LHS's format.
     
     def >(obj_)
       val_ = (self <=> obj_)

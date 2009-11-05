@@ -90,7 +90,7 @@ module Versionomy
       # Returns true if this schema is equivalent to the other schema.
       # Two schemas are equivalent if their root fields are the same--
       # which means that the entire field tree is the same-- and they
-      # include the same modules.
+      # include the same value modules.
       # Note that this is different from the definition of <tt>==</tt>.
       
       def eql?(obj_)
@@ -100,8 +100,9 @@ module Versionomy
       
       
       # Returns true if this schema is compatible with the other schema.
-      # Two schemas are equivalent if their root fields are the same--
-      # which means that the entire field tree is the same.
+      # Two schemas are compatible if their root fields are the same--
+      # which means that the entire field tree is the same. They may,
+      # however, include different value modules.
       # Note that this is different from the definition of <tt>eql?</tt>.
       
       def ==(obj_)

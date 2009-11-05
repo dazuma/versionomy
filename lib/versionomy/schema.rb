@@ -43,17 +43,20 @@ module Versionomy
   # The schema controls what fields are present in the version, how
   # version numbers are compared, what the default values are, and how
   # values can change. Version numbers with the same schema can be
-  # compared with one another, and version numbers can be converted to
-  # formats that share the same schema.
+  # compared with one another, and version numbers can be converted
+  # trivially to formats that share the same schema, without requiring a
+  # Conversion implementation.
   # 
   # At its simplest, a version number is defined as a sequence of fields,
   # each with a name and data type. These fields may be integer-valued,
   # string-valued, or symbolic, though most will probably be integers.
-  # Symbolic fields are useful, for example, if you want a field to specify
-  # the type of prerelease (e.g. "alpha", "beta", or "release candidate").
+  # Symbolic fields are enumerated types that are useful, for example, if
+  # you want a field to specify the type of prerelease (e.g. "alpha",
+  # "beta", or "release candidate").
   # 
-  # As a simple example, you could construct a schema for versions numbers
-  # of the form "major.minor.tiny" like this:
+  # As a simple conceptual example, you could construct a schema for
+  # version numbers of the form "major.minor.tiny" like this. (This is a
+  # conceptual diagram, not actual syntax.)
   # 
   #  ("major": integer), ("minor": integer), ("tiny": integer)
   # 

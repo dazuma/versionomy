@@ -8,36 +8,42 @@ numbers in the wide variety of versioning schemes in use.
 
 Let's be honest. Version numbers are not easy to deal with, and very
 seldom seem to be done right.
-Imagine the common case of testing the ruby version. Most of us, if we
+Imagine the common case of testing the Ruby version. Most of us, if we
 need to worry about Ruby VM compatibility, will do something like:
  
  do_something if RUBY_VERSION >= "1.8.7"
 
-Treating the version number as a string is all well and good, until it
-isn't. The above code works for Ruby 1.8.6, 1.8.7, 1.8.8, and 1.9.1. But
-it will fail if the version is "1.8.10".
+Treating the version number as a string works well enough, until it
+doesn't. The above code will do the right thing for Ruby 1.8.6, 1.8.7,
+1.8.8, and 1.9.1. But it will fail if the version is "1.8.10".
 
 There are a few version number classes out there that do better than
-treating version numbers as plain strings. Perhaps the most well known and
-often used is Gem::Version, part of rubygems. This class separates the
-version into fields and lets you manipulate and compare version numbers
-more robustly. It provides limited support for "prerelease" versions
-through using string-valued fields. However, it's still a little clumsy.
-A prerelease version has to be represented like this: "1.9.2.b.1" or
-"1.9.2.preview.2". Wouldn't it be nice to be able to parse more typical
-version number formats such as "1.9.2b1" and "1.9.2 preview-2"?
+treating version numbers as plain strings. One well-known class is
+Gem::Version, part of rubygems. This class separates the version into
+fields and lets you manipulate and compare version numbers more robustly.
+It provides limited support for "prerelease" versions through using
+string-valued fields as a bit of a hack. However, it's still a little
+clumsy. A prerelease version has to be represented like this: "1.9.2.b.1"
+or "1.9.2.preview.2". Wouldn't it be nice to be able to parse more typical
+version number formats such as "1.9.2b1" and "1.9.2 preview-2"? Wouldn't
+it be nice for a version like "1.9.2b1" to _understand_ that it's a "beta"
+version and behave accordingly?
 
-Yes you can!
+With Versionomy, you can!
 
 === Some examples
 
  require 'versionomy'
  
- v1 = Versionomy.parse('1.3.2')
+ # Create version numbers that understand their own semantics
+ v1 = Versionomy.create(:major => 1, :minor => 3, :tiny => 2)
  v1.major                                 # => 1
  v1.minor                                 # => 3
  v1.tiny                                  # => 2
+ v1.release_type                          # => :final
+ v1.patchlevel                            # => 0
  
+ # Parse version numbers, including common prerelease syntax
  v2 = Versionomy.parse('1.4a3')
  v2.major                                 # => 1
  v2.minor                                 # => 4
@@ -45,7 +51,9 @@ Yes you can!
  v2.release_type                          # => :alpha
  v2.alpha_version                         # => 3
  v2 > v1                                  # => true
+ v2.to_s                                  # => '1.4a3'
  
+ # Another parsing example.
  v3 = Versionomy.parse('1.4.0b2')
  v3.major                                 # => 1
  v3.minor                                 # => 4
@@ -56,29 +64,44 @@ Yes you can!
  v3 > v2                                  # => true
  v3.to_s                                  # => '1.4.0b2'
  
- v4 = v3.bump(:beta_version)
+ # You can bump any field
+ v4 = Versionomy.parse('1.4.0b2').bump(:beta_version)
  v4.to_s                                  # => '1.4.0b3'
+ v5 = v4.bump(:tiny)
+ v5.to_s                                  # => '1.4.1'
  
- v5 = v4.bump(:release_type)
- v5.to_s                                  # => '1.4.0rc1'
+ # Bumping the release type works as you would expect
+ v6 = Versionomy.parse('1.4.0b2').bump(:release_type)
+ v6.release_type                          # => :release_candidate
+ v6.to_s                                  # => '1.4.0rc1'
+ v7 = v6.bump(:release_type)
+ v7.release_type                          # => :final
+ v7.to_s                                  # => '1.4.0'
  
- v6 = v5.bump(:release_type)
- v6.to_s                                  # => '1.4.0'
- 
- v7 = v3.bump(:tiny)
- v7.to_s                                  # => '1.4.1'
- 
- v8 = v3.bump(:major)
+ # If a version has trailing zeros, it remembers how many fields to
+ # unparse; however, you can also change this.
+ v8 = Versionomy.parse('1.4.0b2').bump(:major)
  v8.to_s                                  # => '2.0.0'
  v8.unparse(:optional_fields => [:tiny])  # => '2.0'
+ v8.unparse(:required_fields => [:tiny2]) # => '2.0.0.0'
  
+ # Comparisons are semantic, so will behave as expected even if the
+ # formatting is set up differently.
  v9 = Versionomy.parse('2.0.0.0')
  v9.to_s                                  # => '2.0.0.0'
- v9 == v8                                 # => true
+ v9 == Versionomy.parse('2')              # => true
  
- v10 = v8.bump(:patchlevel)
+ # Patchlevels are supported when the release type is :final
+ v10 = Versionomy.parse('2.0.0').bump(:patchlevel)
+ v10.patchlevel                           # => 1
  v10.to_s                                 # => '2.0.0-1'
+ v11 = Versionomy.parse('2.0p1')
+ v11.patchlevel                           # => 1
+ v11.to_s                                 # => '2.0p1'
+ v11 == v10                               # => true
  
+ # You can create your own format from scratch or by modifying an
+ # existing format
  microsoft_format = Versionomy.default_format.modified_copy do
    field(:minor) do
      recognize_number(:default_value_optional => true,
@@ -86,12 +109,12 @@ Yes you can!
                       :default_delimiter => ' SP')
    end
  end
- v11 = microsoft_format.parse('2008 SP2')
- v11.major                                # => 2008
- v11.minor                                # => 2
- v11.tiny                                 # => 0
- v11.to_s                                 # => '2008 SP2'
- v11 == Versionomy.parse('2008.2')        # => true
+ v12 = microsoft_format.parse('2008 SP2')
+ v12.major                                # => 2008
+ v12.minor                                # => 2
+ v12.tiny                                 # => 0
+ v12.to_s                                 # => '2008 SP2'
+ v12 == Versionomy.parse('2008.2')        # => true
 
 === Feature list
 
@@ -107,7 +130,9 @@ custom formats.
 
 Finally, Versionomy also lets you to create alternate versioning "schemas".
 You can define any number of version number fields, and provide your own
-semantics for comparing, parsing, and modifying version numbers.
+semantics for comparing, parsing, and modifying version numbers. You can
+provide conversions from one schema to another. As an example, Versionomy
+provides a schema and formatter/parser matching Gem::Version.
 
 === Requirements
 

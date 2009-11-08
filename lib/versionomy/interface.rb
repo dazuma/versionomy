@@ -130,6 +130,30 @@ module Versionomy
       format_.parse(str_, parse_params_)
     end
     
+    
+    # Get the version of the given module as a Versionomy::Value.
+    # Attempts to find the version by querying the constants VERSION and
+    # VERSION_STRING. If a string is found, an attempt is made to parse it.
+    # Returns the version number, or nil if it wasn't found or wasn't
+    # parseable.
+    
+    def version_of(mod_)
+      if mod_.const_defined?(:VERSION)
+        version_ = mod_.const_get(:VERSION)
+      elsif mod_.const_defined?(:VERSION_STRING)
+        version_ = mod_.const_get(:VERSION_STRING)
+      else
+        version_ = nil
+      end
+      if version_.kind_of?(::String)
+        version_ = parse(version_, :standard) rescue nil
+      elsif !version_.kind_of?(Value)
+        version_ = nil
+      end
+      version_
+    end
+    
+    
   end
   
 end

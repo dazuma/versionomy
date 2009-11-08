@@ -34,12 +34,7 @@
 ;
 
 
-begin
-  require 'blockenspiel'
-rescue ::LoadError
-  require 'rubygems'
-  require 'blockenspiel'
-end
+require 'blockenspiel'
 
 
 dir_ = ::File.expand_path('versionomy', ::File.dirname(__FILE__))

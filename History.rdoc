@@ -1,3 +1,9 @@
+=== 0.2.1 / 2009-11-08
+
+* Added Versionomy#version_of.
+* Now lets Blockenspiel set its own VERSION instead of reaching into
+  Blockenspiel's namespace.
+
 === 0.2.0 / 2009-11-05
 
 * API CHANGE: Slight change to value comparison semantics. Value#eql? returns true only if the schemas are the same, whereas Value#== and the greater than and less than comparisons attempt to compare the semantic value, and thus may perform automatic schema conversion on the RHS.

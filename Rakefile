@@ -89,7 +89,7 @@ gemspec_ = Gem::Specification.new do |s_|
   s_.has_rdoc = true
   s_.test_files = FileList['tests/tc_*.rb']
   s_.platform = Gem::Platform::RUBY
-  s_.add_dependency('blockenspiel', '>= 0.3.0')
+  s_.add_dependency('blockenspiel', '>= 0.3.1')
 end
 Rake::GemPackageTask.new(gemspec_) do |task_|
   task_.need_zip = false

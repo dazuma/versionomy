@@ -138,7 +138,7 @@ provides a schema and formatter/parser matching Gem::Version.
 
 * Ruby 1.8.6 or later (1.8.7 recommended), Ruby 1.9.1 or later, or JRuby
   1.4 or later.
-* blockenspiel 0.3 or later.
+* blockenspiel 0.3.1 or later.
 
 === Installation
 
@@ -149,6 +149,8 @@ provides a schema and formatter/parser matching Gem::Version.
 * Test coverage is still a little skimpy. It is focused on the "standard"
   version number format and schema, but doesn't fully exercise all the
   capabilities of custom formats.
+* The standard format parser requires that "prerelease" versions have a
+  prerelease number. e.g. it accepts "1.9.2dev1" but not "1.9.2dev".
 
 === Development and support
 

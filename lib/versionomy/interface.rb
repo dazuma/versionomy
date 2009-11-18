@@ -154,6 +154,21 @@ module Versionomy
     end
     
     
+    # Get the ruby version as a Versionomy::Value, using the builtin
+    # constants RUBY_VERSION and RUBY_PATCHLEVEL.
+    
+    def ruby_version
+      unless @ruby_version
+        @ruby_version = parse(::RUBY_VERSION, :standard)
+        if @ruby_version.release_type == :final
+          @ruby_version = @ruby_version.change({:patchlevel => ::RUBY_PATCHLEVEL},
+            :patchlevel_required => true, :patchlevel_delim => '-p')
+        end
+      end
+      @ruby_version
+    end
+    
+    
   end
   
 end

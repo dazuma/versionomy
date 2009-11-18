@@ -1,8 +1,14 @@
+=== 0.2.2 / 2009-11-18
+
+* Standard format now supports certain kinds of prereleases without a prerelease number. e.g. "1.9.2dev" is interpreted as the same number as "1.9.2dev0".
+* Added Versionomy#ruby_version.
+* A field can specify a default_value for parsing, distinct from the one specified by the schema.
+* A field can specify requires_next_field to control whether the following field is required or optional.
+
 === 0.2.1 / 2009-11-08
 
 * Added Versionomy#version_of.
-* Now lets Blockenspiel set its own VERSION instead of reaching into
-  Blockenspiel's namespace.
+* Now lets Blockenspiel set its own VERSION instead of reaching into Blockenspiel's namespace.
 
 === 0.2.0 / 2009-11-05
 

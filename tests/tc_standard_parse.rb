@@ -93,6 +93,21 @@ module Versionomy
       end
       
       
+      # Test parsing major version only.
+      
+      def test_parsing_major_only
+        value_ = ::Versionomy.parse('2')
+        assert_equal(2, value_.major)
+        assert_equal(0, value_.minor)
+        assert_equal(0, value_.tiny)
+        assert_equal(0, value_.tiny2)
+        assert_equal(:final, value_.release_type)
+        assert_equal(0, value_.patchlevel)
+        assert_equal(0, value_.patchlevel_minor)
+        assert_equal('2', value_.unparse)
+      end
+      
+      
       # Test parsing preview.
       
       def test_parsing_preview
@@ -151,6 +166,7 @@ module Versionomy
         assert_equal(::Versionomy.parse('2.52.1BETA4'), '2.52.1b4')
         assert_equal(::Versionomy.parse('2.52.1 Beta4'), '2.52.1b4')
         assert_equal(::Versionomy.parse('2.52.1 eta4', :extra_characters => :ignore), '2.52.1')
+        assert_equal(::Versionomy.parse('2.52.1 Beta'), '2.52.1b0')
       end
       
       
@@ -167,7 +183,53 @@ module Versionomy
         assert_equal(0, value_.release_candidate_minor)
         assert_equal('0.2rc0', value_.unparse)
         assert_equal('0.2rc0.0', value_.unparse(:required_fields => [:release_candidate_minor]))
-        assert_equal('0.2rc0', value_.unparse(:optional_fields => [:release_candidate_version]))
+        assert_equal('0.2rc', value_.unparse(:optional_fields => [:release_candidate_version]))
+      end
+      
+      
+      # Test parsing release candidate changing to other prerelease.
+      # Ensures that :short style takes precedence over :long for parsing "rc".
+      
+      def test_parsing_release_candidate_type_change
+        value_ = ::Versionomy.parse('0.2rc1')
+        assert_equal(:release_candidate, value_.release_type)
+        assert_equal(1, value_.release_candidate_version)
+        assert_equal('0.2rc1', value_.unparse)
+        value_ = value_.change(:release_type => :beta)
+        assert_equal(:beta, value_.release_type)
+        assert_equal(1, value_.beta_version)
+        assert_equal('0.2b1', value_.unparse)
+        value_ = value_.change({:release_type => :beta}, :release_type_style => :long)
+        assert_equal(:beta, value_.release_type)
+        assert_equal(1, value_.beta_version)
+        assert_equal('0.2beta1', value_.unparse)
+      end
+      
+      
+      # Test parsing forms without a prerelease version
+      
+      def test_parsing_without_prerelease_version
+        value_ = ::Versionomy.parse('1.9.2dev')
+        assert_equal(value_.release_type, :development)
+        assert_equal(value_.development_version, 0)
+        assert_equal('1.9.2dev', value_.to_s)
+        value_ = value_.bump(:development_version)
+        assert_equal('1.9.2dev1', value_.to_s)
+      end
+      
+      
+      # Test parsing forms without a prerelease version.
+      # Ensures that :development_version prefers to be required.
+      
+      def test_unparsing_prerelease_version_0
+        value_ = ::Versionomy.parse('1.9.2dev1')
+        assert_equal(value_.release_type, :development)
+        assert_equal(value_.development_version, 1)
+        assert_equal('1.9.2dev1', value_.to_s)
+        value2_ = value_.change(:development_version => 0)
+        assert_equal('1.9.2dev0', value2_.to_s)
+        value2_ = value_.change({:development_version => 0}, :optional_fields => [:development_version])
+        assert_equal('1.9.2dev', value2_.to_s)
       end
       
       
@@ -212,10 +274,10 @@ module Versionomy
       
       def test_unparse_with_custom_delimiters
         value_ = ::Versionomy.parse('1.2b3')
-        assert_equal('1.2.b.3', value_.unparse(:release_type_delim => '.', :release_type_postdelim => '.'))
-        assert_equal('1.2b3', value_.unparse(:release_type_delim => '=', :release_type_postdelim => '*'))
+        assert_equal('1.2.b.3', value_.unparse(:release_type_delim => '.', :beta_version_delim => '.'))
+        assert_equal('1.2b3', value_.unparse(:release_type_delim => '=', :beta_version_delim => '*'))
         value_ = ::Versionomy.parse('1.2-4')
-        assert_equal('1.2-4', value_.unparse(:release_type_delim => '.', :release_type_postdelim => '.'))
+        assert_equal('1.2-4', value_.unparse(:release_type_delim => '.'))
       end
       
       

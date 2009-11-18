@@ -277,73 +277,87 @@ module Versionomy
           # syntax looks like "1.0a5". Long syntax looks more like
           # "1.0 Alpha 5". The parsed value retains knowledge of which style
           # it came from so it can be reconstructed when the value is unparsed.
-          # Finally, we turn requires_previous_field off because the release
+          # Note that we turn requires_previous_field off because the release
           # type syntax markers don't require any particular set of the core
           # version number fields to be present. "1.0a5" and "1.0.0.0a5" are
           # both valid version numbers.
           field(:release_type, :requires_previous_field => false,
                 :default_style => :short) do
-            # First check for "short form" syntax. Not that we support post-
-            # delimiters; that is, we recognize "1.0 pre-2" where the hyphen
-            # is a post-delimiter. Also notice that we expect prerelease types
-            # to be followed by a numeric prerelease version number.
-            recognize_regexp_map(:style => :short, :default_delimiter => '',
-                                 :delimiter_regexp => '-|\.|\s?',
-                                 :post_delimiter_regexp => '-|\.|\s?',
-                                 :expected_follower_regexp => '\d') do
-              map(:development, 'd')
-              map(:alpha, 'a')
-              map(:beta, 'b')
-              map(:release_candidate, 'rc')
-              map(:preview, 'pre')
-              # Note that we omit the value <tt>:final</tt>. This is because
-              # that value is signaled by the absence of any syntax in the
-              # version string, including the absence of any delimiters. So we
-              # just allow it to fall through to the default.
-            end
-            # Check for "long form" syntax. Note again that we omit :final.
+            # Some markers require a prerelease version (e.g. the 5 in
+            # "1.0a5") while others don't (e.g. "1.9.2dev"). This is because
+            # the syntax "1.0a" looks like a patchlevel syntax. So some of
+            # the following recognizers set requires_next_field while others
+            # do not.
+            # Also note that we omit the value <tt>:final</tt>. This is
+            # because that value is signaled by the absence of any syntax in
+            # the version string, including the absence of any delimiters.
+            # So we just allow it to fall through to the default.
+            
             recognize_regexp_map(:style => :long, :default_delimiter => '',
-                                 :delimiter_regexp => '-|\.|\s?',
-                                 :post_delimiter_regexp => '-|\.|\s?',
-                                 :expected_follower_regexp => '\d') do
+                                 :delimiter_regexp => '-|\.|\s?') do
               map(:development, 'dev')
               map(:alpha, 'alpha')
               map(:beta, 'beta')
-              map(:release_candidate, 'rc')
               map(:preview, 'preview')
+            end
+            recognize_regexp_map(:style => :short, :default_delimiter => '',
+                                 :delimiter_regexp => '-|\.|\s?') do
+              map(:release_candidate, 'rc')
+              map(:preview, 'pre')
+            end
+            recognize_regexp_map(:style => :long, :default_delimiter => '',
+                                 :delimiter_regexp => '-|\.|\s?') do
+              map(:release_candidate, 'rc')
+            end
+            recognize_regexp_map(:style => :short, :default_delimiter => '',
+                                 :delimiter_regexp => '-|\.|\s?',
+                                 :requires_next_field => true) do
+              map(:development, 'd')
+              map(:alpha, 'a')
+              map(:beta, 'b')
             end
           end
           
-          # The development version must appear in the string if it is present
-          # in the value, even if the value is 0. Similar for all the other
-          # prerelease version numbers: alpha, beta, release candidate, and
-          # preview. However, the minor fields are optional.
-          field(:development_version) do
-            recognize_number(:delimiter_regexp => '', :default_delimiter => '')
+          # The main prerelease version may sometimes be optional, so we
+          # mark it as optional here. If it is required, that will be
+          # signalled by requires_next_field on the release_type field.
+          # Minor prerelease versions are always optional.
+          # Note that we override the default_value (normally 1) and set
+          # it to 0 if a main prerelease version is not present. This is
+          # so schema-oriented operations like bumping will set the value
+          # to 1, while parsing a string will yield 0 when the field is
+          # missing (e.g. we want "1.9.2dev" to mean "1.9.2dev0".)
+          field(:development_version, :default_value => 0) do
+            recognize_number(:delimiter_regexp => '-|\.|\s?', :default_delimiter => '',
+                             :default_value_optional => true)
           end
           field(:development_minor) do
             recognize_number(:default_value_optional => true)
           end
-          field(:alpha_version) do
-            recognize_number(:delimiter_regexp => '', :default_delimiter => '')
+          field(:alpha_version, :default_value => 0) do
+            recognize_number(:delimiter_regexp => '-|\.|\s?', :default_delimiter => '',
+                             :default_value_optional => true)
           end
           field(:alpha_minor) do
             recognize_number(:default_value_optional => true)
           end
-          field(:beta_version) do
-            recognize_number(:delimiter_regexp => '', :default_delimiter => '')
+          field(:beta_version, :default_value => 0) do
+            recognize_number(:delimiter_regexp => '-|\.|\s?', :default_delimiter => '',
+                             :default_value_optional => true)
           end
           field(:beta_minor) do
             recognize_number(:default_value_optional => true)
           end
-          field(:release_candidate_version) do
-            recognize_number(:delimiter_regexp => '', :default_delimiter => '')
+          field(:release_candidate_version, :default_value => 0) do
+            recognize_number(:delimiter_regexp => '-|\.|\s?', :default_delimiter => '',
+                             :default_value_optional => true)
           end
           field(:release_candidate_minor) do
             recognize_number(:default_value_optional => true)
           end
-          field(:preview_version) do
-            recognize_number(:delimiter_regexp => '', :default_delimiter => '')
+          field(:preview_version, :default_value => 0) do
+            recognize_number(:delimiter_regexp => '-|\.|\s?', :default_delimiter => '',
+                             :default_value_optional => true)
           end
           field(:preview_minor) do
             recognize_number(:default_value_optional => true)
@@ -366,7 +380,8 @@ module Versionomy
           
           # By default, we require that at least the major and minor fields
           # appear in an unparsed version string.
-          default_unparse_params(:required_fields => [:minor])
+          default_unparse_params(:required_fields => [:minor, :development_version, :alpha_version,
+            :beta_version, :release_candidate_version, :preview_version])
         end
       end
       

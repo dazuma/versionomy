@@ -137,30 +137,69 @@ module Versionomy
       #   uninterpreted characters.
       
       def parse(string_, params_=nil)
-        values_ = {}
         parse_params_ = default_parse_params
         parse_params_.merge!(params_) if params_
-        parse_params_[:string] = string_
-        parse_params_[:previous_field_missing] = false
-        unparse_params_ = {}
-        field_ = @schema.root_field
-        while field_
+        parse_state_ = {
+          :backtrack => nil,
+          :string => string_,
+          :values => {},
+          :unparse_params => {},
+          :field => @schema.root_field,
+          :recognizer_index => 0,
+          :previous_field_missing => false
+        }
+        while (field_ = parse_state_[:field])
           handler_ = @field_handlers[field_.name]
-          v_ = handler_.parse(parse_params_, unparse_params_)
-          values_[field_.name] = v_
-          field_ = field_.child(v_)
+          recognizer_ = handler_.get_recognizer(parse_state_[:recognizer_index])
+          parse_data_ = nil
+          if recognizer_
+            parse_state_[:recognizer_index] += 1
+            parse_data_ = recognizer_.parse(parse_state_, parse_params_)
+            if parse_data_
+              parse_state_[:previous_field_missing] = false
+              if recognizer_.requires_next_field
+                parse_state_[:next_field_required] = true
+                parse_state_ = {
+                  :backtrack => parse_state_,
+                  :string => parse_state_[:string],
+                  :values => parse_state_[:values].dup,
+                  :unparse_params => parse_state_[:unparse_params].dup,
+                  :field => parse_state_[:field],
+                  :recognizer_index => 0,
+                  :previous_field_missing => false,
+                }
+              else
+                parse_state_[:next_field_required] = false
+              end
+            end
+          elsif parse_state_[:next_field_required]
+            parse_state_ = parse_state_[:backtrack]
+          else
+            parse_data_ = [handler_.default_value, nil, nil, nil]
+            parse_state_[:previous_field_missing] = true
+            parse_state_[:next_field_required] = false
+          end
+          if parse_data_
+            parse_state_[:values][field_.name] = parse_data_[0]
+            parse_state_[:string] = parse_data_[2] if parse_data_[2]
+            parse_state_[:unparse_params].merge!(parse_data_[3]) if parse_data_[3]
+            parse_state_[:field] = field_.child(parse_data_[0])
+            parse_state_[:recognizer_index] = 0
+            handler_.set_style_unparse_param(parse_data_[1], parse_state_[:unparse_params])
+          end
         end
-        if parse_params_[:string].length > 0
+        unparse_params_ = parse_state_[:unparse_params]
+        if parse_state_[:string].length > 0
           case parse_params_[:extra_characters]
           when :ignore
             # do nothing
           when :suffix
-            unparse_params_[:suffix] = parse_params_[:string]
+            unparse_params_[:suffix] = parse_state_[:string]
           else
-            raise Errors::ParseError, "Extra characters: #{parse_params_[:string].inspect}"
+            raise Errors::ParseError, "Extra characters: #{parse_state_[:string].inspect}"
           end
         end
-        Value.new(values_, self, unparse_params_)
+        Value.new(parse_state_[:values], self, unparse_params_)
       end
       
       
@@ -210,32 +249,32 @@ module Versionomy
           unparse_params_.merge!(params_)
           _interpret_field_lists(unparse_params_)
         end
-        unparse_params_.delete(:skipped_handler_list)
-        unparse_params_.delete(:required_for_later)
+        skipped_handler_list_ = nil
+        requires_next_field_ = false
         string_ = ''
         value_.each_field_object do |field_, val_|
           handler_ = @field_handlers[field_.name]
-          fragment_ = handler_.unparse(val_, unparse_params_)
-          if fragment_
-            list_ = unparse_params_.delete(:skipped_handler_list)
-            if list_ && handler_.requires_previous_field && !unparse_params_[:required_for_later]
-              unparse_params_[:required_for_later] = true
-              list_.each do |pair_|
-                frag_ = pair_[0].unparse(pair_[1], unparse_params_)
+          unparse_data_ = handler_.unparse(val_, unparse_params_, requires_next_field_)
+          if unparse_data_
+            if skipped_handler_list_ && handler_.requires_previous_field
+              skipped_handler_list_.each do |pair_|
+                frag_ = pair_[0].unparse(pair_[1], unparse_params_, true)
                 unless frag_
                   raise Errors::UnparseError, "Field #{field_.name} empty although a prerequisite for a later field"
                 end
-                string_ << frag_
+                string_ << frag_[0]
               end
-              unparse_params_[:required_for_later] = false
             end
-            string_ << fragment_
+            skipped_handler_list_ = nil
+            string_ << unparse_data_[0]
+            requires_next_field_ = unparse_data_[1]
           else
             if handler_.requires_previous_field
-              (unparse_params_[:skipped_handler_list] ||= []) << [handler_, val_]
+              (skipped_handler_list_ ||= []) << [handler_, val_]
             else
-              unparse_params_[:skipped_handler_list] = [[handler_, val_]]
+              skipped_handler_list_ = [[handler_, val_]]
             end
+            requires_next_field_ = false
           end
         end
         string_ << (unparse_params_[:suffix] || '')
@@ -280,14 +319,14 @@ module Versionomy
       def _interpret_field_lists(unparse_params_)  # :nodoc:
         fields_ = unparse_params_.delete(:required_fields)
         if fields_
-          fields_ = [fields_] unless fields_.kind_of?(Array)
+          fields_ = [fields_] unless fields_.kind_of?(::Array)
           fields_.each do |f_|
             unparse_params_["#{f_}_required".to_sym] = true
           end
         end
         fields_ = unparse_params_.delete(:optional_fields)
         if fields_
-          fields_ = [fields_] unless fields_.kind_of?(Array)
+          fields_ = [fields_] unless fields_.kind_of?(::Array)
           fields_.each do |f_|
             unparse_params_["#{f_}_required".to_sym] = false
           end
@@ -353,6 +392,10 @@ module Versionomy
         #   field is optional, but the first and second are required, so it
         #   will often be unparsed as "2.0".
         #   Default is false.
+        # <tt>:default_value</tt>::
+        #   The actual value set for this field if it is omitted from the
+        #   version string. Defaults to the field's schema default value,
+        #   but that can be overridden here.
         # <tt>:case_sensitive</tt>::
         #   If set to true, the regexps are case-sensitive. Default is false.
         # <tt>:delimiter_regexp</tt>::
@@ -391,6 +434,15 @@ module Versionomy
         #   parameter set to true. The default is true, so you must specify
         #   <tt>:requires_previous_field => false</tt> explicitly if you want
         #   a field not to require the previous field.
+        # <tt>:requires_next_field</tt>::
+        #   If set to true, this field's presence in a formatted version
+        #   string requires the presence of the next field. For example, in
+        #   the version "1.0a5", the release_type field requires the presence
+        #   of the alpha_version field, because if the "5" was missing, the
+        #   string "1.0a" looks like a patchlevel indicator. Often it is
+        #   easier to set default_value_optional in the next field, but this
+        #   option is also available if the behavior is dependent on the
+        #   value of this previous field.
         # <tt>:default_style</tt>::
         #   The default style for this field. This is the style used for
         #   unparsing if the value was not constructed by a parser or is
@@ -607,6 +659,7 @@ module Versionomy
           @field = field_
           @recognizers = []
           @requires_previous_field = default_opts_.fetch(:requires_previous_field, true)
+          @default_value = default_opts_[:default_value] || field_.default_value
           @default_style = default_opts_.fetch(:default_style, nil)
           @style_unparse_param_key = "#{field_.name}_style".to_sym
           if block_
@@ -631,37 +684,44 @@ module Versionomy
         end
         
         
-        # Parse this field from the string.
-        # This must either return a parsed value, or raise an error.
-        # It should also set the style in the unparse_params, if the style
-        # is determined not to be the default.
+        # Returns the default value set when this field is missing from a
+        # version string.
         
-        def parse(parse_params_, unparse_params_)
-          pair_ = nil
-          @recognizers.each do |recog_|
-            pair_ = recog_.parse(parse_params_, unparse_params_)
-            break if pair_
+        def default_value
+          @default_value
+        end
+        
+        
+        # Gets the given indexed recognizer. Returns nil if the index is out
+        # of range.
+        
+        def get_recognizer(index_)
+          @recognizers[index_]
+        end
+        
+        
+        # Finishes up parsing by setting the appropriate style field in the
+        # unparse_params, if needed.
+        
+        def set_style_unparse_param(style_, unparse_params_)
+          if style_ && style_ != @default_style
+            unparse_params_[@style_unparse_param_key] = style_
           end
-          parse_params_[:previous_field_missing] = pair_.nil?
-          pair_ ||= [@field.default_value, @default_style]
-          if pair_[1] && pair_[1] != @default_style
-            unparse_params_[@style_unparse_param_key] = pair_[1]
-          end
-          pair_[0]
         end
         
         
         # Unparse a string from this field value.
         # This may return nil if this field is not required.
         
-        def unparse(value_, unparse_params_)
+        def unparse(value_, unparse_params_, required_for_later_)
           style_ = unparse_params_[@style_unparse_param_key] || @default_style
           @recognizers.each do |recog_|
             if recog_.should_unparse?(value_, style_)
-              return recog_.unparse(value_, style_, unparse_params_)
+              fragment_ = recog_.unparse(value_, style_, unparse_params_, required_for_later_)
+              return fragment_ ? [fragment_, recog_.requires_next_field] : nil
             end
           end
-          unparse_params_[:required_for_later] ? '' : nil
+          required_for_later_ ? ['', false] : nil
         end
         
       end
@@ -690,6 +750,7 @@ module Versionomy
         def setup(field_, value_regexp_, opts_)
           @style = opts_[:style]
           @default_value_optional = opts_[:default_value_optional]
+          @default_value = opts_[:default_value] || field_.default_value
           @regexp_options = opts_[:case_sensitive] ? nil : ::Regexp::IGNORECASE
           @value_regexp = ::Regexp.new("\\A(#{value_regexp_})", @regexp_options)
           regexp_ = opts_[:delimiter_regexp] || '\.'
@@ -703,8 +764,8 @@ module Versionomy
           @default_delimiter = opts_[:default_delimiter] || '.'
           @default_post_delimiter = opts_[:default_post_delimiter] || ''
           @requires_previous_field = opts_.fetch(:requires_previous_field, true)
+          @requires_next_field = opts_.fetch(:requires_next_field, false)
           name_ = field_.name
-          @default_field_value = field_.default_value
           @delim_unparse_param_key = "#{name_}_delim".to_sym
           @post_delim_unparse_param_key = "#{name_}_postdelim".to_sym
           @required_unparse_param_key = "#{name_}_required".to_sym
@@ -716,9 +777,9 @@ module Versionomy
         # Returns either nil, indicating that this recognizer doesn't match
         # the given syntax, or a two element array of the value and style.
         
-        def parse(parse_params_, unparse_params_)
-          return nil if @requires_previous_field && parse_params_[:previous_field_missing]
-          string_ = parse_params_[:string]
+        def parse(parse_state_, parse_params_)
+          return nil if @requires_previous_field && parse_state_[:previous_field_missing]
+          string_ = parse_state_[:string]
           if @delimiter_regexp
             match_ = @delimiter_regexp.match(string_)
             return nil unless match_
@@ -743,9 +804,9 @@ module Versionomy
             match_ = @follower_regexp.match(string_)
             return nil unless match_
           end
-          value_ = parsed_value(value_, parse_params_, unparse_params_)
-          return nil unless value_
-          parse_params_[:string] = string_
+          parse_result_ = parsed_value(value_, parse_params_)
+          return nil unless parse_result_
+          unparse_params_ = parse_result_[1] || {}
           if delim_ != @default_delimiter
             unparse_params_[@delim_unparse_param_key] = delim_
           end
@@ -753,7 +814,15 @@ module Versionomy
             unparse_params_[@post_delim_unparse_param_key] = post_delim_
           end
           unparse_params_[@required_unparse_param_key] = true if @default_value_optional
-          [value_, @style]
+          [parse_result_[0], @style, string_, unparse_params_]
+        end
+        
+        
+        # Returns true if this field can appear in an unparsed string only
+        # if the next field also appears.
+        
+        def requires_next_field
+          @requires_next_field
         end
         
         
@@ -773,11 +842,10 @@ module Versionomy
         # It is guaranteed that this will be called only if should_unparse?
         # returns true.
         
-        def unparse(value_, style_, unparse_params_)
+        def unparse(value_, style_, unparse_params_, required_for_later_)
           str_ = nil
-          if !@default_value_optional || value_ != @default_field_value ||
-              unparse_params_[:required_for_later] ||
-              unparse_params_[@required_unparse_param_key]
+          if !@default_value_optional || value_ != @default_value ||
+              required_for_later_ || unparse_params_[@required_unparse_param_key]
           then
             str_ = unparsed_value(value_, style_, unparse_params_)
             if str_
@@ -816,8 +884,8 @@ module Versionomy
           setup(field_, '\d+', opts_)
         end
         
-        def parsed_value(value_, parse_params_, unparse_params_)
-          value_.to_i
+        def parsed_value(value_, parse_params_)
+          [value_.to_i, nil]
         end
         
         def unparsed_value(value_, style_, unparse_params_)
@@ -846,16 +914,14 @@ module Versionomy
           setup(field_, value_regexp_, opts_)
         end
         
-        def parsed_value(value_, parse_params_, unparse_params_)
+        def parsed_value(value_, parse_params_)
           value_ = value_.unpack('c')[0]  # Compatible with both 1.8 and 1.9
           if value_ >= 97 && value_ <= 122
-            unparse_params_[@case_unparse_param_key] = :lower
-            value_ - 96
+            [value_ - 96, {@case_unparse_param_key => :lower}]
           elsif value_ >= 65 && value_ <= 90
-            unparse_params_[@case_unparse_param_key] = :upper
-            value_ - 64
+            [value_ - 64, {@case_unparse_param_key => :upper}]
           else
-            0
+            [0, nil]
           end
         end
         
@@ -883,8 +949,8 @@ module Versionomy
           setup(field_, regexp_, opts_)
         end
         
-        def parsed_value(value_, parse_params_, unparse_params_)
-          value_
+        def parsed_value(value_, parse_params_)
+          [value_, nil]
         end
         
         def unparsed_value(value_, style_, unparse_params_)
@@ -905,8 +971,8 @@ module Versionomy
           @canonical = canonical_
         end
         
-        def parsed_value(value_, parse_params, unparse_params_)
-          @value
+        def parsed_value(value_, parse_params_)
+          [@value, nil]
         end
         
         def unparsed_value(value_, style_, unparse_params_)
@@ -937,9 +1003,9 @@ module Versionomy
           end
         end
         
-        def parsed_value(value_, parse_params, unparse_params_)
+        def parsed_value(value_, parse_params_)
           @mappings_in_order.each do |map_|
-            return map_[2] if map_[0].match(value_)
+            return [map_[2], nil] if map_[0].match(value_)
           end
           nil
         end

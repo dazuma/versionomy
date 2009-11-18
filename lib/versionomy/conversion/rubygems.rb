@@ -50,7 +50,7 @@ module Versionomy
       # and you should not need to call it again. It is documented, however,
       # so that you can inspect its source code from RDoc, since the source
       # contains useful examples of how to use the conversion DSLs.
-        
+      
       def self.create_standard_to_rubygems
         
         # We'll use a parsing conversion.
@@ -65,10 +65,14 @@ module Versionomy
             
             # If the standard format version has a prerelease notation,
             # make sure it is set off using a delimiter that the rubygems
-            # format can recognized. So instead of "1.0b2", we force the
+            # format can recognize. So instead of "1.0b2", we force the
             # unparsing to generate "1.0.b.2".
             params_[:release_type_delim] = '.'
-            params_[:release_type_postdelim] = '.'
+            params_[:development_version_delim] = '.'
+            params_[:alpha_version_delim] = '.'
+            params_[:beta_version_delim] = '.'
+            params_[:release_candidate_version_delim] = '.'
+            params_[:preview_version_delim] = '.'
             
             # If the standard format version has a patchlevel notation,
             # force it to use the default number rather than letter style.

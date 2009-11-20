@@ -270,6 +270,32 @@ module Versionomy
       end
       
       
+      # Test alphabetic patchlevels.
+      # In particular, make sure the parser can distinguish between these
+      # and the markers for prereleases.
+      
+      def test_patchlevel_alphabetic
+        value_ = ::Versionomy.parse('1.9a')
+        assert_equal([1, 9, 0, 0, :final, 1, 0], value_.values_array)
+        assert_equal('1.9a', value_.to_s)
+        value_ = ::Versionomy.parse('1.9b')
+        assert_equal([1, 9, 0, 0, :final, 2, 0], value_.values_array)
+        assert_equal('1.9b', value_.to_s)
+        value_ = ::Versionomy.parse('1.9d')
+        assert_equal([1, 9, 0, 0, :final, 4, 0], value_.values_array)
+        assert_equal('1.9d', value_.to_s)
+        value_ = ::Versionomy.parse('1.9p')
+        assert_equal([1, 9, 0, 0, :final, 16, 0], value_.values_array)
+        assert_equal('1.9p', value_.to_s)
+        value_ = ::Versionomy.parse('1.9r')
+        assert_equal([1, 9, 0, 0, :final, 18, 0], value_.values_array)
+        assert_equal('1.9r', value_.to_s)
+        value_ = ::Versionomy.parse('1.9u')
+        assert_equal([1, 9, 0, 0, :final, 21, 0], value_.values_array)
+        assert_equal('1.9u', value_.to_s)
+      end
+      
+      
       # Test setting delimiters on unparse, including testing for illegal delimiters
       
       def test_unparse_with_custom_delimiters

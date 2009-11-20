@@ -158,7 +158,6 @@ module Versionomy
             if parse_data_
               parse_state_[:previous_field_missing] = false
               if recognizer_.requires_next_field
-                parse_state_[:next_field_required] = true
                 parse_state_ = {
                   :backtrack => parse_state_,
                   :string => parse_state_[:string],
@@ -167,6 +166,7 @@ module Versionomy
                   :field => parse_state_[:field],
                   :recognizer_index => 0,
                   :previous_field_missing => false,
+                  :next_field_required => true,
                 }
               else
                 parse_state_[:next_field_required] = false

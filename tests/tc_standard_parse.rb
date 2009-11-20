@@ -281,6 +281,30 @@ module Versionomy
       end
       
       
+      # Test java version formats
+      
+      def test_java_formats
+        value_ = ::Versionomy.parse('1.6.0_17')
+        assert_equal([1, 6, 0, 0, :final, 17, 0], value_.values_array)
+        assert_equal('1.6.0_17', value_.to_s)
+        value_ = ::Versionomy.parse('6u17')
+        assert_equal([6, 0, 0, 0, :final, 17, 0], value_.values_array)
+        assert_equal('6u17', value_.to_s)
+      end
+      
+      
+      # Test formats prefixed with "v"
+      
+      def test_v_prefix
+        value_ = ::Versionomy.parse('v1.2')
+        assert_equal([1, 2, 0, 0, :final, 0, 0], value_.values_array)
+        assert_equal('v1.2', value_.to_s)
+        value_ = ::Versionomy.parse('V 2.3')
+        assert_equal([2, 3, 0, 0, :final, 0, 0], value_.values_array)
+        assert_equal('V 2.3', value_.to_s)
+      end
+      
+      
       # Test parse errors
       
       def test_parsing_errors

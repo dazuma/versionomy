@@ -247,9 +247,10 @@ module Versionomy
         format_ = Format::Delimiter.new(schema_) do
           
           # All version number strings must start with the major version.
-          # Unlike other fields, it is not preceded by any delimiter.
+          # Unlike other fields, it is not preceded by the usual "dot"
+          # delimiter, but it can be preceded by a "v" indicator.
           field(:major) do
-            recognize_number(:delimiter_regexp => '', :default_delimiter => '')
+            recognize_number(:delimiter_regexp => '(v\s?)?', :default_delimiter => '')
           end
           
           # The remainder of the core version number are represented as
@@ -369,7 +370,7 @@ module Versionomy
           field(:patchlevel, :requires_previous_field => false,
                 :default_value_optional => true, :default_style => :number) do
             recognize_number(:style => :number, :default_delimiter => '-',
-                             :delimiter_regexp => '(-|\.|\s?)p|-')
+                             :delimiter_regexp => '(-|\.|\s?)(p|u)|-|_')
             recognize_letter(:style => :letter, :default_delimiter => '',
                              :delimiter_regexp => '-|\.|\s?',
                              :expected_follower_regexp => '\z')

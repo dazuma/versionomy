@@ -93,6 +93,18 @@ module Versionomy
       end
       
       
+      # Test conversion from standard to rubygems with a "v" prefix
+      
+      def test_standard_to_rubygems_with_v
+        value_ = ::Versionomy.parse('v1.2b3')
+        value2_ = value_.convert(:rubygems)
+        assert_equal([1, 2, 'b', 3, 0, 0, 0, 0], value2_.values_array)
+        value_ = ::Versionomy.parse('V 1.2b3')
+        value2_ = value_.convert(:rubygems)
+        assert_equal([1, 2, 'b', 3, 0, 0, 0, 0], value2_.values_array)
+      end
+      
+      
       # Test simple conversion from rubygems to standard.
       
       def test_rubygems_to_standard_simple

@@ -86,6 +86,10 @@ module Versionomy
             # the unparsing to generate "1.9.1-243".
             params_[:patchlevel_delim] = nil
             
+            # If the standard format version includes a "v" prefix, strip
+            # it because rubygems doesn't like it.
+            params_[:major_delim] = nil
+            
             params_
           end
           

@@ -1,3 +1,8 @@
+=== 0.2.3 / 2009-11-19
+
+* Recognize "_" and "u" as patchlevel delimiters, to support Sun's Java version numbers (e.g. "1.6.0_17", "6u17").
+* Recognize "v" prefix found on some version numbers (e.g. "v1.2")
+
 === 0.2.2 / 2009-11-18
 
 * Standard format now supports certain kinds of prereleases without a prerelease number. e.g. "1.9.2dev" is interpreted as the same number as "1.9.2dev0".

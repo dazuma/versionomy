@@ -1,3 +1,7 @@
+=== 0.2.5 / 2009-11-24
+
+* Preserve minimum width of a field, if the field has leading zeros. For example, "2.01".
+
 === 0.2.4 / 2009-11-19
 
 * Fixed a regression introduced in 0.2.2 where "1.0a" was being recognized as an alpha version rather than a patchlevel of 1, and similar for "1.0b" and "1.0d".

@@ -93,6 +93,45 @@ module Versionomy
       end
       
       
+      # Test parsing with leading zeros on a field.
+      
+      def test_parsing_field_leading_zeros
+        value_ = ::Versionomy.parse('2.09')
+        assert_equal(2, value_.major)
+        assert_equal(9, value_.minor)
+        assert_equal(0, value_.tiny)
+        assert_equal('2.09', value_.unparse)
+        value_ = value_.bump(:minor)
+        assert_equal(10, value_.minor)
+        assert_equal('2.10', value_.unparse)
+        value_ = value_.change(:minor => 123)
+        assert_equal(123, value_.minor)
+        assert_equal('2.123', value_.unparse)
+        value_ = value_.change(:minor => 4)
+        assert_equal(4, value_.minor)
+        assert_equal('2.04', value_.unparse)
+        value_ = ::Versionomy.parse('2.00')
+        assert_equal(0, value_.minor)
+        assert_equal('2.00', value_.unparse)
+      end
+      
+      
+      # Test unparsing with a minimum width.
+      
+      def test_unparsing_minimum_width_field
+        value_ = ::Versionomy.parse('2.0')
+        assert_equal('2.0', value_.unparse)
+        assert_equal('2.00', value_.unparse(:minor_width => 2))
+        assert_equal('02.0', value_.unparse(:major_width => 2))
+        value_ = value_.bump(:minor)
+        assert_equal('2.1', value_.unparse)
+        assert_equal('2.01', value_.unparse(:minor_width => 2))
+        value_ = value_.change(:minor => 12)
+        assert_equal('2.12', value_.unparse)
+        assert_equal('2.12', value_.unparse(:minor_width => 1))
+      end
+      
+      
       # Test parsing major version only.
       
       def test_parsing_major_only

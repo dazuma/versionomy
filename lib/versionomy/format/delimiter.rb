@@ -511,7 +511,15 @@ module Versionomy
         
         # Recognize a numeric-formatted integer field.
         # Using the opts parameter, you can override any of the field's
-        # overall parsing options.
+        # overall parsing options. You may also set the following additional
+        # options:
+        # 
+        # <tt>:strip_leading_zeros</tt>::
+        #   If false (the default), and a value has leading zeros, it is
+        #   assumed that the field has a minimum width, and unparsing will
+        #   always pad left with zeros to reach that minimum width. If set
+        #   to true, leading zeros are stripped from a value, and this
+        #   padding is never done.
         
         def recognize_number(opts_={})
           @recognizers << Delimiter::BasicIntegerRecognizer.new(@field, @default_opts.merge(opts_))
@@ -881,15 +889,25 @@ module Versionomy
       class BasicIntegerRecognizer < RecognizerBase  #:nodoc:
         
         def initialize(field_, opts_={})
+          @strip_leading_zeros = opts_[:strip_leading_zeros]
+          @width_unparse_param_key = "#{field_.name}_width".to_sym
           setup(field_, '\d+', opts_)
         end
         
         def parsed_value(value_, parse_params_)
-          [value_.to_i, nil]
+          if !@strip_leading_zeros && value_ =~ /^0\d/
+            [value_.to_i, {@width_unparse_param_key => value_.length}]
+          else
+            [value_.to_i, nil]
+          end
         end
         
         def unparsed_value(value_, style_, unparse_params_)
-          value_.to_s
+          if !@strip_leading_zeros && (width_ = unparse_params_[@width_unparse_param_key])
+            "%0#{width_.to_i}d" % value_
+          else
+            value_.to_s
+          end
         end
         
       end

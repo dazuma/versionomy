@@ -128,7 +128,7 @@ module Versionomy
           to_compare_type(:string) do |a_, b_|
             if a_.kind_of?(::Integer)
               if b_.kind_of?(::Integer)
-                a_ - b_
+                a_ <=> b_
               else
                 1
               end
@@ -173,6 +173,10 @@ module Versionomy
               end
             end
           end
+          
+          # Some field aliases providing alternate names for major fields
+          alias_field(:major, :field0)
+          alias_field(:minor, :field1)
           
           # Add the methods in this module to each value
           add_module(Format::Rubygems::ExtraMethods)
@@ -226,9 +230,114 @@ module Versionomy
     end
     
     
-    register('rubygems', Format::Rubygems.create) unless get('rubygems')
+    register('rubygems', Format::Rubygems.create, true)
     
     
   end
+  
+  
+  module Conversion
+    
+    
+    # This is a namespace for the implementation of the conversion between
+    # the rubygems and standard formats.
+    
+    module Rubygems
+      
+      
+      # Create the conversion from standard to rubygems format.
+      # This method is called internally when Versionomy initializes itself,
+      # and you should not need to call it again. It is documented, however,
+      # so that you can inspect its source code from RDoc, since the source
+      # contains useful examples of how to use the conversion DSLs.
+      
+      def self.create_standard_to_rubygems
+        
+        # We'll use a parsing conversion.
+        Conversion::Parsing.new do
+          
+          # We're going to modify how the standard format version is
+          # unparsed, so the rubygems format will have a better chance
+          # of parsing it.
+          to_modify_unparse_params do |params_, convert_params_|
+            
+            params_ ||= {}
+            
+            # If the standard format version has a prerelease notation,
+            # make sure it is set off using a delimiter that the rubygems
+            # format can recognize. So instead of "1.0b2", we force the
+            # unparsing to generate "1.0.b.2".
+            params_[:release_type_delim] = '.'
+            params_[:development_version_delim] = '.'
+            params_[:alpha_version_delim] = '.'
+            params_[:beta_version_delim] = '.'
+            params_[:release_candidate_version_delim] = '.'
+            params_[:preview_version_delim] = '.'
+            
+            # If the standard format version has a patchlevel notation,
+            # force it to use the default number rather than letter style.
+            # So instead of "1.2c", we force the unparsing to generate
+            # "1.2-3".
+            params_[:patchlevel_style] = nil
+            
+            # If the standard format version has a patchlevel notation,
+            # force it to use the default delimiter of "-" so the rubygems
+            # format will recognize it. So instead of "1.9.1p243", we force
+            # the unparsing to generate "1.9.1-243".
+            params_[:patchlevel_delim] = nil
+            
+            # If the standard format version includes a "v" prefix, strip
+            # it because rubygems doesn't like it.
+            params_[:major_delim] = nil
+            
+            params_
+          end
+          
+          # Standard formats sometimes allow hyphens and spaces in field
+          # delimiters, but the rubygems format requires periods. So modify
+          # the unparsed string to conform to rubygems's expectations.
+          to_modify_string do |str_, convert_params_|
+            str_.gsub(/[\.\s-]+/, '.')
+          end
+          
+        end
+        
+      end
+      
+      
+      # Create the conversion from rubygems to standard format.
+      # This method is called internally when Versionomy initializes itself,
+      # and you should not need to call it again. It is documented, however,
+      # so that you can inspect its source code from RDoc, since the source
+      # contains useful examples of how to use the conversion DSLs.
+      
+      def self.create_rubygems_to_standard
+        
+        # We'll use a parsing conversion.
+        Conversion::Parsing.new do
+          
+          # Handle the case where the rubygems version ends with a string
+          # field, e.g. "1.0.b". We want to treat this like "1.0b0" rather
+          # than "1.0-2" since the rubygems semantic states that this is a
+          # prerelease version. So we add 0 to the end of the parsed string
+          # if it ends in a letter.
+          to_modify_string do |str_, convert_params_|
+            str_.gsub(/([[:alpha:]])\z/, '\10')
+          end
+          
+        end
+        
+      end
+      
+      
+    end
+    
+    
+    register(:standard, :rubygems, Conversion::Rubygems.create_standard_to_rubygems, true)
+    register(:rubygems, :standard, Conversion::Rubygems.create_rubygems_to_standard, true)
+    
+    
+  end
+  
   
 end

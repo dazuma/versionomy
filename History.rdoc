@@ -1,3 +1,12 @@
+=== 0.3.0 / 2009-12-??
+
+* Alpha release, opened for public feedback
+* Autoloading of format definitions using a load path.
+* Format and conversion registry/lookup is now thread-safe.
+* Implemented resetting a particular field in the value.
+* Implemented aliases for field names.
+* Documentation updates
+
 === 0.2.5 / 2009-11-24
 
 * Preserve minimum width of a field, if the field has leading zeros. For example, "2.01".

@@ -71,8 +71,8 @@ module Versionomy
       @_unparse_params = unparse_params_
       @_field_path = []
       @_values = {}
-      schema_ = @_format.schema
-      field_ = schema_.root_field
+      values_ = _canonicalize_values_hash(values_) if values_.kind_of?(::Hash)
+      field_ = @_format.schema.root_field
       while field_
         value_ = values_.kind_of?(::Hash) ? values_[field_.name] : values_.shift
         value_ = value_ ? field_.canonicalize_value(value_) : field_.default_value
@@ -80,7 +80,7 @@ module Versionomy
         @_values[field_.name] = value_
         field_ = field_.child(value_)
       end
-      modules_ = schema_.modules
+      modules_ = @_format.schema.modules
       extend(*modules_) if modules_.size > 0
     end
     
@@ -259,7 +259,7 @@ module Versionomy
       when ::Integer
         @_field_path.size > field_ && field_ >= 0
       when ::String, ::Symbol
-        @_values.has_key?(field_.to_sym)
+        @_values.has_key?(@_format.schema.canonical_name(field_))
       else
         raise ::ArgumentError
       end
@@ -271,9 +271,7 @@ module Versionomy
     # or field index.
     
     def [](field_)
-      field_ = @_field_path[field_] if field_.kind_of?(::Integer)
-      field_ = field_.name if field_.kind_of?(Schema::Field)
-      field_ ? @_values[field_.to_sym] : nil
+      @_values[_interpret_field(field_)]
     end
     
     
@@ -298,19 +296,38 @@ module Versionomy
     # Returns self unchanged if the field was not recognized or could not
     # be modified.
     
-    def bump(name_)
-      name_ = @_field_path[name_] if name_.kind_of?(::Integer)
-      name_ = name_.name if name_.kind_of?(Schema::Field)
-      return self unless name_
-      name_ = name_.to_sym
-      return self unless @_values.include?(name_)
+    def bump(field_)
+      name_ = _interpret_field(field_)
+      return self unless name_ && @_values.include?(name_)
       values_ = []
-      @_field_path.each do |field_|
-        oldval_ = @_values[field_.name]
-        if field_.name == name_
-          newval_ = field_.bump_value(oldval_)
+      @_field_path.each do |fld_|
+        oldval_ = @_values[fld_.name]
+        if fld_.name == name_
+          newval_ = fld_.bump_value(oldval_)
           return self if newval_ == oldval_
           values_ << newval_
+          return Value.new(values_, @_format, @_unparse_params)
+        else
+          values_ << oldval_
+        end
+      end
+      self
+    end
+    
+    
+    # Returns a new version number created by resetting the given field. The
+    # field may be specified as a field object, field name, or field index.
+    # Returns self unchanged if the field was not recognized or could not
+    # be modified.
+    
+    def reset(field_)
+      name_ = _interpret_field(field_)
+      return self unless name_ && @_values.include?(name_)
+      values_ = []
+      @_field_path.each do |fld_|
+        oldval_ = @_values[fld_.name]
+        if fld_.name == name_
+          values_ << fld_.default_value
           return Value.new(values_, @_format, @_unparse_params)
         else
           values_ << oldval_
@@ -334,6 +351,7 @@ module Versionomy
     
     def change(values_={}, unparse_params_={})
       unparse_params_ = @_unparse_params.merge(unparse_params_) if @_unparse_params
+      values_ = _canonicalize_values_hash(values_)
       Value.new(@_values.merge(values_), @_format, unparse_params_)
     end
     
@@ -453,6 +471,32 @@ module Versionomy
     
     def method_missing(symbol_)
       self[symbol_] || super
+    end
+    
+    
+    private
+    
+    def _interpret_field(field_)   # :nodoc:
+      case field_
+      when Schema::Field
+        @_format.schema.canonical_name(field_.name)
+      when ::Integer
+        field_ = @_field_path[field_]
+        field_ ? field_.name : nil
+      when ::String, ::Symbol
+        @_format.schema.canonical_name(field_)
+      end
+    end
+    
+    
+    def _canonicalize_values_hash(values_)  # :nodoc:
+      schema_ = @_format.schema
+      new_values_ = {}
+      values_.each do |k_,v_|
+        k_ = schema_.canonical_name(k_)
+        new_values_[k_] = v_ if k_
+      end
+      new_values_
     end
     
     

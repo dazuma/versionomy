@@ -34,6 +34,9 @@
 ;
 
 
+require 'thread'
+
+
 module Versionomy
   
   
@@ -60,7 +63,8 @@ module Versionomy
   
   module Conversion
     
-    @registry = ::Hash.new
+    @registry = {}
+    @mutex = ::Mutex.new
     
     class << self
       
@@ -95,7 +99,7 @@ module Versionomy
       
       def get(from_schema_, to_schema_, strict_=false)
         key_ = _get_key(from_schema_, to_schema_)
-        conversion_ = @registry[key_]
+        conversion_ = @mutex.synchronize{ @registry[key_] }
         if strict_ && conversion_.nil?
           raise Errors::UnknownConversionError
         end
@@ -114,12 +118,17 @@ module Versionomy
       # Raises Versionomy::Errors::UnknownFormatError if a format was
       # specified by name but the name is not known.
       
-      def register(from_schema_, to_schema_, conversion_)
+      def register(from_schema_, to_schema_, conversion_, silent_=false)
         key_ = _get_key(from_schema_, to_schema_)
-        if @registry.include?(key_)
-          raise Errors::ConversionRedefinedError
+        @mutex.synchronize do
+          if @registry.include?(key_)
+            unless silent_
+              raise Errors::ConversionRedefinedError
+            end
+          else
+            @registry[key_] = conversion_
+          end
         end
-        @registry[key_] = conversion_
       end
       
       

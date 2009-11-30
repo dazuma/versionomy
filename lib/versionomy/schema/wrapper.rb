@@ -55,10 +55,11 @@ module Versionomy
         ::Blockenspiel.invoke(block_, builder_)
         field_ = builder_._get_field
         modules_ = builder_._get_modules
+        aliases_ = builder_._get_aliases
       else
         modules_ = opts_[:modules] || []
       end
-      Schema::Wrapper.new(field_, modules_)
+      Schema::Wrapper.new(field_, modules_, aliases_)
     end
     
     
@@ -71,10 +72,18 @@ module Versionomy
       # This is a low-level method. Usually you should call
       # Versionomy::Schema#create instead.
       
-      def initialize(field_, modules_=[])
+      def initialize(field_, modules_=[], aliases_={})
         @root_field = field_
         @names = @root_field._descendants_by_name
         @modules = modules_
+        @aliases = {}
+        aliases_.each do |k_,v_|
+          k_ = k_.to_sym
+          v_ = v_.to_sym
+          if @names.include?(v_) && !@names.include?(k_)
+            @aliases[k_] = v_
+          end
+        end
       end
       
       
@@ -95,7 +104,7 @@ module Versionomy
       
       def eql?(obj_)
         return false unless obj_.kind_of?(Schema::Wrapper)
-        return @root_field == obj_.root_field && @modules == obj_.modules
+        return @root_field == obj_.root_field && @modules == obj_.modules && @aliases == obj_.aliases
       end
       
       
@@ -134,16 +143,29 @@ module Versionomy
       end
       
       
-      # Return the field with the given name, or nil if the given name
-      # is not found in this schema.
+      # Return the canonical field name given a name, or nil if the name
+      # is not recognized.
       
-      def field_named(name_)
-        @names[name_.to_sym]
+      def canonical_name(name_)
+        name_ = name_.to_sym
+        name_ = @aliases[name_] || name_
+        @names.include?(name_) ? name_ : nil
+      end
+      
+      
+      # Return the field with the given name, or nil if the given name
+      # is not found in this schema. If include_aliases_ is set to true,
+      # this also supports lookup by alias.
+      
+      def field_named(name_, include_aliases_=false)
+        name_ = name_.to_sym
+        name_ = @aliases[name_] || name_ if include_aliases_
+        field_ = @names[name_]
       end
       
       
       # Returns an array of names present in this schema, in no particular
-      # order.
+      # order. Does not include aliases.
       
       def names
         @names.keys
@@ -155,6 +177,13 @@ module Versionomy
       
       def modules
         @modules.dup
+      end
+      
+      
+      # Returns a hash of field name aliases.
+      
+      def aliases
+        @aliases.dup
       end
       
       
@@ -171,6 +200,7 @@ module Versionomy
       def initialize()  # :nodoc:
         @field = nil
         @modules = []
+        @aliases = {}
         @defaults = { :integer => {}, :string => {}, :symbol => {} }
       end
       
@@ -204,27 +234,63 @@ module Versionomy
       end
       
       
-      # Add a module to values that use this schema.
+      # Create a field alias.
+      
+      def alias_field(alias_name_, field_name_)
+        @aliases[alias_name_.to_sym] = field_name_.to_sym
+      end
+      
+      
+      # Add a module to the schema. All values that use this schema will
+      # include this module. This provides a way to add schema-specific
+      # capabilities to version numbers.
       
       def add_module(mod_)
         @modules << mod_
       end
       
       
+      # Provide a default bump procedure for the given type.
+      # The type should be <tt>:integer</tt>, <tt>:string</tt>, or
+      # <tt>:symbol</tt>. You must provide a block that takes a field value
+      # and returns the "bumped" value. This procedure will be used for
+      # all fields of this type, unless explicitly overridden by the field.
+      
       def to_bump_type(type_, &block_)
         @defaults[type_][:bump] = block_
       end
       
+      
+      # Provide a default compare procedure for the given type.
+      # The type should be <tt>:integer</tt>, <tt>:string</tt>, or
+      # <tt>:symbol</tt>. You must provide a block that takes two values
+      # and returns a standard comparison result-- that is, a negative
+      # integer if the first value is less, 0 if the values are equal, or a
+      # positive integer if the first value is greater. This procedure will
+      # be used for all fields of this type, unless explicitly overridden
+      # by the field.
       
       def to_compare_type(type_, &block_)
         @defaults[type_][:compare] = block_
       end
       
       
+      # Provide a default canonicalization procedure for the given type.
+      # The type should be <tt>:integer</tt>, <tt>:string</tt>, or
+      # <tt>:symbol</tt>. You must provide a block that takes a field value
+      # and returns the canonical value. This procedure will be used for
+      # all fields of this type, unless explicitly overridden by the field.
+      
       def to_canonicalize_type(type_, &block_)
         @defaults[type_][:canonicalize] = block_
       end
       
+      
+      # Provide a default value for the given type.
+      # The type should be <tt>:integer</tt>, <tt>:string</tt>, or
+      # <tt>:symbol</tt>. You must provide a default value that will be
+      # used for all fields of this type, unless explicitly overridden by
+      # the field.
       
       def default_value_for_type(type_, value_)
         @defaults[type_][:value] = value_
@@ -237,6 +303,10 @@ module Versionomy
       
       def _get_modules  # :nodoc:
         @modules
+      end
+      
+      def _get_aliases  # :nodoc:
+        @aliases
       end
       
       def _get_default_setting(type_, setting_)  # :nodoc:

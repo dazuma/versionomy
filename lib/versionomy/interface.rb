@@ -158,14 +158,14 @@ module Versionomy
     # constants RUBY_VERSION and RUBY_PATCHLEVEL.
     
     def ruby_version
-      unless @ruby_version
-        @ruby_version = parse(::RUBY_VERSION, :standard)
-        if @ruby_version.release_type == :final
-          @ruby_version = @ruby_version.change({:patchlevel => ::RUBY_PATCHLEVEL},
+      @ruby_version ||= begin
+        version_ = parse(::RUBY_VERSION, :standard)
+        if version_.release_type == :final
+          version_ = version_.change({:patchlevel => ::RUBY_PATCHLEVEL},
             :patchlevel_required => true, :patchlevel_delim => '-p')
         end
+        version_
       end
-      @ruby_version
     end
     
     

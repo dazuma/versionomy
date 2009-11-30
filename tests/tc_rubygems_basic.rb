@@ -76,6 +76,23 @@ module Versionomy
       end
       
       
+      # Test aliases
+      
+      def test_alias_fields
+        value_ = ::Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
+        assert_equal(1, value_.major)
+        assert_equal(9, value_.minor)
+      end
+      
+      
+      # Test construction using aliases
+      
+      def test_alias_field_construction
+        value_ = ::Versionomy.create({:major => 1, :minor => 9, :field2 => 2}, :rubygems)
+        assert_equal([1, 9, 2, 0, 0, 0, 0, 0], value_.values_array)
+      end
+      
+      
       # Test comparison of numeric values.
       
       def test_numeric_comparison
@@ -150,6 +167,24 @@ module Versionomy
         value_ = ::Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
         value_ = value_.bump(:field3)
         assert_equal([1, 9, 2, 'b', 0, 0, 0, 0], value_.values_array)
+      end
+      
+      
+      # Test bumping an alias field.
+      
+      def test_bump_alias
+        value_ = ::Versionomy.create([1, 9, 2, 'a', 2], :rubygems)
+        value_ = value_.bump(:minor)
+        assert_equal([1, 10, 0, 0, 0, 0, 0, 0], value_.values_array)
+      end
+      
+      
+      # Test changing an alias field.
+      
+      def test_change_alias
+        value_ = ::Versionomy.create([1, 8, 7, 'a', 2], :rubygems)
+        value_ = value_.change(:minor => 9)
+        assert_equal([1, 9, 7, 'a', 2, 0, 0, 0], value_.values_array)
       end
       
       

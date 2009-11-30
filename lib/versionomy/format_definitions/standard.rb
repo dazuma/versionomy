@@ -390,7 +390,7 @@ module Versionomy
     end
     
     
-    register('standard', Format::Standard.create) unless get('standard')
+    register('standard', Format::Standard.create, true)
     
     
   end

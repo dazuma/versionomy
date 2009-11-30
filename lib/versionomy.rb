@@ -47,13 +47,10 @@ includes_ = [
  'format',
  'format/base',
  'format/delimiter',
- 'format/standard',
- 'format/rubygems',
  'value',
  'conversion',
  'conversion/base',
  'conversion/parsing',
- 'conversion/rubygems',
  'interface',
  'version',
 ]

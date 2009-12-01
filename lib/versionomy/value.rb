@@ -150,7 +150,9 @@ module Versionomy
     end
     
     
+    # YAML tags. The last one is the canonical one.
     yaml_as "tag:danielazuma.com,2009:version"
+    yaml_as "tag:verse15.com,2009:version"
     
     
     # Deserialize a version number from YAML

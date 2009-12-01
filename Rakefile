@@ -45,7 +45,7 @@ require File.expand_path("#{File.dirname(__FILE__)}/lib/versionomy.rb")
 
 
 # Configuration
-extra_rdoc_files_ = ['README.rdoc', 'History.rdoc']
+extra_rdoc_files_ = ['README.rdoc', 'Versionomy.rdoc', 'History.rdoc']
 
 
 # Default task

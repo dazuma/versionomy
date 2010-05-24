@@ -131,8 +131,8 @@ module Versionomy
       
       
       # Create the standard format.
-      # This method is called internally when Versionomy initializes itself,
-      # and you should not need to call it again. It is documented, however,
+      # This method is called internally when Versionomy loads the standard
+      # format, and you should not need to call it again. It is documented
       # so that you can inspect its source code from RDoc, since the source
       # contains useful examples of how to use the schema and format
       # definition DSLs.

@@ -132,21 +132,41 @@ module Versionomy
     
     
     # Get the version of the given module as a Versionomy::Value.
-    # Attempts to find the version by querying the constants VERSION and
-    # VERSION_STRING. If a string is found, an attempt is made to parse it.
-    # Returns the version number, or nil if it wasn't found or wasn't
-    # parseable.
+    # Tries a number of common approaches to embedding version numbers into
+    # modules, such as string or array constants, submodules containing
+    # constants, or module method calls.
+    # Returns the version number, or nil if it wasn't found or couldn't
+    # be interpreted.
     
     def version_of(mod_)
-      if mod_.const_defined?(:VERSION)
-        version_ = mod_.const_get(:VERSION)
-      elsif mod_.const_defined?(:VERSION_STRING)
-        version_ = mod_.const_get(:VERSION_STRING)
-      else
-        version_ = nil
+      version_ = nil
+      [:VERSION, :VERSION_STRING, :GemVersion].each do |sym_|
+        if mod_.const_defined?(sym_)
+          version_ = mod_.const_get(sym_)
+          break
+        end
+      end
+      if version_.kind_of?(::Module)
+        if version_.const_defined?(:STRING)
+          version_ = version_.const_get(:STRING)
+        elsif version_.const_defined?(:VERSION)
+          version_ = version_.const_get(:VERSION)
+        elsif version_.const_defined?(:MAJOR) && version_.const_defined?(:MINOR) && version_.const_defined?(:TINY)
+          version_ = Value.new([version_.const_get(:MAJOR), version_.const_get(:MINOR), version_.const_get(:TINY)], :standard)
+        end
+      end
+      unless version_.kind_of?(::String) || version_.kind_of?(::Array) || version_.kind_of?(Value)
+        [:version, :release].each do |sym_|
+          if mod_.respond_to?(sym_)
+            version_ = mod_.send(sym_)
+            break
+          end
+        end
       end
       if version_.kind_of?(::String)
         version_ = parse(version_, :standard) rescue nil
+      elsif version_.kind_of?(::Array)
+        version_ = create(version_, :standard) rescue nil
       elsif !version_.kind_of?(Value)
         version_ = nil
       end

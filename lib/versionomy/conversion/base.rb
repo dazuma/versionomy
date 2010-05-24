@@ -51,6 +51,16 @@ module Versionomy
     class Base
       
       
+      # Create a conversion using a simple DSL.
+      # You can pass a block to the initializer that takes the same
+      # parameters as convert_value, and the conversion will use that block
+      # to perform the conversion.
+      
+      def initialize(&block_)
+        @_converter = block_
+      end
+      
+      
       # Convert the given value to the given format and return the converted
       # value.
       # 
@@ -60,7 +70,11 @@ module Versionomy
       # Raises Versionomy::Errors::ConversionError if the conversion failed.
       
       def convert_value(value_, format_, convert_params_=nil)
-        raise Errors::ConversionError, "Conversion not implemented"
+        if @_converter
+          @_converter.call(value_, format_, convert_params_)
+        else
+          raise Errors::ConversionError, "Conversion not implemented"
+        end
       end
       
       

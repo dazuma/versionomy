@@ -113,8 +113,8 @@ module Versionomy
       
       
       # Create the rubygems format.
-      # This method is called internally when Versionomy initializes itself,
-      # and you should not need to call it again. It is documented, however,
+      # This method is called internally when Versionomy loads the rubygems
+      # format, and you should not need to call it again. It is documented
       # so that you can inspect its source code from RDoc, since the source
       # contains useful examples of how to use the schema and format
       # definition DSLs.
@@ -182,8 +182,8 @@ module Versionomy
           add_module(Format::Rubygems::ExtraMethods)
         end
         
-        # The following is the definition of the standard format. It
-        # understands the standard schema defined above.
+        # The following is the definition of the rubygems format. It
+        # understands the rubygems schema defined above.
         format_ = Format::Delimiter.new(schema_) do
           
           # All version number strings must start with the major version.
@@ -246,8 +246,8 @@ module Versionomy
       
       
       # Create the conversion from standard to rubygems format.
-      # This method is called internally when Versionomy initializes itself,
-      # and you should not need to call it again. It is documented, however,
+      # This method is called internally when Versionomy loads the rubygems
+      # format, and you should not need to call it again. It is documented
       # so that you can inspect its source code from RDoc, since the source
       # contains useful examples of how to use the conversion DSLs.
       
@@ -306,8 +306,8 @@ module Versionomy
       
       
       # Create the conversion from rubygems to standard format.
-      # This method is called internally when Versionomy initializes itself,
-      # and you should not need to call it again. It is documented, however,
+      # This method is called internally when Versionomy loads the rubygems
+      # format, and you should not need to call it again. It is documented
       # so that you can inspect its source code from RDoc, since the source
       # contains useful examples of how to use the conversion DSLs.
       

@@ -60,6 +60,7 @@ module Versionomy
         if block_
           builder_ = Builder.new
           ::Blockenspiel.invoke(block_, builder_)
+          @original_value_modifier = builder_._get_original_value_modifier
           @string_modifier = builder_._get_string_modifier
           @unparse_params_modifier = builder_._get_unparse_params_modifier
           @parse_params_generator ||= builder_._get_parse_params_generator
@@ -77,6 +78,9 @@ module Versionomy
       
       def convert_value(value_, format_, convert_params_=nil)
         begin
+          if @original_value_modifier
+            value_ = @original_value_modifier.call(value_, convert_params_)
+          end
           unparse_params_ = value_.unparse_params
           if @unparse_params_modifier
             unparse_params_ = @unparse_params_modifier.call(unparse_params_, convert_params_)
@@ -110,6 +114,7 @@ module Versionomy
         
         
         def initialize  # :nodoc:
+          @original_value_modifier = nil
           @string_modifier = nil
           @parse_params_generator = nil
           @unparse_params_modifier = nil
@@ -138,6 +143,20 @@ module Versionomy
         end
         
         
+        # Provide a block that can modify the original value prior to it
+        # being unparsed. The block should take two parameters: first, the
+        # original value to be converted, and second, the convert_params
+        # passed to convert_value (which may be nil). It should return the
+        # value to be unparsed, which may be the same as the value
+        # originally passed in. This method may fail-fast by raising a
+        # Versionomy::Errors::ConversionError if it determines that the
+        # value passed in cannot be converted as is.
+        
+        def to_modify_original_value(&block_)
+          @original_value_modifier = block_
+        end
+        
+        
         # Provide a block that can modify the unparsed string prior to
         # it being passed to the parser. The block should take two
         # parameters: first, the string resulting from unparsing the old
@@ -149,6 +168,10 @@ module Versionomy
           @string_modifier = block_
         end
         
+        
+        def _get_original_value_modifier  # :nodoc:
+          @original_value_modifier
+        end
         
         def _get_string_modifier  # :nodoc:
           @string_modifier

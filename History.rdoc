@@ -1,3 +1,10 @@
+=== 0.4.0 / 2010-05-24
+
+* Included Semantic Version format (http://semver.org/)
+* Parsing conversions can now prescreen or premodify the original format value.
+* Expanded the module version detection to include VERSION submodules.
+* Some Rakefile fixes to match RDoc and Ruby 1.9 changes.
+
 === 0.3.0 / 2009-11-30
 
 * Alpha release, opened for public feedback
@@ -65,7 +72,6 @@
 
 === 0.1.0 / 2009-10-14
 
-* Alpha release, opened for public feedback
 * General rearchitecture. Better distinction between format and schema. Schema split into schema and field objects so the API makes more sense. Values are tighter and easier to use. Formats can now be built using a DSL. A bunch of API changes and bug fixes accompanied this-- too many to list.
 * In the standard schema, renamed release type "release" to "final". Also renamed release type "prerelease" to "preview", now sorted between "release candidate" and "final".
 * Documentation is much more complete.

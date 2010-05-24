@@ -1,6 +1,8 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy version
+# Versionomy basic tests on standard schema
+# 
+# This file contains tests for the basic use cases on the standard schema
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -31,15 +33,50 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
-;
+
+
+require 'rubygems'
+require 'test/unit'
+require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/versionomy.rb")
 
 
 module Versionomy
-  
-  # Current gem version, as a frozen string.
-  VERSION_STRING = '0.4.0'.freeze
-  
-  # Current gem version, as a Versionomy::Value.
-  VERSION = ::Versionomy.parse(VERSION_STRING, :standard)
-  
+  module Tests  # :nodoc:
+    
+    class TestVersionOf < ::Test::Unit::TestCase  # :nodoc:
+      
+      
+      # Gems to test if we can
+      GEM_LIST = {
+        'activerecord' => {:require => 'active_record', :module_name => 'ActiveRecord'},
+        'blockenspiel' => {:module_name => 'Blockenspiel'},
+        'bundler' => {:module_name => 'Bundler'},
+        'erubis' => {:module_name => 'Erubis'},
+      }
+      
+      
+      # Engine that tests each gem if it's installed
+      zero_ = ::Versionomy.create(:major => 0)
+      GEM_LIST.each do |name_, data_|
+        unless data_.kind_of?(::Hash)
+          data_ = {:module_name => data_}
+        end
+        begin
+          gem name_
+          require data_[:require] || name_
+        rescue ::LoadError
+          next
+        end
+        define_method("test_gem_#{name_}") do
+          mod_ = eval(data_[:module_name])
+          value_ = ::Versionomy.version_of(mod_)
+          assert_not_nil(value_)
+          assert_not_equal(zero_, value_)
+        end
+      end
+      
+      
+    end
+    
+  end
 end

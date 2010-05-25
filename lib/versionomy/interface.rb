@@ -131,6 +131,31 @@ module Versionomy
     end
     
     
+    # Convenience method for creating a version number using the Semantic
+    # Versioning format (see http://semver.org/).
+    # 
+    # You may pass a string to parse, or a hash with the following keys, all
+    # of which are optional:
+    # <tt>:major</tt>::
+    #   Major version number
+    # <tt>:minor</tt>::
+    #   Minor version number
+    # <tt>:patch</tt>::
+    #   Patch version number
+    # <tt>:prerelease_suffix</tt>::
+    #   A prerelease suffix (e.g. "b2")
+    # 
+    # May raise Versionomy::Errors::ParseError if parsing failed.
+    
+    def semver(input_)
+      if input_.kind_of?(::Hash)
+        create(input_, :semver)
+      else
+        parse(input_.to_s, :semver)
+      end
+    end
+    
+    
     # Get the version of the given module as a Versionomy::Value.
     # Tries a number of common approaches to embedding version numbers into
     # modules, such as string or array constants, submodules containing

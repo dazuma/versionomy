@@ -374,8 +374,20 @@ module Versionomy
       if from_schema_ == to_schema_
         return Value.new(@_values, format_, convert_params_)
       end
-      conversion_ = Conversion.get(from_schema_, to_schema_, true)
-      conversion_.convert_value(self, format_, convert_params_)
+      conversion_ = Conversion.get(from_schema_, to_schema_)
+      if conversion_
+        conversion_.convert_value(self, format_, convert_params_)
+      else
+        standard_format_ = Format.get(:standard)
+        conversion1_ = Conversion.get(from_schema_, standard_format_)
+        conversion2_ = Conversion.get(standard_format_, to_schema_)
+        if conversion1_ && conversion2_
+          value_ = conversion1_.convert_value(self, standard_format_, convert_params_)
+          conversion2_.convert_value(value_, format_, convert_params_)
+        else
+          raise Errors::UnknownConversionError
+        end
+      end
     end
     
     

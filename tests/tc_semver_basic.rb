@@ -144,6 +144,22 @@ module Versionomy
       end
       
       
+      # Test convenience parsing
+      
+      def test_convenience_parse
+        value_ = ::Versionomy.semver('2.0.1')
+        assert_equal([2, 0, 1, ''], value_.values_array)
+      end
+      
+      
+      # Test convenience creation from hash
+      
+      def test_convenience_create
+        value_ = ::Versionomy.semver(:major => 2, :patch => 1, :prerelease_suffix => 'b2')
+        assert_equal([2, 0, 1, 'b2'], value_.values_array)
+      end
+      
+      
       # Test bumping a numeric field.
       
       def test_bump_numeric

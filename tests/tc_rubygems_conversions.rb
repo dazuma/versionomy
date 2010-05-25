@@ -161,7 +161,7 @@ module Versionomy
       
       # Test inequality comparisons between rubygems and standard
       
-      def test_rubygems_to_standard_equality_comparison
+      def test_rubygems_to_standard_inequality_comparison
         assert_operator(::Versionomy.parse('1.2.3', :rubygems), :<, ::Versionomy.parse('1.2.4'))
         assert_operator(::Versionomy.parse('1.2.b.3', :rubygems), :>, ::Versionomy.parse('1.2b2'))
         assert_operator(::Versionomy.parse('1.2', :rubygems), :>, ::Versionomy.parse('1.2b1'))

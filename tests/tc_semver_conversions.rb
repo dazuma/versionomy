@@ -90,6 +90,16 @@ module Versionomy
       end
       
       
+      # Test conversion from standard to semver with an expectation of failure
+      
+      def test_standard_to_semver_fail
+        value_ = ::Versionomy.parse('1.2.3.4', :standard)
+        assert_raise(::Versionomy::Errors::ConversionError) do
+          value2_ = value_.convert(:semver)
+        end
+      end
+      
+      
       # Test simple conversion from semver to standard.
       
       def test_semver_to_standard_simple
@@ -113,6 +123,71 @@ module Versionomy
         value_ = ::Versionomy.parse('1.2.4beta3', :semver)
         value2_ = value_.convert(:standard)
         assert_equal([1, 2, 4, 0, :beta, 3, 0], value2_.values_array)
+      end
+      
+      
+      # Test conversion from rubygems to standard with an expectation of failure
+      
+      def test_semver_to_standard_fail
+        value_ = ::Versionomy.parse('1.2.3c4', :semver)
+        assert_raise(::Versionomy::Errors::ConversionError) do
+          value2_ = value_.convert(:standard)
+        end
+      end
+      
+      
+      # Test conversion when there aren't unparse_params
+      
+      def test_standard_to_semver_without_unparse_params
+        value_ = ::Versionomy.create([1,2,3], :standard)
+        value2_ = value_.convert(:semver)
+        assert_equal([1, 2, 3, ''], value2_.values_array)
+      end
+      
+      
+      # Test conversion between semver and rubygems
+      
+      def test_semver_and_rubygems
+        value_ = ::Versionomy.create([1,2,3], :semver)
+        value2_ = value_.convert(:rubygems)
+        assert_equal([1, 2, 3, 0, 0, 0, 0, 0], value2_.values_array)
+        value_ = ::Versionomy.create([1,2,3], :rubygems)
+        value2_ = value_.convert(:semver)
+        assert_equal([1, 2, 3, ''], value2_.values_array)
+      end
+      
+      
+      # Test equality comparisons between semver and standard
+      
+      def test_semver_to_standard_equality_comparison
+        assert_operator(::Versionomy.parse('1.2.0', :semver), :==, ::Versionomy.parse('1.2'))
+        assert_operator(::Versionomy.parse('1.2.0b3', :semver), :==, ::Versionomy.parse('1.2b3'))
+      end
+      
+      
+      # Test inequality comparisons between semver and standard
+      
+      def test_semver_to_standard_inequality_comparison
+        assert_operator(::Versionomy.parse('1.2.3', :semver), :<, ::Versionomy.parse('1.2.4'))
+        assert_operator(::Versionomy.parse('1.2.0b3', :semver), :>, ::Versionomy.parse('1.2b2'))
+        assert_operator(::Versionomy.parse('1.2.0', :semver), :>, ::Versionomy.parse('1.2b1'))
+      end
+      
+      
+      # Test equality comparisons between standard and rubygems
+      
+      def test_standard_to_semver_equality_comparison
+        assert_operator(::Versionomy.parse('1.2.0'), :==, ::Versionomy.parse('1.2.0', :semver))
+        assert_operator(::Versionomy.parse('1.2b3'), :==, ::Versionomy.parse('1.2.0beta3', :semver))
+      end
+      
+      
+      # Test inequality comparisons between standard and rubygems
+      
+      def test_standard_to_semver_inequality_comparison
+        assert_operator(::Versionomy.parse('1.2.4'), :>, ::Versionomy.parse('1.2.3', :semver))
+        assert_operator(::Versionomy.parse('1.2b2'), :<, ::Versionomy.parse('1.2.0beta3', :semver))
+        assert_operator(::Versionomy.parse('1.2b2'), :<, ::Versionomy.parse('1.2.0', :semver))
       end
       
       

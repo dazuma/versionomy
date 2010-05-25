@@ -1,7 +1,8 @@
 === 0.4.0 / 2010-05-24
 
-* Included Semantic Version format (http://semver.org/)
+* Included Semantic Version (http://semver.org/) format called "semver".
 * Parsing conversions can now prescreen or premodify the original format value.
+* Conversion algorithm tries to convert through the standard format if a direct conversion isn't found. For example, there is currently no direct conversion between semver and rubygems formats, but the converter can nevertheless convert the two because both can convert to and from standard.
 * Expanded the module version detection to include VERSION submodules.
 * Some Rakefile fixes to match RDoc and Ruby 1.9 changes.
 

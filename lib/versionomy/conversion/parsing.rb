@@ -78,10 +78,11 @@ module Versionomy
       
       def convert_value(value_, format_, convert_params_=nil)
         begin
+          convert_params_ ||= {}
           if @original_value_modifier
             value_ = @original_value_modifier.call(value_, convert_params_)
           end
-          unparse_params_ = value_.unparse_params
+          unparse_params_ = value_.unparse_params || {}
           if @unparse_params_modifier
             unparse_params_ = @unparse_params_modifier.call(unparse_params_, convert_params_)
           end

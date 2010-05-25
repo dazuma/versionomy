@@ -143,7 +143,7 @@ Versionomy is written by Daniel Azuma (http://www.daniel-azuma.com/).
 
 == LICENSE:
 
-Copyright 2008-2009 Daniel Azuma.
+Copyright 2008-2010 Daniel Azuma.
 
 All rights reserved.
 

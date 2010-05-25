@@ -201,7 +201,7 @@ module Versionomy
           end
           
           # We're going to modify how the standard format version is
-          # unparsed, so the rubygems format will have a better chance
+          # unparsed, so the semver format will have a better chance
           # of parsing it.
           to_modify_unparse_params do |params_, convert_params_|
             

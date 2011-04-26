@@ -1,3 +1,9 @@
+=== 0.4.1 / 2011-04-26
+
+* Support underscore "_" as a delimiter.
+* A .gemspec file is now available for gem building and bundler git integration.
+* Some cleanup of the Rakefile and tests.
+
 === 0.4.0 / 2010-05-24
 
 * Included Semantic Version (http://semver.org/) format called "semver".

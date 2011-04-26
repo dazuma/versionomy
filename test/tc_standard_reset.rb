@@ -1,8 +1,8 @@
 # -----------------------------------------------------------------------------
 # 
-# Versionomy basic tests on standard schema
+# Versionomy bump tests on standard schema
 # 
-# This file contains tests for the basic use cases on the standard schema
+# This file contains tests for the bump function on the standard schema
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
@@ -35,58 +35,67 @@
 # -----------------------------------------------------------------------------
 
 
-require 'rubygems'
 require 'test/unit'
-require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/versionomy.rb")
+require 'versionomy'
 
 
 module Versionomy
   module Tests  # :nodoc:
     
-    class TestStandardMisc < ::Test::Unit::TestCase  # :nodoc:
+    class TestStandardReset < ::Test::Unit::TestCase  # :nodoc:
       
       
-      # Test "prerelase?" custom method
+      # Test resetting a minor patchlevel.
       
-      def test_method_prereleasep
-        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :release_type => :beta, :beta_version => 3)
-        assert_equal(true, value_.prerelease?)
-        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :release_type => :final, :patchlevel => 1)
-        assert_equal(false, value_.prerelease?)
-        value_ = ::Versionomy.create(:major => 2, :tiny => 1)
-        assert_equal(false, value_.prerelease?)
+      def test_reset_patchlevel_minor
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :patchlevel => 3, :patchlevel_minor => 1)
+        value_ = value_.reset(:patchlevel_minor)
+        assert_equal([2,0,1,0,:final,3,0], value_.values_array)
       end
       
       
-      # Test "relase" custom method
+      # Test resetting a major patchlevel.
       
-      def test_method_release
-        value_ = ::Versionomy.create(:major => 1, :minor => 9, :tiny => 2, :release_type => :alpha, :alpha_version => 4)
-        value2_ = value_.release
-        assert_equal([1, 9, 2, 0, :final, 0, 0], value2_.values_array)
-        value_ = ::Versionomy.create(:major => 1, :minor => 9, :tiny => 2)
-        value2_ = value_.release
-        assert_equal(value_, value2_)
+      def test_reset_patchlevel
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :patchlevel => 3, :patchlevel_minor => 1)
+        value_ = value_.reset(:patchlevel)
+        assert_equal([2,0,1,0,:final,0,0], value_.values_array)
       end
       
       
-      # Test marshalling
+      # Test resetting a beta release type.
       
-      def test_marshal
-        value_ = ::Versionomy.create(:major => 1, :minor => 9, :tiny => 2, :release_type => :alpha, :alpha_version => 4)
-        str_ = ::Marshal.dump(value_)
-        value2_ = ::Marshal.load(str_)
-        assert_equal(value_, value2_)
+      def test_reset_beta_release_type
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :release_type => :beta, :beta_version => 2)
+        value_ = value_.reset(:release_type)
+        assert_equal([2,0,1,0,:final,0,0], value_.values_array)
       end
       
       
-      # Test YAML
+      # Test resetting a final release type.
       
-      def test_yaml
-        value_ = ::Versionomy.create(:major => 1, :minor => 9, :tiny => 2, :release_type => :alpha, :alpha_version => 4)
-        str_ = ::YAML.dump(value_)
-        value2_ = ::YAML.load(str_)
-        assert_equal(value_, value2_)
+      def test_reset_final_release_type
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :patchlevel => 2)
+        value_ = value_.reset(:release_type)
+        assert_equal([2,0,1,0,:final,0,0], value_.values_array)
+      end
+      
+      
+      # Test resetting tiny.
+      
+      def test_reset_tiny
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :tiny2 => 3, :release_type => :release_candidate, :release_candidate_version => 2)
+        value_ = value_.reset(:tiny)
+        assert_equal([2,0,0,0,:final,0,0], value_.values_array)
+      end
+      
+      
+      # Test resetting major.
+      
+      def test_reset_major
+        value_ = ::Versionomy.create(:major => 2, :tiny => 1, :tiny2 => 3, :release_type => :release_candidate, :release_candidate_version => 2)
+        value_ = value_.reset(:major)
+        assert_equal([1,0,0,0,:final,0,0], value_.values_array)
       end
       
       

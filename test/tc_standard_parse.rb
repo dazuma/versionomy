@@ -35,9 +35,8 @@
 # -----------------------------------------------------------------------------
 
 
-require 'rubygems'
 require 'test/unit'
-require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/versionomy.rb")
+require 'versionomy'
 
 
 module Versionomy
@@ -200,6 +199,7 @@ module Versionomy
       def test_parsing_beta_alternates
         assert_equal(::Versionomy.parse('2.52.1 beta4'), '2.52.1b4')
         assert_equal(::Versionomy.parse('2.52.1-b4'), '2.52.1b4')
+        assert_equal(::Versionomy.parse('2.52.1_b4'), '2.52.1b4')
         assert_equal(::Versionomy.parse('2.52.1.b4'), '2.52.1b4')
         assert_equal(::Versionomy.parse('2.52.1B4'), '2.52.1b4')
         assert_equal(::Versionomy.parse('2.52.1BETA4'), '2.52.1b4')
@@ -302,10 +302,13 @@ module Versionomy
       def test_patchlevel_separators
         expected_ = [1,9,1,0,:final,243,0]
         assert_equal(expected_, ::Versionomy.parse('1.9.1-p243').values_array)
+        assert_equal(expected_, ::Versionomy.parse('1.9.1_p243').values_array)
+        assert_equal(expected_, ::Versionomy.parse('1.9.1_u243').values_array)
         assert_equal(expected_, ::Versionomy.parse('1.9.1p243').values_array)
         assert_equal(expected_, ::Versionomy.parse('1.9.1.p243').values_array)
         assert_equal(expected_, ::Versionomy.parse('1.9.1 p243').values_array)
         assert_equal(expected_, ::Versionomy.parse('1.9.1-243').values_array)
+        assert_equal(expected_, ::Versionomy.parse('1.9.1_243').values_array)
       end
       
       

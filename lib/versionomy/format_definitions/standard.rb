@@ -295,23 +295,23 @@ module Versionomy
             # So we just allow it to fall through to the default.
             
             recognize_regexp_map(:style => :long, :default_delimiter => '',
-                                 :delimiter_regexp => '-|\.|\s?') do
+                                 :delimiter_regexp => '-|_|\.|\s?') do
               map(:development, 'dev')
               map(:alpha, 'alpha')
               map(:beta, 'beta')
               map(:preview, 'preview')
             end
             recognize_regexp_map(:style => :short, :default_delimiter => '',
-                                 :delimiter_regexp => '-|\.|\s?') do
+                                 :delimiter_regexp => '-|_|\.|\s?') do
               map(:release_candidate, 'rc')
               map(:preview, 'pre')
             end
             recognize_regexp_map(:style => :long, :default_delimiter => '',
-                                 :delimiter_regexp => '-|\.|\s?') do
+                                 :delimiter_regexp => '-|_|\.|\s?') do
               map(:release_candidate, 'rc')
             end
             recognize_regexp_map(:style => :short, :default_delimiter => '',
-                                 :delimiter_regexp => '-|\.|\s?',
+                                 :delimiter_regexp => '-|_|\.|\s?',
                                  :requires_next_field => true) do
               map(:development, 'd')
               map(:alpha, 'a')
@@ -329,35 +329,35 @@ module Versionomy
           # to 1, while parsing a string will yield 0 when the field is
           # missing (e.g. we want "1.9.2dev" to mean "1.9.2dev0".)
           field(:development_version, :default_value => 0) do
-            recognize_number(:delimiter_regexp => '-|\.|\s?', :default_delimiter => '',
+            recognize_number(:delimiter_regexp => '-|_|\.|\s?', :default_delimiter => '',
                              :default_value_optional => true)
           end
           field(:development_minor) do
             recognize_number(:default_value_optional => true)
           end
           field(:alpha_version, :default_value => 0) do
-            recognize_number(:delimiter_regexp => '-|\.|\s?', :default_delimiter => '',
+            recognize_number(:delimiter_regexp => '-|_|\.|\s?', :default_delimiter => '',
                              :default_value_optional => true)
           end
           field(:alpha_minor) do
             recognize_number(:default_value_optional => true)
           end
           field(:beta_version, :default_value => 0) do
-            recognize_number(:delimiter_regexp => '-|\.|\s?', :default_delimiter => '',
+            recognize_number(:delimiter_regexp => '-|_|\.|\s?', :default_delimiter => '',
                              :default_value_optional => true)
           end
           field(:beta_minor) do
             recognize_number(:default_value_optional => true)
           end
           field(:release_candidate_version, :default_value => 0) do
-            recognize_number(:delimiter_regexp => '-|\.|\s?', :default_delimiter => '',
+            recognize_number(:delimiter_regexp => '-|_|\.|\s?', :default_delimiter => '',
                              :default_value_optional => true)
           end
           field(:release_candidate_minor) do
             recognize_number(:default_value_optional => true)
           end
           field(:preview_version, :default_value => 0) do
-            recognize_number(:delimiter_regexp => '-|\.|\s?', :default_delimiter => '',
+            recognize_number(:delimiter_regexp => '-|_|\.|\s?', :default_delimiter => '',
                              :default_value_optional => true)
           end
           field(:preview_minor) do
@@ -370,9 +370,9 @@ module Versionomy
           field(:patchlevel, :requires_previous_field => false,
                 :default_value_optional => true, :default_style => :number) do
             recognize_number(:style => :number, :default_delimiter => '-',
-                             :delimiter_regexp => '(-|\.|\s?)(p|u)|-|_')
+                             :delimiter_regexp => '(-|_|\.|\s?)(p|u)|-|_')
             recognize_letter(:style => :letter, :default_delimiter => '',
-                             :delimiter_regexp => '-|\.|\s?',
+                             :delimiter_regexp => '-|_|\.|\s?',
                              :expected_follower_regexp => '\z')
           end
           field(:patchlevel_minor) do

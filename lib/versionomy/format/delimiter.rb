@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Versionomy delimiter format
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,28 +35,28 @@
 
 
 module Versionomy
-  
+
   module Format
-    
-    
+
+
     # The Delimiter format class provides a DSL for building formats that
     # can handle most cases where the fields of a version number appear
     # consecutively in order in the string formatting. We expect most
     # version number schemes should fall into this category.
-    # 
+    #
     # In general, the strategy is to provide, for each field, a set of
     # regular expressions that recognize different formats for that field.
     # Every field must be of the form "(pre)(value)(post)"
     # where (pre) and (post) are delimiters preceding and
     # following the value. Either or both delimiters may be the empty string.
-    # 
+    #
     # To parse a string, the string is scanned from left to right and
     # matched against the format for the fields in order. If the string
     # matches, that part of the string is consumed and the field value is
     # interpreted from it. If the string does not match, and the field is
     # not marked as "required", then the field is set to its default value
     # and the next field is tried.
-    # 
+    #
     # During parsing, the actual delimiters, along with other information
     # such as whether or not fields are required, are saved into a default
     # set of parameters for unparsing. These are saved in the unparse_params
@@ -64,26 +64,26 @@ module Versionomy
     # generally the same form. If the version number value is modified, this
     # allows the unparsing of the new value to generally follow the format
     # of the original string.
-    # 
+    #
     # Formats that use the Delimiter mechanism also provide support for
     # certain parsing and unparsing parameters. See the documentation for
     # the parse and unparse methods for details.
-    # 
+    #
     # For a usage example, see the definition of the standard format in
     # Versionomy::Format::Standard#create.
-    
+
     class Delimiter < Base
-      
-      
+
+
       # Create a format using delimiter tools.
       # You should provide the version number schema, a set of default
-      # options, and a block. 
-      # 
+      # options, and a block.
+      #
       # Within the block, you can call methods of
       # Versionomy::Format::Delimiter::Builder
       # to provide parsers for the fields of the schema. Any fields you do
       # not explicitly configure will get parsed in a default manner.
-      
+
       def initialize(schema_, default_opts_={}, &block_)
         # Special case used by modified_copy
         if schema_.kind_of?(Delimiter)
@@ -97,7 +97,7 @@ module Versionomy
           ::Blockenspiel.invoke(block_, builder_)
           return
         end
-        
+
         @schema = schema_
         @field_handlers = {}
         @default_parse_params = {}
@@ -110,22 +110,22 @@ module Versionomy
           @field_handlers[name_] ||= Delimiter::FieldHandler.new(@schema.field_named(name_), default_opts_)
         end
       end
-      
-      
+
+
       # Returns the schema understood by this format.
       # This method is required by the Format contract.
-      
+
       def schema
         @schema
       end
-      
-      
+
+
       # Parse the given string and return a value.
       # This method is required by the Format contract.
-      # 
+      #
       # This method provides, out of the box, support for the following
       # parse parameters:
-      # 
+      #
       # <tt>:extra_characters</tt>::
       #   Determines what to do if the entire string cannot be consumed by
       #   the parsing process. If set to <tt>:ignore</tt>, any extra
@@ -135,7 +135,7 @@ module Versionomy
       #   place. If set to <tt>:error</tt> (the default), causes a
       #   Versionomy::Errors::ParseError to be raised if there are
       #   uninterpreted characters.
-      
+
       def parse(string_, params_=nil)
         parse_params_ = default_parse_params
         parse_params_.merge!(params_) if params_
@@ -201,14 +201,14 @@ module Versionomy
         end
         Value.new(parse_state_[:values], self, unparse_params_)
       end
-      
-      
+
+
       # Unparse the given value and return a string.
       # This method is required by the Format contract.
-      # 
+      #
       # This method provides, out of the box, support for the following
       # unparse parameters:
-      # 
+      #
       # <tt>:suffix</tt>::
       #   A string to append to the unparsed string. Default is nothing.
       # <tt>:required_fields</tt>::
@@ -241,7 +241,7 @@ module Versionomy
       #   This is used by letter-formatted integer fields only, and
       #   sets the case to use while unparsing. Recognized values are
       #   <tt>:lower</tt> (the default), and <tt>:upper</tt>.
-      
+
       def unparse(value_, params_=nil)
         unparse_params_ = value_.unparse_params || default_unparse_params
         _interpret_field_lists(unparse_params_)
@@ -280,42 +280,42 @@ module Versionomy
         string_ << (unparse_params_[:suffix] || '')
         string_
       end
-      
-      
+
+
       # Return a copy of the default parsing parameters used by this format.
       # This hash cannot be edited in place. To modify the default parsing
       # parameters, use modified_copy and call
       # Versionomy::Format::Delimiter::Builder#default_parse_params in the block.
-      
+
       def default_parse_params
         @default_parse_params.dup
       end
-      
-      
+
+
       # Return a copy of the default unparsing parameters used by this format.
       # This hash cannot be edited in place. To modify the default unparsing
       # parameters, use modified_copy and call
       # Versionomy::Format::Delimiter::Builder#default_unparse_params in the block.
-      
+
       def default_unparse_params
         @default_unparse_params.dup
       end
-      
-      
+
+
       # Create a copy of this format, with the modifications given in the
       # provided block. You can call methods of Versionomy::Format::Delimiter::Builder
       # in the block. Field handlers that you specify in that block will
       # override and change the field handlers from the original. Any fields
       # not specified in this block will use the handlers from the original.
-      
+
       def modified_copy(&block_)
         Delimiter.new(self, &block_)
       end
-      
-      
+
+
       # A utility method that interprets required_fields and
       # optional_fields parameters.
-      
+
       def _interpret_field_lists(unparse_params_)  # :nodoc:
         fields_ = unparse_params_.delete(:required_fields)
         if fields_
@@ -333,34 +333,34 @@ module Versionomy
         end
       end
       private :_interpret_field_lists
-      
-      
+
+
       # This class defines methods that you can call within the DSL block
       # passed to Versionomy::Format::Delimiter#new.
-      # 
+      #
       # Generally, you call the field method of this class a number of times
       # to define the formatting for each field.
-      
+
       class Builder
-        
+
         include ::Blockenspiel::DSL
-        
+
         def initialize(schema_, field_handlers_, default_parse_params_, default_unparse_params_)  # :nodoc:
           @schema = schema_
           @field_handlers = field_handlers_
           @default_parse_params = default_parse_params_
           @default_unparse_params = default_unparse_params_
         end
-        
-        
+
+
         # Specify how to handle a given field.
         # You must pass the name of the field, a hash of options, and a
         # block defining the handling of the field.
-        # 
+        #
         # Within the block, you set up "recognizers" for various regular
         # expression patterns. These recognizers are tested in order when
         # parsing a version number.
-        # 
+        #
         # The methods that can be called from the block are determined by
         # the type of field. If the field is an integer field, the methods
         # of Versionomy::Format::Delimiter::IntegerFieldBuilder can be
@@ -368,20 +368,20 @@ module Versionomy
         # of Versionomy::Format::Delimiter::StringFieldBuilder can be
         # called. If the field is a symbolic field, the methods of
         # Versionomy::Format::Delimiter::SymbolFieldBuilder can be called.
-        # 
+        #
         # === Options
-        # 
+        #
         # The opts hash includes a number of options that control how the
         # field is parsed.
-        # 
+        #
         # Some of these are regular expressions that indicate what patterns
         # are recognized by the parser. Regular expressions should be passed
         # in as the string representation of the regular expression, not a
         # Regexp object itself. For example, use the string '-' rather than
         # the Regexp /-/ to recognize a hyphen delimiter.
-        # 
+        #
         # The following options are recognized:
-        # 
+        #
         # <tt>:default_value_optional</tt>::
         #   If set to true, this the field may be omitted in the unparsed
         #   (formatted) version number, if the value is the default value
@@ -447,15 +447,15 @@ module Versionomy
         #   The default style for this field. This is the style used for
         #   unparsing if the value was not constructed by a parser or is
         #   otherwise missing the style for this field.
-        # 
+        #
         # === Styles
-        # 
+        #
         # A field may have different representation "styles". For example,
         # you could represent a patchlevel of 1 as "1.0-1" or "1.0a".
         # When a version number string is parsed, the parser and unparser
         # work together to remember which style was parsed, and that style
         # is used when the version number is unparsed.
-        # 
+        #
         # Specify styles as options to the calls made within the block that
         # is passed to this method. In the above case, you could define the
         # patchlevel field with a block that has two calls, one that uses
@@ -463,11 +463,11 @@ module Versionomy
         # option <tt>:style => :number</tt>, and another that uses
         # Delimiter::IntegerFieldBuilder#recognize_letter and passes the
         # option <tt>:style => :letter</tt>.
-        # 
+        #
         # The standard format uses styles to preserve the different
         # syntaxes for the release_type field. See the source code in
         # Versionomy::Format::Standard#create for this example.
-        
+
         def field(name_, opts_={}, &block_)
           name_ = name_.to_sym
           field_ = @schema.field_named(name_)
@@ -476,193 +476,193 @@ module Versionomy
           end
           @field_handlers[name_] = Delimiter::FieldHandler.new(field_, opts_, &block_)
         end
-        
-        
+
+
         # Set or modify the default parameters used when parsing a value.
-        
+
         def default_parse_params(params_)
           @default_parse_params.merge!(params_)
         end
-        
-        
+
+
         # Set or modify the default parameters used when unparsing a value.
-        
+
         def default_unparse_params(params_)
           @default_unparse_params.merge!(params_)
         end
-        
+
       end
-      
-      
+
+
       # This class defines methods that can be called from the block passed
       # to Versionomy::Format::Delimiter::Builder#field if the field is
       # of integer type.
-      
+
       class IntegerFieldBuilder
-        
+
         include ::Blockenspiel::DSL
-        
+
         def initialize(recognizers_, field_, default_opts_)  # :nodoc:
           @recognizers = recognizers_
           @field = field_
           @default_opts = default_opts_
         end
-        
-        
+
+
         # Recognize a numeric-formatted integer field.
         # Using the opts parameter, you can override any of the field's
         # overall parsing options. You may also set the following additional
         # options:
-        # 
+        #
         # <tt>:strip_leading_zeros</tt>::
         #   If false (the default), and a value has leading zeros, it is
         #   assumed that the field has a minimum width, and unparsing will
         #   always pad left with zeros to reach that minimum width. If set
         #   to true, leading zeros are stripped from a value, and this
         #   padding is never done.
-        
+
         def recognize_number(opts_={})
           @recognizers << Delimiter::BasicIntegerRecognizer.new(@field, @default_opts.merge(opts_))
         end
-        
-        
+
+
         # Recognize a letter-formatted integer field. That is, the value is
         # formatted as an alphabetic letter where "a" represents 1, up to
         # "z" representing 26.
-        # 
+        #
         # Using the opts parameter, you can override any of the field's
         # overall parsing options. You may also set the following additional
         # options:
-        # 
+        #
         # <tt>:case</tt>::
         #   Case-sensitivity of the letter. Possible values are
         #   <tt>:upper</tt>, <tt>:lower</tt>, and <tt>:either</tt>.
         #   Default is <tt>:either</tt>.
-        
+
         def recognize_letter(opts_={})
           @recognizers << Delimiter::AlphabeticIntegerRecognizer.new(@field, @default_opts.merge(opts_))
         end
-        
+
       end
-      
-      
+
+
       # This class defines methods that can be called from the block passed
       # to Versionomy::Format::Delimiter::Builder#field if the field is
       # of string type.
-      
+
       class StringFieldBuilder
-        
+
         include ::Blockenspiel::DSL
-        
+
         def initialize(recognizers_, field_, default_opts_)  # :nodoc:
           @recognizers = recognizers_
           @field = field_
           @default_opts = default_opts_
         end
-        
-        
+
+
         # Recognize a string field whose value matches a regular expression.
         # The regular expression must be passed as a string. E.g. use
         # "[a-z]+" instead of /[a-z]+/.
         # Using the opts parameter, you can override any of the field's
         # overall parsing options.
-        
+
         def recognize_regexp(regexp_, opts_={})
           @recognizers << Delimiter::RegexpStringRecognizer.new(@field, regexp_, @default_opts.merge(opts_))
         end
-        
+
       end
-      
-      
+
+
       # This class defines methods that can be called from the block passed
       # to Versionomy::Format::Delimiter::Builder#field if the field is
       # of symbolic type.
-      
+
       class SymbolFieldBuilder
-        
+
         include ::Blockenspiel::DSL
-        
+
         def initialize(recognizers_, field_, default_opts_)  # :nodoc:
           @recognizers = recognizers_
           @field = field_
           @default_opts = default_opts_
         end
-        
-        
+
+
         # Recognize a symbolic value represented by a particular regular
         # expression. The regular expression must be passed as a string.
         # E.g. use "[a-z]+" instead of /[a-z]+/.
         # The "canonical" parameter indicates the canonical syntax for the
         # value, for use in unparsing.
-        # 
+        #
         # Using the opts parameter, you can override any of the field's
         # overall parsing options.
-        
+
         def recognize_regexp(value_, regexp_, canonical_, opts_={}, &block_)
           @recognizers << Delimiter::RegexpSymbolRecognizer.new(@field, value_, regexp_, canonical_, @default_opts.merge(opts_))
         end
-        
-        
+
+
         # Recognize a set of symbolic values, each represented by a
         # particular regular expression, but all sharing the same delimiters
         # and options. Use this instead of repeated calls to recognize_regexp
         # for better performance.
-        # 
+        #
         # Using the opts parameter, you can override any of the field's
         # overall parsing options.
-        # 
+        #
         # In the block, you should call methods of
         # Versionomy::Format::Delimiter::MappingSymbolBuilder to map values
         # to regular expression representations.
-        
+
         def recognize_regexp_map(opts_={}, &block_)
           @recognizers << Delimiter::MappingSymbolRecognizer.new(@field, @default_opts.merge(opts_), &block_)
         end
-        
+
       end
-      
-      
+
+
       # Methods in this class can be called from the block passed to
       # Versionomy::Format::Delimiter::SymbolFieldBuilder#recognize_regexp_map
       # to define the mapping between the values of a symbolic field and
       # the string representations of those values.
-      
+
       class MappingSymbolBuilder
-        
+
         include ::Blockenspiel::DSL
-        
+
         def initialize(mappings_in_order_, mappings_by_value_)  # :nodoc:
           @mappings_in_order = mappings_in_order_
           @mappings_by_value = mappings_by_value_
         end
-        
-        
+
+
         # Map a value to a string representation.
         # The optional regexp field, if specified, provides a regular
         # expression pattern for matching the value representation. If it
         # is omitted, the representation is used as the regexp.
-        
+
         def map(value_, representation_, regexp_=nil)
           regexp_ ||= representation_
           array_ = [regexp_, representation_, value_]
           @mappings_by_value[value_] ||= array_
           @mappings_in_order << array_
         end
-        
+
       end
-      
-      
+
+
       # This class handles the parsing and unparsing of a single field.
       # It manages an ordered list of recognizers, each understanding a
       # particular syntax. These recognizers are checked in order when
       # parsing and unparsing.
-      
+
       class FieldHandler  # :nodoc:
-        
-        
+
+
         # Creates a FieldHandler, using a DSL block appropriate to the
         # field type to configure the recognizers.
-        
+
         def initialize(field_, default_opts_={}, &block_)
           @field = field_
           @recognizers = []
@@ -682,45 +682,45 @@ module Versionomy
             ::Blockenspiel.invoke(block_, builder_)
           end
         end
-        
-        
+
+
         # Returns true if this field can appear in an unparsed string only
         # if the previous field also appears.
-        
+
         def requires_previous_field
           @requires_previous_field
         end
-        
-        
+
+
         # Returns the default value set when this field is missing from a
         # version string.
-        
+
         def default_value
           @default_value
         end
-        
-        
+
+
         # Gets the given indexed recognizer. Returns nil if the index is out
         # of range.
-        
+
         def get_recognizer(index_)
           @recognizers[index_]
         end
-        
-        
+
+
         # Finishes up parsing by setting the appropriate style field in the
         # unparse_params, if needed.
-        
+
         def set_style_unparse_param(style_, unparse_params_)
           if style_ && style_ != @default_style
             unparse_params_[@style_unparse_param_key] = style_
           end
         end
-        
-        
+
+
         # Unparse a string from this field value.
         # This may return nil if this field is not required.
-        
+
         def unparse(value_, unparse_params_, required_for_later_)
           style_ = unparse_params_[@style_unparse_param_key] || @default_style
           @recognizers.each do |recog_|
@@ -731,10 +731,10 @@ module Versionomy
           end
           required_for_later_ ? ['', false] : nil
         end
-        
+
       end
-      
-      
+
+
       # A recognizer handles both parsing and unparsing of a particular kind
       # of syntax. During parsing, it recognizes the syntax based on regular
       # expressions for the delimiters and the value. If the string matches
@@ -745,16 +745,16 @@ module Versionomy
       # true, the unparse method should be called to actually generate a
       # a string fragment, or return nil if the field is determined to be
       # optional in the unparsed string.
-      # 
+      #
       # This is a base class. The actual classes should implement
       # initialize, parsed_value, and unparsed_value, and may optionally
       # override the should_unparse? method.
-      
+
       class RecognizerBase  # :nodoc:
-        
+
         # Derived classes should call this from their initialize method
         # to set up the recognizer's basic parameters.
-        
+
         def setup(field_, value_regexp_, opts_)
           @style = opts_[:style]
           @default_value_optional = opts_[:default_value_optional]
@@ -778,13 +778,13 @@ module Versionomy
           @post_delim_unparse_param_key = "#{name_}_postdelim".to_sym
           @required_unparse_param_key = "#{name_}_required".to_sym
         end
-        
-        
+
+
         # Attempt to parse the field from the string if the syntax matches
         # this recognizer's configuration.
         # Returns either nil, indicating that this recognizer doesn't match
         # the given syntax, or a two element array of the value and style.
-        
+
         def parse(parse_state_, parse_params_)
           return nil if @requires_previous_field && parse_state_[:previous_field_missing]
           string_ = parse_state_[:string]
@@ -824,32 +824,32 @@ module Versionomy
           unparse_params_[@required_unparse_param_key] = true if @default_value_optional
           [parse_result_[0], @style, string_, unparse_params_]
         end
-        
-        
+
+
         # Returns true if this field can appear in an unparsed string only
         # if the next field also appears.
-        
+
         def requires_next_field
           @requires_next_field
         end
-        
-        
+
+
         # Returns true if this recognizer should be used to unparse the
         # given value and style.
-        
+
         def should_unparse?(value_, style_)
           style_ == @style
         end
-        
-        
+
+
         # Unparse the given value in the given style, and return a string
         # fragment, or nil if the field is determined to be "optional" to
         # unparse and isn't otherwise required (because a later field needs
         # it to be present, for example).
-        # 
+        #
         # It is guaranteed that this will be called only if should_unparse?
         # returns true.
-        
+
         def unparse(value_, style_, unparse_params_, required_for_later_)
           str_ = nil
           if !@default_value_optional || value_ != @default_value ||
@@ -880,20 +880,20 @@ module Versionomy
             nil
           end
         end
-        
+
       end
-      
-      
+
+
       # A recognizer for a numeric integer field
-      
+
       class BasicIntegerRecognizer < RecognizerBase  #:nodoc:
-        
+
         def initialize(field_, opts_={})
           @strip_leading_zeros = opts_[:strip_leading_zeros]
           @width_unparse_param_key = "#{field_.name}_width".to_sym
           setup(field_, '\d+', opts_)
         end
-        
+
         def parsed_value(value_, parse_params_)
           if !@strip_leading_zeros && value_ =~ /^0\d/
             [value_.to_i, {@width_unparse_param_key => value_.length}]
@@ -901,7 +901,7 @@ module Versionomy
             [value_.to_i, nil]
           end
         end
-        
+
         def unparsed_value(value_, style_, unparse_params_)
           if !@strip_leading_zeros && (width_ = unparse_params_[@width_unparse_param_key])
             "%0#{width_.to_i}d" % value_
@@ -909,15 +909,15 @@ module Versionomy
             value_.to_s
           end
         end
-        
+
       end
-      
-      
+
+
       # A recognizer for an alphabetic integer field. Such a field
       # represents values 1-26 as letters of the English alphabet.
-      
+
       class AlphabeticIntegerRecognizer < RecognizerBase  # :nodoc:
-        
+
         def initialize(field_, opts_={})
           @case_unparse_param_key = "#{field_.name}_case".to_sym
           @case = opts_[:case]
@@ -931,7 +931,7 @@ module Versionomy
           end
           setup(field_, value_regexp_, opts_)
         end
-        
+
         def parsed_value(value_, parse_params_)
           value_ = value_.unpack('c')[0]  # Compatible with both 1.8 and 1.9
           if value_ >= 97 && value_ <= 122
@@ -942,7 +942,7 @@ module Versionomy
             [0, nil]
           end
         end
-        
+
         def unparsed_value(value_, style_, unparse_params_)
           if value_ >= 1 && value_ <= 26
             if unparse_params_[@case_unparse_param_key] == :upper
@@ -954,61 +954,61 @@ module Versionomy
             value_.to_s
           end
         end
-        
+
       end
-      
-      
+
+
       # A recognizer for strings that match a particular given regular
       # expression, for use in string-valued fields.
-      
+
       class RegexpStringRecognizer < RecognizerBase  # :nodoc:
-        
+
         def initialize(field_, regexp_='[a-zA-Z0-9]+', opts_={})
           setup(field_, regexp_, opts_)
         end
-        
+
         def parsed_value(value_, parse_params_)
           [value_, nil]
         end
-        
+
         def unparsed_value(value_, style_, unparse_params_)
           value_.to_s
         end
-        
+
       end
-      
-      
+
+
       # A recognizer for symbolic fields that recognizes a single regular
       # expression and maps it to a single particular value.
-      
+
       class RegexpSymbolRecognizer < RecognizerBase  # :nodoc:
-        
+
         def initialize(field_, value_, regexp_, canonical_, opts_={})
           setup(field_, regexp_, opts_)
           @value = value_
           @canonical = canonical_
         end
-        
+
         def parsed_value(value_, parse_params_)
           [@value, nil]
         end
-        
+
         def unparsed_value(value_, style_, unparse_params_)
           @canonical
         end
-        
+
         def should_unparse?(value_, style_)
           style_ == @style && value_ == @value
         end
-        
+
       end
-      
-      
+
+
       # A recognizer for symbolic fields that recognizes a mapping of values
       # to regular expressions.
-      
+
       class MappingSymbolRecognizer < RecognizerBase  # :nodoc:
-        
+
         def initialize(field_, opts_={}, &block_)
           @mappings_in_order = []
           @mappings_by_value = {}
@@ -1020,28 +1020,28 @@ module Versionomy
             map_[0] = ::Regexp.new("\\A(#{map_[0]})", @regexp_options)
           end
         end
-        
+
         def parsed_value(value_, parse_params_)
           @mappings_in_order.each do |map_|
             return [map_[2], nil] if map_[0].match(value_)
           end
           nil
         end
-        
+
         def unparsed_value(value_, style_, unparse_params_)
           @mappings_by_value[value_][1]
         end
-        
+
         def should_unparse?(value_, style_)
           style_ == @style && @mappings_by_value.include?(value_)
         end
-        
+
       end
-      
-      
+
+
     end
-    
-    
+
+
   end
-  
+
 end

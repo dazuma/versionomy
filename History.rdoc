@@ -1,3 +1,7 @@
+=== 0.4.2 / 2012-02-17
+
+* Support psych interface for YAML serialization.
+
 === 0.4.1 / 2011-04-26
 
 * Support underscore "_" as a delimiter.

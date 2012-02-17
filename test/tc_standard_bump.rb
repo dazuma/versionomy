@@ -1,17 +1,17 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Versionomy bump tests on standard schema
-# 
+#
 # This file contains tests for the bump function on the standard schema
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -20,7 +20,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,12 +41,12 @@ require 'versionomy'
 
 module Versionomy
   module Tests  # :nodoc:
-    
+
     class TestStandardBump < ::Test::Unit::TestCase  # :nodoc:
-      
-      
+
+
       # Test bumping a minor patchlevel.
-      
+
       def test_bump_patchlevel_minor
         value_ = ::Versionomy.create(:major => 2, :tiny => 1, :patchlevel => 3, :patchlevel_minor => 0)
         value_ = value_.bump(:patchlevel_minor)
@@ -58,10 +58,10 @@ module Versionomy
         assert_equal(3, value_.patchlevel)
         assert_equal(1, value_.patchlevel_minor)
       end
-      
-      
+
+
       # Test bumping a major patchlevel.
-      
+
       def test_bump_patchlevel
         value_ = ::Versionomy.create(:major => 2, :tiny => 1, :patchlevel => 3, :patchlevel_minor => 1)
         value_ = value_.bump(:patchlevel)
@@ -73,10 +73,10 @@ module Versionomy
         assert_equal(4, value_.patchlevel)
         assert_equal(0, value_.patchlevel_minor)
       end
-      
-      
+
+
       # Test bumping release type preview.
-      
+
       def test_bump_preview_to_release
         value_ = ::Versionomy.create(:major => 2, :tiny => 1, :release_type => :preview)
         value_ = value_.bump(:release_type)
@@ -88,10 +88,10 @@ module Versionomy
         assert_equal(0, value_.patchlevel)
         assert_equal(0, value_.patchlevel_minor)
       end
-      
-      
+
+
       # Test bumping release type development.
-      
+
       def test_bump_development_to_alpha
         value_ = ::Versionomy.create(:major => 2, :tiny => 1, :release_type => :development, :development_version => 7)
         value_ = value_.bump(:release_type)
@@ -103,10 +103,10 @@ module Versionomy
         assert_equal(1, value_.alpha_version)
         assert_equal(0, value_.alpha_minor)
       end
-      
-      
+
+
       # Test bumping release type alpha.
-      
+
       def test_bump_alpha_to_beta
         value_ = ::Versionomy.create(:major => 2, :tiny => 1, :release_type => :alpha)
         value_ = value_.bump(:release_type)
@@ -118,10 +118,10 @@ module Versionomy
         assert_equal(1, value_.beta_version)
         assert_equal(0, value_.beta_minor)
       end
-      
-      
+
+
       # Test bumping release type release_candidate.
-      
+
       def test_bump_release_candidate_to_release
         value_ = ::Versionomy.create(:major => 2, :tiny => 1, :release_type => :release_candidate, :release_candidate_version => 2)
         value_ = value_.bump(:release_type)
@@ -133,10 +133,10 @@ module Versionomy
         assert_equal(0, value_.patchlevel)
         assert_equal(0, value_.patchlevel_minor)
       end
-      
-      
+
+
       # Test bumping tiny.
-      
+
       def test_bump_tiny
         value_ = ::Versionomy.create(:major => 2, :tiny => 1, :tiny2 => 3, :release_type => :release_candidate, :release_candidate_version => 2)
         value_ = value_.bump(:tiny)
@@ -148,10 +148,10 @@ module Versionomy
         assert_equal(0, value_.patchlevel)
         assert_equal(0, value_.patchlevel_minor)
       end
-      
-      
+
+
       # Test bumping major.
-      
+
       def test_bump_major
         value_ = ::Versionomy.create(:major => 2, :tiny => 1, :tiny2 => 3, :release_type => :release_candidate, :release_candidate_version => 2)
         value_ = value_.bump(:major)
@@ -163,9 +163,9 @@ module Versionomy
         assert_equal(0, value_.patchlevel)
         assert_equal(0, value_.patchlevel_minor)
       end
-      
-      
+
+
     end
-    
+
   end
 end

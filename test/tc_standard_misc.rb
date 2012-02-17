@@ -1,17 +1,17 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Versionomy basic tests on standard schema
-# 
+#
 # This file contains tests for the basic use cases on the standard schema
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -20,7 +20,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,12 +41,12 @@ require 'versionomy'
 
 module Versionomy
   module Tests  # :nodoc:
-    
+
     class TestStandardMisc < ::Test::Unit::TestCase  # :nodoc:
-      
-      
+
+
       # Test "prerelase?" custom method
-      
+
       def test_method_prereleasep
         value_ = ::Versionomy.create(:major => 2, :tiny => 1, :release_type => :beta, :beta_version => 3)
         assert_equal(true, value_.prerelease?)
@@ -55,10 +55,10 @@ module Versionomy
         value_ = ::Versionomy.create(:major => 2, :tiny => 1)
         assert_equal(false, value_.prerelease?)
       end
-      
-      
+
+
       # Test "relase" custom method
-      
+
       def test_method_release
         value_ = ::Versionomy.create(:major => 1, :minor => 9, :tiny => 2, :release_type => :alpha, :alpha_version => 4)
         value2_ = value_.release
@@ -67,29 +67,29 @@ module Versionomy
         value2_ = value_.release
         assert_equal(value_, value2_)
       end
-      
-      
+
+
       # Test marshalling
-      
+
       def test_marshal
         value_ = ::Versionomy.create(:major => 1, :minor => 9, :tiny => 2, :release_type => :alpha, :alpha_version => 4)
         str_ = ::Marshal.dump(value_)
         value2_ = ::Marshal.load(str_)
         assert_equal(value_, value2_)
       end
-      
-      
+
+
       # Test YAML
-      
+
       def test_yaml
         value_ = ::Versionomy.create(:major => 1, :minor => 9, :tiny => 2, :release_type => :alpha, :alpha_version => 4)
         str_ = ::YAML.dump(value_)
         value2_ = ::YAML.load(str_)
         assert_equal(value_, value2_)
       end
-      
-      
+
+
     end
-    
+
   end
 end

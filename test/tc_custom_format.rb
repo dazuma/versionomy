@@ -1,17 +1,17 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Versionomy parsing tests on standard schema
-# 
+#
 # This file contains tests for parsing on the standard schema
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2008-2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -20,7 +20,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,12 +41,12 @@ require 'versionomy'
 
 module Versionomy
   module Tests  # :nodoc:
-    
+
     class TestCustomFormat < ::Test::Unit::TestCase  # :nodoc:
-      
-      
+
+
       # Test parsing with custom format for patchlevel
-      
+
       def test_parsing_custom_patchlevel_format
         format_ = ::Versionomy.default_format.modified_copy do
           field(:patchlevel, :requires_previous_field => false) do
@@ -58,9 +58,9 @@ module Versionomy
         value2_ = value1_.format.parse('2008 sp3')
         assert_equal(3, value2_.patchlevel)
       end
-      
-      
+
+
     end
-    
+
   end
 end

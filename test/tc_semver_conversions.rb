@@ -5,7 +5,7 @@
 # This file contains tests converting to and from the rubygems schema
 #
 # -----------------------------------------------------------------------------
-# Copyright 2008-2009 Daniel Azuma
+# Copyright 2008-2012 Daniel Azuma
 #
 # All rights reserved.
 #
@@ -94,7 +94,7 @@ module Versionomy
       def test_standard_to_semver_fail
         value_ = ::Versionomy.parse('1.2.3.4', :standard)
         assert_raise(::Versionomy::Errors::ConversionError) do
-          value2_ = value_.convert(:semver)
+          value_.convert(:semver)
         end
       end
 
@@ -130,7 +130,7 @@ module Versionomy
       def test_semver_to_standard_fail
         value_ = ::Versionomy.parse('1.2.3c4', :semver)
         assert_raise(::Versionomy::Errors::ConversionError) do
-          value2_ = value_.convert(:standard)
+          value_.convert(:standard)
         end
       end
 

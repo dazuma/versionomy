@@ -5,7 +5,7 @@
 # This file contains tests for the basic use cases on the standard schema
 #
 # -----------------------------------------------------------------------------
-# Copyright 2008-2009 Daniel Azuma
+# Copyright 2008-2012 Daniel Azuma
 #
 # All rights reserved.
 #

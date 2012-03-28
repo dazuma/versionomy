@@ -3,7 +3,7 @@
 # Versionomy standard format implementation
 #
 # -----------------------------------------------------------------------------
-# Copyright 2008-2009 Daniel Azuma
+# Copyright 2008-2012 Daniel Azuma
 #
 # All rights reserved.
 #
@@ -244,7 +244,7 @@ module Versionomy
 
         # The following is the definition of the standard format. It
         # understands the standard schema defined above.
-        format_ = Format::Delimiter.new(schema_) do
+        Format::Delimiter.new(schema_) do
 
           # All version number strings must start with the major version.
           # Unlike other fields, it is not preceded by the usual "dot"

@@ -3,7 +3,7 @@
 # Versionomy standard format implementation
 #
 # -----------------------------------------------------------------------------
-# Copyright 2008-2009 Daniel Azuma
+# Copyright 2008-2012 Daniel Azuma
 #
 # All rights reserved.
 #
@@ -101,7 +101,7 @@ module Versionomy
         # in rubygems.
 
         def parts
-          unless @parts
+          unless defined?(@parts)
             @parts = values_array
             @parts.pop while @parts.size > 1 && @parts.last == 0
           end
@@ -184,7 +184,7 @@ module Versionomy
 
         # The following is the definition of the rubygems format. It
         # understands the rubygems schema defined above.
-        format_ = Format::Delimiter.new(schema_) do
+        Format::Delimiter.new(schema_) do
 
           # All version number strings must start with the major version.
           # Unlike other fields, it is not preceded by any delimiter.

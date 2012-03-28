@@ -289,7 +289,7 @@ Versionomy::Conversion::Rubygems for further information.
 
 * Ruby 1.8.6 or later (1.8.7 recommended), Ruby 1.9.1 or later, or JRuby
   1.4 or later.
-* blockenspiel 0.3.1 or later.
+* blockenspiel 0.4.3 or later.
 
 === Installation
 
@@ -317,7 +317,7 @@ Versionomy is written by Daniel Azuma (http://www.daniel-azuma.com/).
 
 == LICENSE:
 
-Copyright 2008-2009 Daniel Azuma.
+Copyright 2008-2012 Daniel Azuma.
 
 All rights reserved.
 

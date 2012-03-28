@@ -5,7 +5,7 @@
 # This file contains tests converting to and from the rubygems schema
 #
 # -----------------------------------------------------------------------------
-# Copyright 2008-2009 Daniel Azuma
+# Copyright 2008-2012 Daniel Azuma
 #
 # All rights reserved.
 #
@@ -141,11 +141,11 @@ module Versionomy
       def test_rubygems_to_standard_fail
         value_ = ::Versionomy.parse('1.2.b.3.4.5', :rubygems)
         assert_raise(::Versionomy::Errors::ConversionError) do
-          value2_ = value_.convert(:standard)
+          value_.convert(:standard)
         end
         value_ = ::Versionomy.parse('1.2.c.3', :rubygems)
         assert_raise(::Versionomy::Errors::ConversionError) do
-          value2_ = value_.convert(:standard)
+          value_.convert(:standard)
         end
       end
 

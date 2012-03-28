@@ -5,7 +5,7 @@
 # This file contains tests to ensure the README is valid
 #
 # -----------------------------------------------------------------------------
-# Copyright 2008-2009 Daniel Azuma
+# Copyright 2008-2012 Daniel Azuma
 #
 # All rights reserved.
 #
@@ -96,7 +96,6 @@ module Versionomy
             elsif expect_ =~ /^raises (.*)$/
               # Expect an exception to be raised
               expect_error_ = ::Kernel.eval($1, binding_, 'README.rdoc', io_.lineno)
-              got_error_ = false
               assert_raise(expect_error_) do
                 ::Kernel.eval(expr_, binding_, 'README.rdoc', io_.lineno)
               end

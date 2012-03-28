@@ -3,7 +3,7 @@
 # Versionomy schema wrapper class
 #
 # -----------------------------------------------------------------------------
-# Copyright 2008-2009 Daniel Azuma
+# Copyright 2008-2012 Daniel Azuma
 #
 # All rights reserved.
 #
@@ -160,7 +160,7 @@ module Versionomy
       def field_named(name_, include_aliases_=false)
         name_ = name_.to_sym
         name_ = @aliases[name_] || name_ if include_aliases_
-        field_ = @names[name_]
+        @names[name_]
       end
 
 

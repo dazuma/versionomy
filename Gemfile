@@ -36,6 +36,8 @@
 ;
 
 
+source "http://rubygems.org"
+
 gem('blockenspiel', '>= 0.4.3')
 gem('psych', '>= 1.2.2')
 

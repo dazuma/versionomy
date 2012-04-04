@@ -36,7 +36,6 @@
 
 module Versionomy
 
-
   module Format
 
 

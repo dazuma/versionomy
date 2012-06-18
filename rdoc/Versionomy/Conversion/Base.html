@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Versionomy::Conversion::Base - Versionomy 0.4.3 Documentation</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/versionomy/conversion/base.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Object
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-i-convert_value">#convert_value</a>
+    
+    <li><a href="#method-i-inspect">#inspect</a>
+    
+    <li><a href="#method-i-to_s">#to_s</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../History_rdoc.html">History</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../../Versionomy_rdoc.html">Versionomy</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Versionomy.html">Versionomy</a>
+  
+    <li><a href="../../Versionomy/Conversion.html">Versionomy::Conversion</a>
+  
+    <li><a href="../../Versionomy/Conversion/Base.html">Versionomy::Conversion::Base</a>
+  
+    <li><a href="../../Versionomy/Conversion/Parsing.html">Versionomy::Conversion::Parsing</a>
+  
+    <li><a href="../../Versionomy/Conversion/Parsing/Builder.html">Versionomy::Conversion::Parsing::Builder</a>
+  
+    <li><a href="../../Versionomy/Conversion/Rubygems.html">Versionomy::Conversion::Rubygems</a>
+  
+    <li><a href="../../Versionomy/Conversion/Semver.html">Versionomy::Conversion::Semver</a>
+  
+    <li><a href="../../Versionomy/Errors.html">Versionomy::Errors</a>
+  
+    <li><a href="../../Versionomy/Errors/CircularDescendantError.html">Versionomy::Errors::CircularDescendantError</a>
+  
+    <li><a href="../../Versionomy/Errors/ConversionError.html">Versionomy::Errors::ConversionError</a>
+  
+    <li><a href="../../Versionomy/Errors/ConversionRedefinedError.html">Versionomy::Errors::ConversionRedefinedError</a>
+  
+    <li><a href="../../Versionomy/Errors/FormatCreationError.html">Versionomy::Errors::FormatCreationError</a>
+  
+    <li><a href="../../Versionomy/Errors/FormatRedefinedError.html">Versionomy::Errors::FormatRedefinedError</a>
+  
+    <li><a href="../../Versionomy/Errors/IllegalValueError.html">Versionomy::Errors::IllegalValueError</a>
+  
+    <li><a href="../../Versionomy/Errors/ParseError.html">Versionomy::Errors::ParseError</a>
+  
+    <li><a href="../../Versionomy/Errors/RangeOverlapError.html">Versionomy::Errors::RangeOverlapError</a>
+  
+    <li><a href="../../Versionomy/Errors/RangeSpecificationError.html">Versionomy::Errors::RangeSpecificationError</a>
+  
+    <li><a href="../../Versionomy/Errors/SchemaCreationError.html">Versionomy::Errors::SchemaCreationError</a>
+  
+    <li><a href="../../Versionomy/Errors/SchemaMismatchError.html">Versionomy::Errors::SchemaMismatchError</a>
+  
+    <li><a href="../../Versionomy/Errors/SymbolRedefinedError.html">Versionomy::Errors::SymbolRedefinedError</a>
+  
+    <li><a href="../../Versionomy/Errors/TypeMismatchError.html">Versionomy::Errors::TypeMismatchError</a>
+  
+    <li><a href="../../Versionomy/Errors/UnknownConversionError.html">Versionomy::Errors::UnknownConversionError</a>
+  
+    <li><a href="../../Versionomy/Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
+  
+    <li><a href="../../Versionomy/Errors/UnparseError.html">Versionomy::Errors::UnparseError</a>
+  
+    <li><a href="../../Versionomy/Errors/VersionomyError.html">Versionomy::Errors::VersionomyError</a>
+  
+    <li><a href="../../Versionomy/Format.html">Versionomy::Format</a>
+  
+    <li><a href="../../Versionomy/Format/Base.html">Versionomy::Format::Base</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter.html">Versionomy::Format::Delimiter</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/Builder.html">Versionomy::Format::Delimiter::Builder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/IntegerFieldBuilder.html">Versionomy::Format::Delimiter::IntegerFieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/MappingSymbolBuilder.html">Versionomy::Format::Delimiter::MappingSymbolBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/StringFieldBuilder.html">Versionomy::Format::Delimiter::StringFieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/SymbolFieldBuilder.html">Versionomy::Format::Delimiter::SymbolFieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Rubygems.html">Versionomy::Format::Rubygems</a>
+  
+    <li><a href="../../Versionomy/Format/Rubygems/ExtraMethods.html">Versionomy::Format::Rubygems::ExtraMethods</a>
+  
+    <li><a href="../../Versionomy/Format/Semver.html">Versionomy::Format::Semver</a>
+  
+    <li><a href="../../Versionomy/Format/Semver/ExtraMethods.html">Versionomy::Format::Semver::ExtraMethods</a>
+  
+    <li><a href="../../Versionomy/Format/Standard.html">Versionomy::Format::Standard</a>
+  
+    <li><a href="../../Versionomy/Format/Standard/ExtraMethods.html">Versionomy::Format::Standard::ExtraMethods</a>
+  
+    <li><a href="../../Versionomy/Format.html">Versionomy::Formats</a>
+  
+    <li><a href="../../Versionomy/Schema.html">Versionomy::Schema</a>
+  
+    <li><a href="../../Versionomy/Schema/Builder.html">Versionomy::Schema::Builder</a>
+  
+    <li><a href="../../Versionomy/Schema/Field.html">Versionomy::Schema::Field</a>
+  
+    <li><a href="../../Versionomy/Schema/FieldBuilder.html">Versionomy::Schema::FieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Schema/Wrapper.html">Versionomy::Schema::Wrapper</a>
+  
+    <li><a href="../../Versionomy/Value.html">Versionomy::Value</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Versionomy::Conversion::Base</h1>
+
+  <div id="description" class="description">
+    
+<p>The base conversion class.</p>
+
+<p>This base class defines the API for a conversion. All conversions must
+define the method <code>convert_value</code> documented here. Conversions
+need not actually extend this base class, as long as they duck-type this
+method. However, this base class does provide a few convenience methods
+such as a sane implementation of inspect.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(&block_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create a conversion using a simple DSL. You can pass a block to the
+initializer that takes the same parameters as <a
+href="Base.html#method-i-convert_value">#convert_value</a>, and the
+conversion will use that block to perform the conversion.</p>
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/conversion/base.rb, line 58</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(&amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-ivar">@_converter</span> = <span class="ruby-identifier">block_</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-convert_value" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">convert_value</span><span
+            class="method-args">(value_, format_, convert_params_=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Convert the given value to the given format and return the converted value.</p>
+
+<p>The convert_params may be interpreted however the particular conversion
+wishes.</p>
+
+<p>Raises <a
+href="../Errors/ConversionError.html">Versionomy::Errors::ConversionError</a>
+if the conversion failed.</p>
+          
+
+          
+          <div class="method-source-code" id="convert_value-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/conversion/base.rb, line 71</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">convert_value</span>(<span class="ruby-identifier">value_</span>, <span class="ruby-identifier">format_</span>, <span class="ruby-identifier">convert_params_</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@_converter</span>
+    <span class="ruby-ivar">@_converter</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">value_</span>, <span class="ruby-identifier">format_</span>, <span class="ruby-identifier">convert_params_</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">ConversionError</span>, <span class="ruby-string">&quot;Conversion not implemented&quot;</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- convert_value-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- convert_value-method -->
+
+    
+      <div id="method-i-inspect" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">inspect</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Inspect this conversion.</p>
+          
+
+          
+          <div class="method-source-code" id="inspect-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/conversion/base.rb, line 82</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>
+  <span class="ruby-node">&quot;#&lt;#{self.class}:0x#{object_id.to_s(16)}&gt;&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- inspect-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- inspect-method -->
+
+    
+      <div id="method-i-to_s" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_s</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>The default <a href="Base.html#method-i-to_s">#to_s</a> implementation just
+calls inspect.</p>
+          
+
+          
+          <div class="method-source-code" id="to_s-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/conversion/base.rb, line 89</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">inspect</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_s-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_s-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

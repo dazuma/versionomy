@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>Versionomy - Versionomy 0.4.3 Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body class="file">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./History_rdoc.html">History</a>
+  
+    <li class="file"><a href="./README_rdoc.html">README</a>
+  
+    <li class="file"><a href="./Versionomy_rdoc.html">Versionomy</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./Versionomy.html">Versionomy</a>
+  
+    <li><a href="./Versionomy/Conversion.html">Versionomy::Conversion</a>
+  
+    <li><a href="./Versionomy/Conversion/Base.html">Versionomy::Conversion::Base</a>
+  
+    <li><a href="./Versionomy/Conversion/Parsing.html">Versionomy::Conversion::Parsing</a>
+  
+    <li><a href="./Versionomy/Conversion/Parsing/Builder.html">Versionomy::Conversion::Parsing::Builder</a>
+  
+    <li><a href="./Versionomy/Conversion/Rubygems.html">Versionomy::Conversion::Rubygems</a>
+  
+    <li><a href="./Versionomy/Conversion/Semver.html">Versionomy::Conversion::Semver</a>
+  
+    <li><a href="./Versionomy/Errors.html">Versionomy::Errors</a>
+  
+    <li><a href="./Versionomy/Errors/CircularDescendantError.html">Versionomy::Errors::CircularDescendantError</a>
+  
+    <li><a href="./Versionomy/Errors/ConversionError.html">Versionomy::Errors::ConversionError</a>
+  
+    <li><a href="./Versionomy/Errors/ConversionRedefinedError.html">Versionomy::Errors::ConversionRedefinedError</a>
+  
+    <li><a href="./Versionomy/Errors/FormatCreationError.html">Versionomy::Errors::FormatCreationError</a>
+  
+    <li><a href="./Versionomy/Errors/FormatRedefinedError.html">Versionomy::Errors::FormatRedefinedError</a>
+  
+    <li><a href="./Versionomy/Errors/IllegalValueError.html">Versionomy::Errors::IllegalValueError</a>
+  
+    <li><a href="./Versionomy/Errors/ParseError.html">Versionomy::Errors::ParseError</a>
+  
+    <li><a href="./Versionomy/Errors/RangeOverlapError.html">Versionomy::Errors::RangeOverlapError</a>
+  
+    <li><a href="./Versionomy/Errors/RangeSpecificationError.html">Versionomy::Errors::RangeSpecificationError</a>
+  
+    <li><a href="./Versionomy/Errors/SchemaCreationError.html">Versionomy::Errors::SchemaCreationError</a>
+  
+    <li><a href="./Versionomy/Errors/SchemaMismatchError.html">Versionomy::Errors::SchemaMismatchError</a>
+  
+    <li><a href="./Versionomy/Errors/SymbolRedefinedError.html">Versionomy::Errors::SymbolRedefinedError</a>
+  
+    <li><a href="./Versionomy/Errors/TypeMismatchError.html">Versionomy::Errors::TypeMismatchError</a>
+  
+    <li><a href="./Versionomy/Errors/UnknownConversionError.html">Versionomy::Errors::UnknownConversionError</a>
+  
+    <li><a href="./Versionomy/Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
+  
+    <li><a href="./Versionomy/Errors/UnparseError.html">Versionomy::Errors::UnparseError</a>
+  
+    <li><a href="./Versionomy/Errors/VersionomyError.html">Versionomy::Errors::VersionomyError</a>
+  
+    <li><a href="./Versionomy/Format.html">Versionomy::Format</a>
+  
+    <li><a href="./Versionomy/Format/Base.html">Versionomy::Format::Base</a>
+  
+    <li><a href="./Versionomy/Format/Delimiter.html">Versionomy::Format::Delimiter</a>
+  
+    <li><a href="./Versionomy/Format/Delimiter/Builder.html">Versionomy::Format::Delimiter::Builder</a>
+  
+    <li><a href="./Versionomy/Format/Delimiter/IntegerFieldBuilder.html">Versionomy::Format::Delimiter::IntegerFieldBuilder</a>
+  
+    <li><a href="./Versionomy/Format/Delimiter/MappingSymbolBuilder.html">Versionomy::Format::Delimiter::MappingSymbolBuilder</a>
+  
+    <li><a href="./Versionomy/Format/Delimiter/StringFieldBuilder.html">Versionomy::Format::Delimiter::StringFieldBuilder</a>
+  
+    <li><a href="./Versionomy/Format/Delimiter/SymbolFieldBuilder.html">Versionomy::Format::Delimiter::SymbolFieldBuilder</a>
+  
+    <li><a href="./Versionomy/Format/Rubygems.html">Versionomy::Format::Rubygems</a>
+  
+    <li><a href="./Versionomy/Format/Rubygems/ExtraMethods.html">Versionomy::Format::Rubygems::ExtraMethods</a>
+  
+    <li><a href="./Versionomy/Format/Semver.html">Versionomy::Format::Semver</a>
+  
+    <li><a href="./Versionomy/Format/Semver/ExtraMethods.html">Versionomy::Format::Semver::ExtraMethods</a>
+  
+    <li><a href="./Versionomy/Format/Standard.html">Versionomy::Format::Standard</a>
+  
+    <li><a href="./Versionomy/Format/Standard/ExtraMethods.html">Versionomy::Format::Standard::ExtraMethods</a>
+  
+    <li><a href="./Versionomy/Format.html">Versionomy::Formats</a>
+  
+    <li><a href="./Versionomy/Schema.html">Versionomy::Schema</a>
+  
+    <li><a href="./Versionomy/Schema/Builder.html">Versionomy::Schema::Builder</a>
+  
+    <li><a href="./Versionomy/Schema/Field.html">Versionomy::Schema::Field</a>
+  
+    <li><a href="./Versionomy/Schema/FieldBuilder.html">Versionomy::Schema::FieldBuilder</a>
+  
+    <li><a href="./Versionomy/Schema/Wrapper.html">Versionomy::Schema::Wrapper</a>
+  
+    <li><a href="./Versionomy/Value.html">Versionomy::Value</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation" class="description">
+  
+<h2 id="label-Versionomy"><a href="Versionomy.html">Versionomy</a></h2>
+
+<p><a href="Versionomy.html">Versionomy</a> is a generalized version number
+library. It provides tools to represent, manipulate, parse, and compare
+version numbers in the wide variety of versioning schemes in use.</p>
+
+<p>This document provides a step-by-step introduction to most of the features
+of <a href="Versionomy.html">Versionomy</a>.</p>
+
+<h3 id="label-Version+numbers+done+right%3F">Version numbers done right?</h3>
+
+<p>Let’s be honest. Version numbers are not easy to deal with, and very seldom
+seem to be done right.</p>
+
+<p>Imagine the common case of testing the Ruby version. Most of us, if we need
+to worry about Ruby VM compatibility, will do something like:</p>
+
+<pre>do_something if RUBY_VERSION &gt;= &quot;1.8.7&quot;</pre>
+
+<p>Treating the version number as a string works well enough, until it
+doesn’t. The above code will do the right thing for Ruby 1.8.6, 1.8.7,
+1.8.8, and 1.9.1. But it will fail if the version is “1.8.10” or “1.10”.
+And properly interpreting “prerelease” version syntax such as
+“1.9.2-preview1”? Forget it.</p>
+
+<p>There are a few version number classes out there that do better than
+treating version numbers as plain strings. One example is Gem::Version,
+part of the RubyGems package. This class separates the version into fields
+and lets you manipulate and compare version numbers more robustly. It even
+provides limited support for “prerelease” versions through using string-
+valued fields– although it’s a hack, and a bit of a clumsy one at that. A
+prerelease version has to be represented like this: “1.9.2.b.1” or
+“1.9.2.preview.2”. Wouldn’t it be nice to be able to parse more typical
+version number formats such as “1.9.2b1” and “1.9.2-preview2”? Wouldn’t it
+be nice for a version like “1.9.2b1” to <em>understand</em> that it’s a
+“beta” version and behave accordingly?</p>
+
+<p>With <a href="Versionomy.html">Versionomy</a>, you can do all this and
+more. Here’s how…</p>
+
+<h3 id="label-Creating+version+numbers">Creating version numbers</h3>
+
+<p>Creating a version number object in <a
+href="Versionomy.html">Versionomy</a> is as simple as passing a string to a
+factory. <a href="Versionomy.html">Versionomy</a> understands a wide range
+of version number formats out of the box.</p>
+
+<pre>v1 = Versionomy.parse('1.2')             # Simple version numbers
+v2 = Versionomy.parse('2.1.5.0')         # Up to four fields supported
+v3 = Versionomy.parse('1.9b3')           # Alpha and beta versions
+v4 = Versionomy.parse('1.9rc2')          # Release candidates too
+v5 = Versionomy.parse('1.9.2-preview2')  # Preview releases
+v6 = Versionomy.parse('1.9.2-p6')        # Patchlevels
+v7 = Versionomy.parse('v2.0 beta 6.1')   # Many alternative syntaxes</pre>
+
+<p>You can also construct version numbers manually by passing a hash of field
+values. See the next section for a discussion of fields.</p>
+
+<pre class="ruby"><span class="ruby-identifier">v1</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">create</span>(:<span class="ruby-identifier">major</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>, :<span class="ruby-identifier">minor</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">2</span>)    <span class="ruby-comment"># creates version &quot;1.2&quot;</span>
+<span class="ruby-identifier">v2</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">create</span>(:<span class="ruby-identifier">major</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>, :<span class="ruby-identifier">minor</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">9</span>,
+       :<span class="ruby-identifier">release_type</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">beta</span>, :<span class="ruby-identifier">beta_version</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">3</span>)  <span class="ruby-comment"># creates version &quot;1.9b3&quot;</span>
+</pre>
+
+<p>The current ruby virtual machine version can be obtained using:</p>
+
+<pre>v1 = Versionomy.ruby_version</pre>
+
+<p>Many other libraries include their version as a string constant in their
+main namespace module. <a href="Versionomy.html">Versionomy</a> provides a
+quick facility to attempt to extract the version of a library:</p>
+
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">'nokogiri'</span>
+<span class="ruby-identifier">v1</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">version_of</span>(<span class="ruby-constant">Nokogiri</span>)
+</pre>
+
+<h3 id="label-Version+number+fields">Version number fields</h3>
+
+<p>A version number is a collection of fields in a particular order. Standard
+version numbers have the following fields:</p>
+<ul><li>
+<p>:major</p>
+</li><li>
+<p>:minor</p>
+</li><li>
+<p>:tiny</p>
+</li><li>
+<p>:tiny2</p>
+</li><li>
+<p>:release_type</p>
+</li></ul>
+
+<p>The first four fields correspond to the four numeric fields of the version
+number. E.g. version numbers have the form “major.minor.tiny.tiny2”.
+Trailing fields that have a zero value may be omitted from a string
+representation, but are still present in the <a
+href="Versionomy/Value.html">Versionomy::Value</a> object.</p>
+
+<p>The fifth field is special. Its value is one of the following symbols:</p>
+<ul><li>
+<p>:development</p>
+</li><li>
+<p>:alpha</p>
+</li><li>
+<p>:beta</p>
+</li><li>
+<p>:release_candidate</p>
+</li><li>
+<p>:preview</p>
+</li><li>
+<p>:final</p>
+</li></ul>
+
+<p>The value of the :release_type field determines which other fields are
+available in the version number. If the :release_type is :development, then
+the two fields :development_version and :development_minor are available.
+Similarly, if :release_type is :alpha, then the two fields :alpha_version
+and :alpha_minor are available, and so on. If :release_type is :final, that
+exposes the two fields :patchlevel and :patchlevel_minor.</p>
+
+<p>You can query a field value simply by calling a method on the value:</p>
+
+<pre class="ruby"><span class="ruby-identifier">v1</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">'1.2b3'</span>)
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">major</span>                        <span class="ruby-comment"># =&gt; 1</span>
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">minor</span>                        <span class="ruby-comment"># =&gt; 2</span>
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">tiny</span>                         <span class="ruby-comment"># =&gt; 0</span>
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">tiny2</span>                        <span class="ruby-comment"># =&gt; 0</span>
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">release_type</span>                 <span class="ruby-comment"># =&gt; :beta</span>
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">beta_version</span>                 <span class="ruby-comment"># =&gt; 3</span>
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">beta_minor</span>                   <span class="ruby-comment"># =&gt; 0</span>
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">release_candidate_version</span>    <span class="ruby-comment"># raises NoMethodError</span>
+</pre>
+
+<p>The above fields are merely the standard fields that <a
+href="Versionomy.html">Versionomy</a> provides out of the box. <a
+href="Versionomy.html">Versionomy</a> also provides advanced users the
+ability to define new version “schemas” with any number of different fields
+and different semantics. See the RDocs for <a
+href="Versionomy/Schema.html">Versionomy::Schema</a> for more information.</p>
+
+<h3 id="label-Version+number+calculations">Version number calculations</h3>
+
+<p>Version numbers can be compared (and thus sorted). <a
+href="Versionomy.html">Versionomy</a> knows how to handle prerelease
+versions and patchlevels correctly. It also compares the semantic value so
+even if versions use an alternate syntax, they will be compared correctly.
+Each of these expressions evaluates to true:</p>
+
+<pre>Versionomy.parse('1.2') &lt; Versionomy.parse('1.10')
+Versionomy.parse('1.2') &gt; Versionomy.parse('1.2b3')
+Versionomy.parse('1.2b3') &gt; Versionomy.parse('1.2a4')
+Versionomy.parse('1.2') &lt; Versionomy.parse('1.2-p1')
+Versionomy.parse('1.2') == Versionomy.parse('1.2-p0')
+Versionomy.parse('1.2b3') == Versionomy.parse('1.2.0-beta3')</pre>
+
+<p><a href="Versionomy.html">Versionomy</a> automatically converts (parses)
+strings when comparing with a version number, so you could even evaluate
+these:</p>
+
+<pre>Versionomy.parse('1.2') &lt; '1.10'
+Versionomy::VERSION &gt; '0.2'</pre>
+
+<p>The <a href="Versionomy.html">Versionomy</a> API provides various methods
+for manipulating fields such as bumping, resetting to default, and changing
+to an arbitrary value. Version numbers are always immutable, so changing a
+version number always produces a copy. Below are a few examples. See the
+RDocs for the class <a href="Versionomy/Value.html">Versionomy::Value</a>
+for more details.</p>
+
+<pre class="ruby"><span class="ruby-identifier">v_orig</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">'1.2b3'</span>)
+<span class="ruby-identifier">v1</span> = <span class="ruby-identifier">v_orig</span>.<span class="ruby-identifier">change</span>(:<span class="ruby-identifier">beta_version</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">4</span>)  <span class="ruby-comment"># creates version &quot;1.2b4&quot;</span>
+<span class="ruby-identifier">v2</span> = <span class="ruby-identifier">v_orig</span>.<span class="ruby-identifier">change</span>(:<span class="ruby-identifier">tiny</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">4</span>)          <span class="ruby-comment"># creates version &quot;1.2.4b3&quot;</span>
+<span class="ruby-identifier">v3</span> = <span class="ruby-identifier">v_orig</span>.<span class="ruby-identifier">bump</span>(:<span class="ruby-identifier">minor</span>)                <span class="ruby-comment"># creates version &quot;1.3&quot;</span>
+<span class="ruby-identifier">v4</span> = <span class="ruby-identifier">v_orig</span>.<span class="ruby-identifier">bump</span>(:<span class="ruby-identifier">release_type</span>)         <span class="ruby-comment"># creates version &quot;1.2rc1&quot;</span>
+<span class="ruby-identifier">v5</span> = <span class="ruby-identifier">v_orig</span>.<span class="ruby-identifier">reset</span>(:<span class="ruby-identifier">minor</span>)               <span class="ruby-comment"># creates version &quot;1.0&quot;</span>
+</pre>
+
+<p>A few more common calculations are also provided:</p>
+
+<pre class="ruby"><span class="ruby-identifier">v_orig</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">'1.2b3'</span>)
+<span class="ruby-identifier">v_orig</span>.<span class="ruby-identifier">prerelease?</span>                  <span class="ruby-comment"># =&gt; true</span>
+<span class="ruby-identifier">v6</span> = <span class="ruby-identifier">v_orig</span>.<span class="ruby-identifier">release</span>                 <span class="ruby-comment"># creates version &quot;1.2&quot;</span>
+</pre>
+
+<h3 id="label-Parsing+and+unparsing">Parsing and unparsing</h3>
+
+<p>Versionomy’s parsing and unparsing services appear simple from the outside,
+but a closer look reveals some sophisticated features. Parsing is as simple
+as passing a string to Versionomy#parse, and unparsing is as simple as
+calling <a
+href="Versionomy/Value.html#method-i-unparse">Versionomy::Value#unparse</a>
+or <a
+href="Versionomy/Value.html#method-i-to_s">Versionomy::Value#to_s</a>.</p>
+
+<pre class="ruby"><span class="ruby-identifier">v</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">'1.2b3'</span>)  <span class="ruby-comment"># Create a Versionomy::Value</span>
+<span class="ruby-identifier">v</span>.<span class="ruby-identifier">unparse</span>                      <span class="ruby-comment"># =&gt; &quot;1.2b3&quot;</span>
+</pre>
+
+<p><a href="Versionomy.html">Versionomy</a> does its best to preserve the
+original syntax when parsing a version string, so that syntax can be used
+when unparsing.</p>
+
+<pre class="ruby"><span class="ruby-identifier">v1</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">'1.2b3'</span>)
+<span class="ruby-identifier">v2</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">'1.2.0-beta3'</span>)
+<span class="ruby-identifier">v1</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">b2</span>                              <span class="ruby-comment"># =&gt; true</span>
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">unparse</span>                            <span class="ruby-comment"># =&gt; &quot;1.2b3&quot;</span>
+<span class="ruby-identifier">v2</span>.<span class="ruby-identifier">unparse</span>                            <span class="ruby-comment"># =&gt; &quot;1.2.0-beta3&quot;</span>
+</pre>
+
+<p><a href="Versionomy.html">Versionomy</a> even preserves the original syntax
+when changing a value:</p>
+
+<pre class="ruby"><span class="ruby-identifier">v1</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">'1.2b3'</span>)
+<span class="ruby-identifier">v2</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">'1.2.0.0b3'</span>)
+<span class="ruby-identifier">v1</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">v2</span>                            <span class="ruby-comment"># =&gt; true</span>
+<span class="ruby-identifier">v1r</span> = <span class="ruby-identifier">v1</span>.<span class="ruby-identifier">release</span>
+<span class="ruby-identifier">v2r</span> = <span class="ruby-identifier">v2</span>.<span class="ruby-identifier">release</span>
+<span class="ruby-identifier">v1r</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">v2r</span>                          <span class="ruby-comment"># =&gt; true</span>
+<span class="ruby-identifier">v1r</span>.<span class="ruby-identifier">unparse</span>                         <span class="ruby-comment"># =&gt; &quot;1.2&quot;</span>
+<span class="ruby-identifier">v2r</span>.<span class="ruby-identifier">unparse</span>                         <span class="ruby-comment"># =&gt; &quot;1.2.0.0&quot;</span>
+</pre>
+
+<p>You can change the settings manually when unparsing a value.</p>
+
+<pre class="ruby"><span class="ruby-identifier">v1</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">'1.2b3'</span>)
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">unparse</span>                                <span class="ruby-comment"># =&gt; &quot;1.2b3&quot;</span>
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">unparse</span>(:<span class="ruby-identifier">required_fields</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">tiny</span>)     <span class="ruby-comment"># =&gt; &quot;1.2.0b3&quot;</span>
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">unparse</span>(:<span class="ruby-identifier">release_type_delim</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-'</span>,
+           :<span class="ruby-identifier">release_type_style</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">long</span>)  <span class="ruby-comment"># =&gt; &quot;1.2-beta3&quot;</span>
+</pre>
+
+<p><a href="Versionomy.html">Versionomy</a> also supports serialization using
+Marshal and YAML.</p>
+
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">'yaml'</span>
+<span class="ruby-identifier">v1</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">'1.2b3'</span>)
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">unparse</span>                      <span class="ruby-comment"># =&gt; &quot;1.2b3&quot;</span>
+<span class="ruby-identifier">str</span> = <span class="ruby-identifier">v1</span>.<span class="ruby-identifier">to_yaml</span>
+<span class="ruby-identifier">v2</span> = <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">str</span>)
+<span class="ruby-identifier">v2</span>.<span class="ruby-identifier">unparse</span>                      <span class="ruby-comment"># =&gt; &quot;1.2b3&quot;</span>
+</pre>
+
+<h3 id="label-Customized+formats">Customized formats</h3>
+
+<p>Although the standard parser used by <a
+href="Versionomy.html">Versionomy</a> is likely sufficient for most common
+syntaxes, <a href="Versionomy.html">Versionomy</a> also lets you customize
+the parser for an unusual syntax. Here is an example of a customized
+formatter for version numbers used by a certain large software company:</p>
+
+<pre class="ruby"><span class="ruby-identifier">year_sp_format</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">default_format</span>.<span class="ruby-identifier">modified_copy</span> <span class="ruby-keyword">do</span>
+  <span class="ruby-identifier">field</span>(:<span class="ruby-identifier">minor</span>) <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">recognize_number</span>(:<span class="ruby-identifier">default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>,
+                     :<span class="ruby-identifier">delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'\s?sp'</span>,
+                     :<span class="ruby-identifier">default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">' SP'</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span>
+<span class="ruby-identifier">v1</span> = <span class="ruby-identifier">year_sp_format</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">'2008 SP2'</span>)
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">major</span>                               <span class="ruby-comment"># =&gt; 2008</span>
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">minor</span>                               <span class="ruby-comment"># =&gt; 2</span>
+<span class="ruby-identifier">v1</span>.<span class="ruby-identifier">unparse</span>                             <span class="ruby-comment"># =&gt; &quot;2008 SP2&quot;</span>
+<span class="ruby-identifier">v1</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;2008.2&quot;</span>                         <span class="ruby-comment"># =&gt; true</span>
+<span class="ruby-identifier">v2</span> = <span class="ruby-identifier">v1</span>.<span class="ruby-identifier">bump</span>(:<span class="ruby-identifier">minor</span>)
+<span class="ruby-identifier">v2</span>.<span class="ruby-identifier">unparse</span>                             <span class="ruby-comment"># =&gt; &quot;2008 SP3&quot;</span>
+</pre>
+
+<p>The above example uses a powerful DSL provided by <a
+href="Versionomy.html">Versionomy</a> to create a specialized parser. In
+most cases, this DSL will be powerful enough to handle your parsing needs;
+in fact Versionomy’s entire standard parser is written using the DSL.
+However, in case you need to parse very unusual syntax, you can also write
+an arbitrary parser. See the RDocs for the <a
+href="Versionomy/Format/Delimiter.html">Versionomy::Format::Delimiter</a>
+class for more information on the DSL. See the RDocs for the <a
+href="Versionomy/Format/Base.html">Versionomy::Format::Base</a> class for
+information on the interface you need to implement to write an arbitrary
+parser.</p>
+
+<p>If you create a format, you can register it with <a
+href="Versionomy.html">Versionomy</a> and provide a name for it. This will
+allow you to reference it easily, as well as allow <a
+href="Versionomy.html">Versionomy</a> to serialize versions created with
+your custom format. See the RDocs for the <a
+href="Versionomy/Format.html">Versionomy::Format</a> module for more
+information.</p>
+
+<pre>Versionomy::Format.register(&quot;bigcompany.versionformat&quot;, year_sp_format)
+v1 = Versionomy.parse(&quot;2009 SP1&quot;, &quot;bigcompany.versionformat&quot;)</pre>
+
+<p>Note that versions in the year_sp_format example can be compared with
+versions using the standard parser. This is because the versions actually
+share the same schema– that is, they have the same fields. We have merely
+changed the parser.</p>
+
+<p>Recall that it is also possible to change the schema (the fields). This is
+also done via a DSL (see the <a
+href="Versionomy/Schema.html">Versionomy::Schema</a> module and its
+contents). Version numbers with different schemas cannot normally be
+compared, because they have different fields and different semantics. You
+can, however, define ways to convert version numbers from one schema to
+another. See the <a
+href="Versionomy/Conversion.html">Versionomy::Conversion</a> module and its
+contents for details.</p>
+
+<p><a href="Versionomy.html">Versionomy</a> provides an example of a custom
+schema with its own custom format, designed to mimic the Rubygems version
+class. This can be accessed using the format registered under the name
+"rubygems". Conversion functions are also provided between the rubygems and
+standard schemas.</p>
+
+<pre class="ruby"><span class="ruby-identifier">v1</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">&quot;1.2b3&quot;</span>)               <span class="ruby-comment"># Standard schema/format</span>
+<span class="ruby-identifier">v2</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">&quot;1.2.b.4&quot;</span>, :<span class="ruby-identifier">rubygems</span>)  <span class="ruby-comment"># Rubygems schema/format</span>
+<span class="ruby-identifier">v2</span>.<span class="ruby-identifier">field0</span>                                    <span class="ruby-comment"># =&gt; 1</span>
+                                             <span class="ruby-comment">#   (Rubygems fields have different names)</span>
+<span class="ruby-identifier">v1a</span> = <span class="ruby-identifier">v1</span>.<span class="ruby-identifier">convert</span>(:<span class="ruby-identifier">rubygems</span>)                  <span class="ruby-comment"># creates rubygems version &quot;1.2.b.3&quot;</span>
+<span class="ruby-identifier">v2a</span> = <span class="ruby-identifier">v2</span>.<span class="ruby-identifier">convert</span>(:<span class="ruby-identifier">standard</span>)                  <span class="ruby-comment"># creates standard version &quot;1.2b4&quot;</span>
+<span class="ruby-identifier">v1</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">v2</span>                                      <span class="ruby-comment"># =&gt; true</span>
+                                             <span class="ruby-comment">#   (Schemas are different but Versionomy</span>
+                                             <span class="ruby-comment">#   autoconverts if possible)</span>
+<span class="ruby-identifier">v2</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">v1</span>                                      <span class="ruby-comment"># =&gt; false</span>
+<span class="ruby-identifier">v3</span> = <span class="ruby-constant">Versionomy</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-string">&quot;1.2.foo&quot;</span>, :<span class="ruby-identifier">rubygems</span>)  <span class="ruby-comment"># rubygems schema/format</span>
+<span class="ruby-identifier">v3a</span> = <span class="ruby-identifier">v3</span>.<span class="ruby-identifier">convert</span>(:<span class="ruby-identifier">standard</span>)                  <span class="ruby-comment"># raises Versionomy::Errors::ConversionError</span>
+                                             <span class="ruby-comment">#   (Value not convertable to standard)</span>
+<span class="ruby-identifier">v1</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">v3</span>                                      <span class="ruby-comment"># raises Versionomy::Errors::SchemaMismatchError</span>
+                                             <span class="ruby-comment">#   (Autoconversion failed)</span>
+<span class="ruby-identifier">v3</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">v1</span>                                      <span class="ruby-comment"># =&gt; true</span>
+                                             <span class="ruby-comment">#   (Autoconversion is attempted only on the</span>
+                                             <span class="ruby-comment">#   the second value, and this one succeeds.)</span>
+</pre>
+
+<p>The APIs for defining schemas, formats, and conversions are rather complex.
+I recommend looking through the examples in the modules <a
+href="Versionomy/Format/Standard.html">Versionomy::Format::Standard</a>, <a
+href="Versionomy/Format/Rubygems.html">Versionomy::Format::Rubygems</a>,
+and <a
+href="Versionomy/Conversion/Rubygems.html">Versionomy::Conversion::Rubygems</a>
+for further information.</p>
+
+<h3 id="label-Requirements">Requirements</h3>
+<ul><li>
+<p>Ruby 1.8.6 or later (1.8.7 recommended), Ruby 1.9.1 or later, or JRuby 1.4
+or later.</p>
+</li><li>
+<p>blockenspiel 0.4.3 or later.</p>
+</li></ul>
+
+<h3 id="label-Installation">Installation</h3>
+
+<pre>gem install versionomy</pre>
+
+<h3 id="label-Known+issues+and+limitations">Known issues and limitations</h3>
+<ul><li>
+<p>Test coverage is still a little skimpy. It is focused on the “standard”
+version number format and schema, but doesn’t fully exercise all the
+capabilities of custom formats.</p>
+</li></ul>
+
+<h3 id="label-Development+and+support">Development and support</h3>
+
+<p>Documentation is available at <a
+href="http://dazuma.github.com/versionomy/rdoc">dazuma.github.com/versionomy/rdoc</a></p>
+
+<p>Source code is hosted on Github at <a
+href="http://github.com/dazuma/versionomy">github.com/dazuma/versionomy</a></p>
+
+<p>Report bugs on Github issues at <a
+href="http://github.org/dazuma/versionomy/issues">github.org/dazuma/versionomy/issues</a></p>
+
+<p>Contact the author at dazuma at gmail dot com.</p>
+
+<h3 id="label-Author+%2F+Credits">Author / Credits</h3>
+
+<p><a href="Versionomy.html">Versionomy</a> is written by Daniel Azuma (<a
+href="http://www.daniel-azuma.com/">www.daniel-azuma.com/</a>).</p>
+
+<h2 id="label-LICENSE%3A">LICENSE:</h2>
+
+<p>Copyright 2008-2012 Daniel Azuma.</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+<ul><li>
+<p>Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer.</p>
+</li><li>
+<p>Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.</p>
+</li><li>
+<p>Neither the name of the copyright holder, nor the names of any other
+contributors to this software, may be used to endorse or promote products
+derived from this software without specific prior written permission.</p>
+</li></ul>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS “AS IS”
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.</p>
+
+</div>
+
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

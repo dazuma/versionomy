@@ -1,0 +1,21 @@
+Mon, 18 Jun 2012 12:47:33 -0700
+lib/versionomy/conversion/base.rb	Tue, 03 Apr 2012 21:37:12 -0700
+lib/versionomy/conversion/parsing.rb	Tue, 03 Apr 2012 21:37:08 -0700
+lib/versionomy/conversion.rb	Tue, 27 Mar 2012 20:05:35 -0700
+lib/versionomy/errors.rb	Tue, 27 Mar 2012 20:05:35 -0700
+lib/versionomy/format/base.rb	Tue, 03 Apr 2012 21:37:00 -0700
+lib/versionomy/format/delimiter.rb	Tue, 27 Mar 2012 20:05:35 -0700
+lib/versionomy/format.rb	Tue, 27 Mar 2012 20:05:35 -0700
+lib/versionomy/format_definitions/rubygems.rb	Tue, 27 Mar 2012 20:05:35 -0700
+lib/versionomy/format_definitions/semver.rb	Tue, 27 Mar 2012 20:05:52 -0700
+lib/versionomy/format_definitions/standard.rb	Tue, 27 Mar 2012 20:05:35 -0700
+lib/versionomy/interface.rb	Tue, 27 Mar 2012 20:05:35 -0700
+lib/versionomy/schema/field.rb	Tue, 27 Mar 2012 20:05:35 -0700
+lib/versionomy/schema/wrapper.rb	Tue, 27 Mar 2012 20:05:35 -0700
+lib/versionomy/schema.rb	Tue, 27 Mar 2012 20:05:35 -0700
+lib/versionomy/value.rb	Tue, 27 Mar 2012 20:05:35 -0700
+lib/versionomy/version.rb	Tue, 27 Mar 2012 20:05:35 -0700
+lib/versionomy.rb	Tue, 27 Mar 2012 20:05:35 -0700
+History.rdoc	Tue, 27 Mar 2012 19:56:23 -0700
+README.rdoc	Mon, 18 Jun 2012 12:45:16 -0700
+Versionomy.rdoc	Mon, 18 Jun 2012 12:44:56 -0700

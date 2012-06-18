@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Versionomy - Versionomy 0.4.3 Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/versionomy/conversion/base.rb
+    <li>lib/versionomy/conversion/parsing.rb
+    <li>lib/versionomy/conversion.rb
+    <li>lib/versionomy/errors.rb
+    <li>lib/versionomy/format/base.rb
+    <li>lib/versionomy/format/delimiter.rb
+    <li>lib/versionomy/format.rb
+    <li>lib/versionomy/format_definitions/rubygems.rb
+    <li>lib/versionomy/format_definitions/semver.rb
+    <li>lib/versionomy/format_definitions/standard.rb
+    <li>lib/versionomy/interface.rb
+    <li>lib/versionomy/schema/field.rb
+    <li>lib/versionomy/schema/wrapper.rb
+    <li>lib/versionomy/schema.rb
+    <li>lib/versionomy/value.rb
+    <li>lib/versionomy/version.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-create">::create</a>
+    
+    <li><a href="#method-c-default_format">::default_format</a>
+    
+    <li><a href="#method-c-default_format-3D">::default_format=</a>
+    
+    <li><a href="#method-c-parse">::parse</a>
+    
+    <li><a href="#method-c-ruby_version">::ruby_version</a>
+    
+    <li><a href="#method-c-semver">::semver</a>
+    
+    <li><a href="#method-c-version_of">::version_of</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./History_rdoc.html">History</a>
+  
+    <li class="file"><a href="./README_rdoc.html">README</a>
+  
+    <li class="file"><a href="./Versionomy_rdoc.html">Versionomy</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./Versionomy.html">Versionomy</a>
+  
+    <li><a href="./Versionomy/Conversion.html">Versionomy::Conversion</a>
+  
+    <li><a href="./Versionomy/Conversion/Base.html">Versionomy::Conversion::Base</a>
+  
+    <li><a href="./Versionomy/Conversion/Parsing.html">Versionomy::Conversion::Parsing</a>
+  
+    <li><a href="./Versionomy/Conversion/Parsing/Builder.html">Versionomy::Conversion::Parsing::Builder</a>
+  
+    <li><a href="./Versionomy/Conversion/Rubygems.html">Versionomy::Conversion::Rubygems</a>
+  
+    <li><a href="./Versionomy/Conversion/Semver.html">Versionomy::Conversion::Semver</a>
+  
+    <li><a href="./Versionomy/Errors.html">Versionomy::Errors</a>
+  
+    <li><a href="./Versionomy/Errors/CircularDescendantError.html">Versionomy::Errors::CircularDescendantError</a>
+  
+    <li><a href="./Versionomy/Errors/ConversionError.html">Versionomy::Errors::ConversionError</a>
+  
+    <li><a href="./Versionomy/Errors/ConversionRedefinedError.html">Versionomy::Errors::ConversionRedefinedError</a>
+  
+    <li><a href="./Versionomy/Errors/FormatCreationError.html">Versionomy::Errors::FormatCreationError</a>
+  
+    <li><a href="./Versionomy/Errors/FormatRedefinedError.html">Versionomy::Errors::FormatRedefinedError</a>
+  
+    <li><a href="./Versionomy/Errors/IllegalValueError.html">Versionomy::Errors::IllegalValueError</a>
+  
+    <li><a href="./Versionomy/Errors/ParseError.html">Versionomy::Errors::ParseError</a>
+  
+    <li><a href="./Versionomy/Errors/RangeOverlapError.html">Versionomy::Errors::RangeOverlapError</a>
+  
+    <li><a href="./Versionomy/Errors/RangeSpecificationError.html">Versionomy::Errors::RangeSpecificationError</a>
+  
+    <li><a href="./Versionomy/Errors/SchemaCreationError.html">Versionomy::Errors::SchemaCreationError</a>
+  
+    <li><a href="./Versionomy/Errors/SchemaMismatchError.html">Versionomy::Errors::SchemaMismatchError</a>
+  
+    <li><a href="./Versionomy/Errors/SymbolRedefinedError.html">Versionomy::Errors::SymbolRedefinedError</a>
+  
+    <li><a href="./Versionomy/Errors/TypeMismatchError.html">Versionomy::Errors::TypeMismatchError</a>
+  
+    <li><a href="./Versionomy/Errors/UnknownConversionError.html">Versionomy::Errors::UnknownConversionError</a>
+  
+    <li><a href="./Versionomy/Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
+  
+    <li><a href="./Versionomy/Errors/UnparseError.html">Versionomy::Errors::UnparseError</a>
+  
+    <li><a href="./Versionomy/Errors/VersionomyError.html">Versionomy::Errors::VersionomyError</a>
+  
+    <li><a href="./Versionomy/Format.html">Versionomy::Format</a>
+  
+    <li><a href="./Versionomy/Format/Base.html">Versionomy::Format::Base</a>
+  
+    <li><a href="./Versionomy/Format/Delimiter.html">Versionomy::Format::Delimiter</a>
+  
+    <li><a href="./Versionomy/Format/Delimiter/Builder.html">Versionomy::Format::Delimiter::Builder</a>
+  
+    <li><a href="./Versionomy/Format/Delimiter/IntegerFieldBuilder.html">Versionomy::Format::Delimiter::IntegerFieldBuilder</a>
+  
+    <li><a href="./Versionomy/Format/Delimiter/MappingSymbolBuilder.html">Versionomy::Format::Delimiter::MappingSymbolBuilder</a>
+  
+    <li><a href="./Versionomy/Format/Delimiter/StringFieldBuilder.html">Versionomy::Format::Delimiter::StringFieldBuilder</a>
+  
+    <li><a href="./Versionomy/Format/Delimiter/SymbolFieldBuilder.html">Versionomy::Format::Delimiter::SymbolFieldBuilder</a>
+  
+    <li><a href="./Versionomy/Format/Rubygems.html">Versionomy::Format::Rubygems</a>
+  
+    <li><a href="./Versionomy/Format/Rubygems/ExtraMethods.html">Versionomy::Format::Rubygems::ExtraMethods</a>
+  
+    <li><a href="./Versionomy/Format/Semver.html">Versionomy::Format::Semver</a>
+  
+    <li><a href="./Versionomy/Format/Semver/ExtraMethods.html">Versionomy::Format::Semver::ExtraMethods</a>
+  
+    <li><a href="./Versionomy/Format/Standard.html">Versionomy::Format::Standard</a>
+  
+    <li><a href="./Versionomy/Format/Standard/ExtraMethods.html">Versionomy::Format::Standard::ExtraMethods</a>
+  
+    <li><a href="./Versionomy/Format.html">Versionomy::Formats</a>
+  
+    <li><a href="./Versionomy/Schema.html">Versionomy::Schema</a>
+  
+    <li><a href="./Versionomy/Schema/Builder.html">Versionomy::Schema::Builder</a>
+  
+    <li><a href="./Versionomy/Schema/Field.html">Versionomy::Schema::Field</a>
+  
+    <li><a href="./Versionomy/Schema/FieldBuilder.html">Versionomy::Schema::FieldBuilder</a>
+  
+    <li><a href="./Versionomy/Schema/Wrapper.html">Versionomy::Schema::Wrapper</a>
+  
+    <li><a href="./Versionomy/Value.html">Versionomy::Value</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Versionomy</h1>
+
+  <div id="description" class="description">
+    
+<h2 id="label-Versionomy"><a href="Versionomy.html">Versionomy</a></h2>
+
+<p>The <a href="Versionomy.html">Versionomy</a> module contains some
+convenience methods for creating and parsing version numbers.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="Formats">Formats
+        
+        <dd class="description"><p><a href="Versionomy/Format.html">Versionomy::Formats</a> is an alias for <a
+href="Versionomy/Format.html">Versionomy::Format</a>, for backward
+compatibility with version 0.1.0 code. It is deprecated; use <a
+href="Versionomy/Format.html">Versionomy::Format</a> instead.</p>
+        
+      
+        <dt id="VERSION">VERSION
+        
+        <dd class="description"><p>Current gem version, as a <a
+href="Versionomy/Value.html">Versionomy::Value</a>.</p>
+        
+      
+        <dt id="VERSION_STRING">VERSION_STRING
+        
+        <dd class="description"><p>Current gem version, as a frozen string.</p>
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-create" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create</span><span
+            class="method-args">(values_=nil, format_=nil, unparse_params_=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create a new version number given a hash or array of values, and an
+optional format.</p>
+
+<p>The values should either be a hash of field names and values, or an array
+of values that will be interpreted in field order.</p>
+
+<p>The format can be specified as a format object or the name of a format
+registered with <a href="Versionomy/Format.html">Versionomy::Format</a>. If
+the format is omitted or set to nil, the <a
+href="Versionomy.html#method-c-default_format">::default_format</a> will be
+used.</p>
+
+<p>You can also optionally provide default parameters to be used when
+unparsing this value or any derived from it.</p>
+
+<p>Raises <a
+href="Versionomy/Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
+if a name is given that is not registered.</p>
+          
+
+          
+          <div class="method-source-code" id="create-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/interface.rb, line 93</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>(<span class="ruby-identifier">values_</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">format_</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">unparse_params_</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">format_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Hash</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">unparse_params_</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">unparse_params_</span> = <span class="ruby-identifier">format_</span>
+    <span class="ruby-identifier">format_</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">format_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">String</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">format_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Symbol</span>)
+    <span class="ruby-identifier">format_</span> = <span class="ruby-constant">Format</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">format_</span>, <span class="ruby-keyword">true</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">format_</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">default_format</span>
+  <span class="ruby-constant">Value</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">values_</span> <span class="ruby-operator">||</span> [], <span class="ruby-identifier">format_</span>, <span class="ruby-identifier">unparse_params_</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- create-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- create-method -->
+
+    
+      <div id="method-c-default_format" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">default_format</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Gets the current default format. Usually this is the “standard” format
+returned by <a
+href="Versionomy/Format.html#method-c-standard">Versionomy::Format.standard</a>.</p>
+          
+
+          
+          <div class="method-source-code" id="default_format-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/interface.rb, line 53</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">default_format</span>
+  <span class="ruby-ivar">@default_format</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Format</span>.<span class="ruby-identifier">standard</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- default_format-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- default_format-method -->
+
+    
+      <div id="method-c-default_format-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">default_format=</span><span
+            class="method-args">(format_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Sets the default format used by other methods of this convenience
+interface. Usually, this is set to the “standard” format returned by <a
+href="Versionomy/Format.html#method-c-standard">Versionomy::Format.standard</a>
+and should not be changed.</p>
+
+<p>The format can be specified as a format object or the name of a format
+registered with <a href="Versionomy/Format.html">Versionomy::Format</a>. If
+the format is set to nil, the <a
+href="Versionomy.html#method-c-default_format">::default_format</a> will be
+reset to the “standard” format.</p>
+
+<p>Raises <a
+href="Versionomy/Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
+if a name is given that is not registered.</p>
+          
+
+          
+          <div class="method-source-code" id="default_format-3D-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/interface.rb, line 69</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">default_format=</span>(<span class="ruby-identifier">format_</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">format_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">String</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">format_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Symbol</span>)
+    <span class="ruby-identifier">format_</span> = <span class="ruby-constant">Format</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">format_</span>, <span class="ruby-keyword">true</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@default_format</span> = <span class="ruby-identifier">format_</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- default_format-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- default_format-3D-method -->
+
+    
+      <div id="method-c-parse" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">parse</span><span
+            class="method-args">(str_, format_=nil, parse_params_=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create a new version number given a string to parse, and an optional
+format.</p>
+
+<p>The format can be specified as a format object or the name of a format
+registered with <a href="Versionomy/Format.html">Versionomy::Format</a>. If
+the format is omitted or set to nil, the <a
+href="Versionomy.html#method-c-default_format">::default_format</a> will be
+used.</p>
+
+<p>The parameter hash, if present, will be passed as parsing parameters to the
+format.</p>
+
+<p>Raises <a
+href="Versionomy/Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
+if a name is given that is not registered.</p>
+
+<p>May raise <a
+href="Versionomy/Errors/ParseError.html">Versionomy::Errors::ParseError</a>
+if parsing failed.</p>
+          
+
+          
+          <div class="method-source-code" id="parse-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/interface.rb, line 121</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">str_</span>, <span class="ruby-identifier">format_</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">parse_params_</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">format_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Hash</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">parse_params_</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">parse_params_</span> = <span class="ruby-identifier">format_</span>
+    <span class="ruby-identifier">format_</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">format_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">String</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">format_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Symbol</span>)
+    <span class="ruby-identifier">format_</span> = <span class="ruby-constant">Format</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">format_</span>, <span class="ruby-keyword">true</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">format_</span> <span class="ruby-operator">||=</span> <span class="ruby-identifier">default_format</span>
+  <span class="ruby-identifier">format_</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">str_</span>, <span class="ruby-identifier">parse_params_</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- parse-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- parse-method -->
+
+    
+      <div id="method-c-ruby_version" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ruby_version</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Get the ruby version as a <a
+href="Versionomy/Value.html">Versionomy::Value</a>, using the builtin
+constants RUBY_VERSION and RUBY_PATCHLEVEL.</p>
+          
+
+          
+          <div class="method-source-code" id="ruby_version-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/interface.rb, line 205</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">ruby_version</span>
+  <span class="ruby-ivar">@ruby_version</span> <span class="ruby-operator">||=</span> <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">version_</span> = <span class="ruby-identifier">parse</span>(<span class="ruby-operator">::</span><span class="ruby-constant">RUBY_VERSION</span>, <span class="ruby-value">:standard</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">release_type</span> <span class="ruby-operator">==</span> <span class="ruby-value">:final</span>
+      <span class="ruby-identifier">version_</span> = <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">change</span>({<span class="ruby-value">:patchlevel</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-operator">::</span><span class="ruby-constant">RUBY_PATCHLEVEL</span>},
+        <span class="ruby-value">:patchlevel_required</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:patchlevel_delim</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-p'</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">version_</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ruby_version-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ruby_version-method -->
+
+    
+      <div id="method-c-semver" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">semver</span><span
+            class="method-args">(input_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Convenience method for creating a version number using the Semantic
+Versioning format (see <a href="http://semver.org/">semver.org/</a>).</p>
+
+<p>You may pass a string to parse, or a hash with the following keys, all of
+which are optional:</p>
+<dl class="rdoc-list note-list"><dt><code>:major</code>
+<dd>
+<p>Major version number</p>
+</dd><dt><code>:minor</code>
+<dd>
+<p>Minor version number</p>
+</dd><dt><code>:patch</code>
+<dd>
+<p>Patch version number</p>
+</dd><dt><code>:prerelease_suffix</code>
+<dd>
+<p>A prerelease suffix (e.g. “b2”)</p>
+</dd></dl>
+
+<p>May raise <a
+href="Versionomy/Errors/ParseError.html">Versionomy::Errors::ParseError</a>
+if parsing failed.</p>
+          
+
+          
+          <div class="method-source-code" id="semver-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/interface.rb, line 150</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">semver</span>(<span class="ruby-identifier">input_</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">input_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Hash</span>)
+    <span class="ruby-identifier">create</span>(<span class="ruby-identifier">input_</span>, <span class="ruby-value">:semver</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">input_</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-value">:semver</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- semver-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- semver-method -->
+
+    
+      <div id="method-c-version_of" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">version_of</span><span
+            class="method-args">(mod_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Get the version of the given module as a <a
+href="Versionomy/Value.html">Versionomy::Value</a>. Tries a number of
+common approaches to embedding version numbers into modules, such as string
+or array constants, submodules containing constants, or module method
+calls. Returns the version number, or nil if it wasn’t found or couldn’t be
+interpreted.</p>
+          
+
+          
+          <div class="method-source-code" id="version_of-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/interface.rb, line 166</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">version_of</span>(<span class="ruby-identifier">mod_</span>)
+  <span class="ruby-identifier">version_</span> = <span class="ruby-keyword">nil</span>
+  [<span class="ruby-value">:VERSION</span>, <span class="ruby-value">:VERSION_STRING</span>, <span class="ruby-value">:GemVersion</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">sym_</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">mod_</span>.<span class="ruby-identifier">const_defined?</span>(<span class="ruby-identifier">sym_</span>)
+      <span class="ruby-identifier">version_</span> = <span class="ruby-identifier">mod_</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-identifier">sym_</span>)
+      <span class="ruby-keyword">break</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Module</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">const_defined?</span>(<span class="ruby-value">:STRING</span>)
+      <span class="ruby-identifier">version_</span> = <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:STRING</span>)
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">const_defined?</span>(<span class="ruby-value">:VERSION</span>)
+      <span class="ruby-identifier">version_</span> = <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:VERSION</span>)
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">const_defined?</span>(<span class="ruby-value">:MAJOR</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">const_defined?</span>(<span class="ruby-value">:MINOR</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">const_defined?</span>(<span class="ruby-value">:TINY</span>)
+      <span class="ruby-identifier">version_</span> = <span class="ruby-constant">Value</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">version_</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:MAJOR</span>), <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:MINOR</span>), <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-value">:TINY</span>)], <span class="ruby-value">:standard</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">String</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Array</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Value</span>)
+    [<span class="ruby-value">:version</span>, <span class="ruby-value">:release</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">sym_</span><span class="ruby-operator">|</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">mod_</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">sym_</span>)
+        <span class="ruby-identifier">version_</span> = <span class="ruby-identifier">mod_</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">sym_</span>)
+        <span class="ruby-keyword">break</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">String</span>)
+    <span class="ruby-identifier">version_</span> = <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">version_</span>, <span class="ruby-value">:standard</span>) <span class="ruby-keyword">rescue</span> <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">version_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Array</span>)
+    <span class="ruby-identifier">version_</span> = <span class="ruby-identifier">create</span>(<span class="ruby-identifier">version_</span>, <span class="ruby-value">:standard</span>) <span class="ruby-keyword">rescue</span> <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">version_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Value</span>)
+    <span class="ruby-identifier">version_</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">version_</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- version_of-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- version_of-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

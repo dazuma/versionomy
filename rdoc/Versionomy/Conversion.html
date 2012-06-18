@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Versionomy::Conversion - Versionomy 0.4.3 Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/versionomy/conversion/base.rb
+    <li>lib/versionomy/conversion/parsing.rb
+    <li>lib/versionomy/conversion.rb
+    <li>lib/versionomy/format_definitions/rubygems.rb
+    <li>lib/versionomy/format_definitions/semver.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-convert">::convert</a>
+    
+    <li><a href="#method-c-get">::get</a>
+    
+    <li><a href="#method-c-register">::register</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../History_rdoc.html">History</a>
+  
+    <li class="file"><a href="../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../Versionomy_rdoc.html">Versionomy</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Versionomy.html">Versionomy</a>
+  
+    <li><a href="../Versionomy/Conversion.html">Versionomy::Conversion</a>
+  
+    <li><a href="../Versionomy/Conversion/Base.html">Versionomy::Conversion::Base</a>
+  
+    <li><a href="../Versionomy/Conversion/Parsing.html">Versionomy::Conversion::Parsing</a>
+  
+    <li><a href="../Versionomy/Conversion/Parsing/Builder.html">Versionomy::Conversion::Parsing::Builder</a>
+  
+    <li><a href="../Versionomy/Conversion/Rubygems.html">Versionomy::Conversion::Rubygems</a>
+  
+    <li><a href="../Versionomy/Conversion/Semver.html">Versionomy::Conversion::Semver</a>
+  
+    <li><a href="../Versionomy/Errors.html">Versionomy::Errors</a>
+  
+    <li><a href="../Versionomy/Errors/CircularDescendantError.html">Versionomy::Errors::CircularDescendantError</a>
+  
+    <li><a href="../Versionomy/Errors/ConversionError.html">Versionomy::Errors::ConversionError</a>
+  
+    <li><a href="../Versionomy/Errors/ConversionRedefinedError.html">Versionomy::Errors::ConversionRedefinedError</a>
+  
+    <li><a href="../Versionomy/Errors/FormatCreationError.html">Versionomy::Errors::FormatCreationError</a>
+  
+    <li><a href="../Versionomy/Errors/FormatRedefinedError.html">Versionomy::Errors::FormatRedefinedError</a>
+  
+    <li><a href="../Versionomy/Errors/IllegalValueError.html">Versionomy::Errors::IllegalValueError</a>
+  
+    <li><a href="../Versionomy/Errors/ParseError.html">Versionomy::Errors::ParseError</a>
+  
+    <li><a href="../Versionomy/Errors/RangeOverlapError.html">Versionomy::Errors::RangeOverlapError</a>
+  
+    <li><a href="../Versionomy/Errors/RangeSpecificationError.html">Versionomy::Errors::RangeSpecificationError</a>
+  
+    <li><a href="../Versionomy/Errors/SchemaCreationError.html">Versionomy::Errors::SchemaCreationError</a>
+  
+    <li><a href="../Versionomy/Errors/SchemaMismatchError.html">Versionomy::Errors::SchemaMismatchError</a>
+  
+    <li><a href="../Versionomy/Errors/SymbolRedefinedError.html">Versionomy::Errors::SymbolRedefinedError</a>
+  
+    <li><a href="../Versionomy/Errors/TypeMismatchError.html">Versionomy::Errors::TypeMismatchError</a>
+  
+    <li><a href="../Versionomy/Errors/UnknownConversionError.html">Versionomy::Errors::UnknownConversionError</a>
+  
+    <li><a href="../Versionomy/Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
+  
+    <li><a href="../Versionomy/Errors/UnparseError.html">Versionomy::Errors::UnparseError</a>
+  
+    <li><a href="../Versionomy/Errors/VersionomyError.html">Versionomy::Errors::VersionomyError</a>
+  
+    <li><a href="../Versionomy/Format.html">Versionomy::Format</a>
+  
+    <li><a href="../Versionomy/Format/Base.html">Versionomy::Format::Base</a>
+  
+    <li><a href="../Versionomy/Format/Delimiter.html">Versionomy::Format::Delimiter</a>
+  
+    <li><a href="../Versionomy/Format/Delimiter/Builder.html">Versionomy::Format::Delimiter::Builder</a>
+  
+    <li><a href="../Versionomy/Format/Delimiter/IntegerFieldBuilder.html">Versionomy::Format::Delimiter::IntegerFieldBuilder</a>
+  
+    <li><a href="../Versionomy/Format/Delimiter/MappingSymbolBuilder.html">Versionomy::Format::Delimiter::MappingSymbolBuilder</a>
+  
+    <li><a href="../Versionomy/Format/Delimiter/StringFieldBuilder.html">Versionomy::Format::Delimiter::StringFieldBuilder</a>
+  
+    <li><a href="../Versionomy/Format/Delimiter/SymbolFieldBuilder.html">Versionomy::Format::Delimiter::SymbolFieldBuilder</a>
+  
+    <li><a href="../Versionomy/Format/Rubygems.html">Versionomy::Format::Rubygems</a>
+  
+    <li><a href="../Versionomy/Format/Rubygems/ExtraMethods.html">Versionomy::Format::Rubygems::ExtraMethods</a>
+  
+    <li><a href="../Versionomy/Format/Semver.html">Versionomy::Format::Semver</a>
+  
+    <li><a href="../Versionomy/Format/Semver/ExtraMethods.html">Versionomy::Format::Semver::ExtraMethods</a>
+  
+    <li><a href="../Versionomy/Format/Standard.html">Versionomy::Format::Standard</a>
+  
+    <li><a href="../Versionomy/Format/Standard/ExtraMethods.html">Versionomy::Format::Standard::ExtraMethods</a>
+  
+    <li><a href="../Versionomy/Format.html">Versionomy::Formats</a>
+  
+    <li><a href="../Versionomy/Schema.html">Versionomy::Schema</a>
+  
+    <li><a href="../Versionomy/Schema/Builder.html">Versionomy::Schema::Builder</a>
+  
+    <li><a href="../Versionomy/Schema/Field.html">Versionomy::Schema::Field</a>
+  
+    <li><a href="../Versionomy/Schema/FieldBuilder.html">Versionomy::Schema::FieldBuilder</a>
+  
+    <li><a href="../Versionomy/Schema/Wrapper.html">Versionomy::Schema::Wrapper</a>
+  
+    <li><a href="../Versionomy/Value.html">Versionomy::Value</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Versionomy::Conversion</h1>
+
+  <div id="description" class="description">
+    
+<h3 id="label-Conversion+between+version+schemas."><a href="Conversion.html">Conversion</a> between version schemas.</h3>
+
+<p>Conversions are algorithms for converting from one schema to another. This
+is useful for performing conversions as well as comparing version numbers
+that use different schemas.</p>
+
+<p>To implement a conversion algorithm, implement the API defined by <a
+href="Conversion/Base.html">Versionomy::Conversion::Base</a>. Then,
+register your conversion by calling Versionomy::Conversion#register. You
+will need to specify which schemas (from and to) that your conversion
+should handle. From that point on, whenever <a
+href="../Versionomy.html">Versionomy</a> needs to convert a value between
+those two schemas, it will use your conversion. You can register the same
+conversion object for multiple pairs of schemas, but you can register only
+one conversion object for any pair.</p>
+
+<p>A common technique for doing conversions is to unparse the version to a
+string, and then parse it in the new format. <a
+href="../Versionomy.html">Versionomy</a> provides a tool, <a
+href="Conversion/Parsing.html">Versionomy::Conversion::Parsing</a>, for
+performing such conversions. The conversions between the standard and
+rubygems formats uses this tool. See <a
+href="Conversion/Rubygems.html">Versionomy::Conversion::Rubygems</a> for
+annotated examples.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-convert" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">convert</span><span
+            class="method-args">(value_, format_, convert_params_=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Convert the given value to the given format. This is identical to calling
+<code>value_.convert(format_, convert_params_)</code>.</p>
+
+<p>The format may be specified as a format object or as the name of a format
+in the <a href="Format.html">Format</a> registry.</p>
+
+<p>Raises <a
+href="Errors/ConversionError.html">Versionomy::Errors::ConversionError</a>
+if the value could not be converted.</p>
+          
+
+          
+          <div class="method-source-code" id="convert-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/conversion.rb, line 81</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">convert</span>(<span class="ruby-identifier">value_</span>, <span class="ruby-identifier">format_</span>, <span class="ruby-identifier">convert_params_</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">value_</span>.<span class="ruby-identifier">convert</span>(<span class="ruby-identifier">format_</span>, <span class="ruby-identifier">convert_params_</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- convert-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- convert-method -->
+
+    
+      <div id="method-c-get" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get</span><span
+            class="method-args">(from_schema_, to_schema_, strict_=false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Get a conversion capable of converting between the given schemas.</p>
+
+<p>The schemas may be specified as format names, <a
+href="Format.html">Format</a> objects, schema wrapper objects, or the root
+field of the schema.</p>
+
+<p>If strict is set to false, returns nil if no such conversion could be
+found. If strict is set to true, may raise one of these errors:</p>
+
+<p>Raises <a
+href="Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
+if a format was specified by name but the name is not known.</p>
+
+<p>Raises <a
+href="Errors/UnknownConversionError.html">Versionomy::Errors::UnknownConversionError</a>
+if the formats were recognized but no conversion was found to handle them.</p>
+          
+
+          
+          <div class="method-source-code" id="get-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/conversion.rb, line 100</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get</span>(<span class="ruby-identifier">from_schema_</span>, <span class="ruby-identifier">to_schema_</span>, <span class="ruby-identifier">strict_</span>=<span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">key_</span> = <span class="ruby-identifier">_get_key</span>(<span class="ruby-identifier">from_schema_</span>, <span class="ruby-identifier">to_schema_</span>)
+  <span class="ruby-identifier">conversion_</span> = <span class="ruby-ivar">@mutex</span>.<span class="ruby-identifier">synchronize</span>{ <span class="ruby-ivar">@registry</span>[<span class="ruby-identifier">key_</span>] }
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">strict_</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">conversion_</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">UnknownConversionError</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">conversion_</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get-method -->
+
+    
+      <div id="method-c-register" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">register</span><span
+            class="method-args">(from_schema_, to_schema_, conversion_, silent_=false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Register the given conversion as the handler for the given schemas.</p>
+
+<p>The schemas may be specified as format names, <a
+href="Format.html">Format</a> objects, schema wrapper objects, or the root
+field of the schema.</p>
+
+<p>Raises <a
+href="Errors/ConversionRedefinedError.html">Versionomy::Errors::ConversionRedefinedError</a>
+if a conversion has already been registered for the given schemas.</p>
+
+<p>Raises <a
+href="Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
+if a format was specified by name but the name is not known.</p>
+          
+
+          
+          <div class="method-source-code" id="register-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/conversion.rb, line 121</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">register</span>(<span class="ruby-identifier">from_schema_</span>, <span class="ruby-identifier">to_schema_</span>, <span class="ruby-identifier">conversion_</span>, <span class="ruby-identifier">silent_</span>=<span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">key_</span> = <span class="ruby-identifier">_get_key</span>(<span class="ruby-identifier">from_schema_</span>, <span class="ruby-identifier">to_schema_</span>)
+  <span class="ruby-ivar">@mutex</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@registry</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">key_</span>)
+      <span class="ruby-keyword">unless</span> <span class="ruby-identifier">silent_</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">ConversionRedefinedError</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-ivar">@registry</span>[<span class="ruby-identifier">key_</span>] = <span class="ruby-identifier">conversion_</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- register-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- register-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

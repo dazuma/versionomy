@@ -1,0 +1,5 @@
+/doc/
+/pkg/
+.DS_Store
+*.rbc
+Gemfile.lock

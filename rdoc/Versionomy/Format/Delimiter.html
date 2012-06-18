@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Versionomy::Format::Delimiter - Versionomy 0.4.3 Documentation</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/versionomy/format/delimiter.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="Base.html">Versionomy::Format::Base</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-i-default_parse_params">#default_parse_params</a>
+    
+    <li><a href="#method-i-default_unparse_params">#default_unparse_params</a>
+    
+    <li><a href="#method-i-modified_copy">#modified_copy</a>
+    
+    <li><a href="#method-i-parse">#parse</a>
+    
+    <li><a href="#method-i-schema">#schema</a>
+    
+    <li><a href="#method-i-unparse">#unparse</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../History_rdoc.html">History</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../../Versionomy_rdoc.html">Versionomy</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Versionomy.html">Versionomy</a>
+  
+    <li><a href="../../Versionomy/Conversion.html">Versionomy::Conversion</a>
+  
+    <li><a href="../../Versionomy/Conversion/Base.html">Versionomy::Conversion::Base</a>
+  
+    <li><a href="../../Versionomy/Conversion/Parsing.html">Versionomy::Conversion::Parsing</a>
+  
+    <li><a href="../../Versionomy/Conversion/Parsing/Builder.html">Versionomy::Conversion::Parsing::Builder</a>
+  
+    <li><a href="../../Versionomy/Conversion/Rubygems.html">Versionomy::Conversion::Rubygems</a>
+  
+    <li><a href="../../Versionomy/Conversion/Semver.html">Versionomy::Conversion::Semver</a>
+  
+    <li><a href="../../Versionomy/Errors.html">Versionomy::Errors</a>
+  
+    <li><a href="../../Versionomy/Errors/CircularDescendantError.html">Versionomy::Errors::CircularDescendantError</a>
+  
+    <li><a href="../../Versionomy/Errors/ConversionError.html">Versionomy::Errors::ConversionError</a>
+  
+    <li><a href="../../Versionomy/Errors/ConversionRedefinedError.html">Versionomy::Errors::ConversionRedefinedError</a>
+  
+    <li><a href="../../Versionomy/Errors/FormatCreationError.html">Versionomy::Errors::FormatCreationError</a>
+  
+    <li><a href="../../Versionomy/Errors/FormatRedefinedError.html">Versionomy::Errors::FormatRedefinedError</a>
+  
+    <li><a href="../../Versionomy/Errors/IllegalValueError.html">Versionomy::Errors::IllegalValueError</a>
+  
+    <li><a href="../../Versionomy/Errors/ParseError.html">Versionomy::Errors::ParseError</a>
+  
+    <li><a href="../../Versionomy/Errors/RangeOverlapError.html">Versionomy::Errors::RangeOverlapError</a>
+  
+    <li><a href="../../Versionomy/Errors/RangeSpecificationError.html">Versionomy::Errors::RangeSpecificationError</a>
+  
+    <li><a href="../../Versionomy/Errors/SchemaCreationError.html">Versionomy::Errors::SchemaCreationError</a>
+  
+    <li><a href="../../Versionomy/Errors/SchemaMismatchError.html">Versionomy::Errors::SchemaMismatchError</a>
+  
+    <li><a href="../../Versionomy/Errors/SymbolRedefinedError.html">Versionomy::Errors::SymbolRedefinedError</a>
+  
+    <li><a href="../../Versionomy/Errors/TypeMismatchError.html">Versionomy::Errors::TypeMismatchError</a>
+  
+    <li><a href="../../Versionomy/Errors/UnknownConversionError.html">Versionomy::Errors::UnknownConversionError</a>
+  
+    <li><a href="../../Versionomy/Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
+  
+    <li><a href="../../Versionomy/Errors/UnparseError.html">Versionomy::Errors::UnparseError</a>
+  
+    <li><a href="../../Versionomy/Errors/VersionomyError.html">Versionomy::Errors::VersionomyError</a>
+  
+    <li><a href="../../Versionomy/Format.html">Versionomy::Format</a>
+  
+    <li><a href="../../Versionomy/Format/Base.html">Versionomy::Format::Base</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter.html">Versionomy::Format::Delimiter</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/Builder.html">Versionomy::Format::Delimiter::Builder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/IntegerFieldBuilder.html">Versionomy::Format::Delimiter::IntegerFieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/MappingSymbolBuilder.html">Versionomy::Format::Delimiter::MappingSymbolBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/StringFieldBuilder.html">Versionomy::Format::Delimiter::StringFieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/SymbolFieldBuilder.html">Versionomy::Format::Delimiter::SymbolFieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Rubygems.html">Versionomy::Format::Rubygems</a>
+  
+    <li><a href="../../Versionomy/Format/Rubygems/ExtraMethods.html">Versionomy::Format::Rubygems::ExtraMethods</a>
+  
+    <li><a href="../../Versionomy/Format/Semver.html">Versionomy::Format::Semver</a>
+  
+    <li><a href="../../Versionomy/Format/Semver/ExtraMethods.html">Versionomy::Format::Semver::ExtraMethods</a>
+  
+    <li><a href="../../Versionomy/Format/Standard.html">Versionomy::Format::Standard</a>
+  
+    <li><a href="../../Versionomy/Format/Standard/ExtraMethods.html">Versionomy::Format::Standard::ExtraMethods</a>
+  
+    <li><a href="../../Versionomy/Format.html">Versionomy::Formats</a>
+  
+    <li><a href="../../Versionomy/Schema.html">Versionomy::Schema</a>
+  
+    <li><a href="../../Versionomy/Schema/Builder.html">Versionomy::Schema::Builder</a>
+  
+    <li><a href="../../Versionomy/Schema/Field.html">Versionomy::Schema::Field</a>
+  
+    <li><a href="../../Versionomy/Schema/FieldBuilder.html">Versionomy::Schema::FieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Schema/Wrapper.html">Versionomy::Schema::Wrapper</a>
+  
+    <li><a href="../../Versionomy/Value.html">Versionomy::Value</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Versionomy::Format::Delimiter</h1>
+
+  <div id="description" class="description">
+    
+<p>The <a href="Delimiter.html">Delimiter</a> format class provides a DSL for
+building formats that can handle most cases where the fields of a version
+number appear consecutively in order in the string formatting. We expect
+most version number schemes should fall into this category.</p>
+
+<p>In general, the strategy is to provide, for each field, a set of regular
+expressions that recognize different formats for that field. Every field
+must be of the form “(pre)(value)(post)” where (pre) and (post) are
+delimiters preceding and following the value. Either or both delimiters may
+be the empty string.</p>
+
+<p>To parse a string, the string is scanned from left to right and matched
+against the format for the fields in order. If the string matches, that
+part of the string is consumed and the field value is interpreted from it.
+If the string does not match, and the field is not marked as “required”,
+then the field is set to its default value and the next field is tried.</p>
+
+<p>During parsing, the actual delimiters, along with other information such as
+whether or not fields are required, are saved into a default set of
+parameters for unparsing. These are saved in the unparse_params of the
+version value, so that the version number can be unparsed in generally the
+same form. If the version number value is modified, this allows the
+unparsing of the new value to generally follow the format of the original
+string.</p>
+
+<p><a href="../Format.html">Formats</a> that use the <a
+href="Delimiter.html">Delimiter</a> mechanism also provide support for
+certain parsing and unparsing parameters. See the documentation for the
+parse and unparse methods for details.</p>
+
+<p>For a usage example, see the definition of the standard format in
+Versionomy::Format::Standard#create.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(schema_, default_opts_={}, &block_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create a format using delimiter tools. You should provide the version
+number schema, a set of default options, and a block.</p>
+
+<p>Within the block, you can call methods of <a
+href="Delimiter/Builder.html">Versionomy::Format::Delimiter::Builder</a> to
+provide parsers for the fields of the schema. Any fields you do not
+explicitly configure will get parsed in a default manner.</p>
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/format/delimiter.rb, line 87</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">schema_</span>, <span class="ruby-identifier">default_opts_</span>={}, &amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-comment"># Special case used by modified_copy</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">schema_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Delimiter</span>)
+    <span class="ruby-identifier">orig_</span> = <span class="ruby-identifier">schema_</span>
+    <span class="ruby-ivar">@schema</span> = <span class="ruby-identifier">orig_</span>.<span class="ruby-identifier">schema</span>
+    <span class="ruby-ivar">@default_parse_params</span> = <span class="ruby-identifier">orig_</span>.<span class="ruby-identifier">default_parse_params</span>
+    <span class="ruby-ivar">@default_unparse_params</span> = <span class="ruby-identifier">orig_</span>.<span class="ruby-identifier">default_unparse_params</span>
+    <span class="ruby-ivar">@field_handlers</span> = <span class="ruby-identifier">orig_</span>.<span class="ruby-identifier">instance_variable_get</span>(<span class="ruby-value">:@field_handlers</span>).<span class="ruby-identifier">dup</span>
+    <span class="ruby-identifier">builder_</span> = <span class="ruby-constant">Delimiter</span><span class="ruby-operator">::</span><span class="ruby-constant">Builder</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@schema</span>, <span class="ruby-ivar">@field_handlers</span>,
+      <span class="ruby-ivar">@default_parse_params</span>, <span class="ruby-ivar">@default_unparse_params</span>)
+    <span class="ruby-operator">::</span><span class="ruby-constant">Blockenspiel</span>.<span class="ruby-identifier">invoke</span>(<span class="ruby-identifier">block_</span>, <span class="ruby-identifier">builder_</span>)
+    <span class="ruby-keyword">return</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-ivar">@schema</span> = <span class="ruby-identifier">schema_</span>
+  <span class="ruby-ivar">@field_handlers</span> = {}
+  <span class="ruby-ivar">@default_parse_params</span> = {}
+  <span class="ruby-ivar">@default_unparse_params</span> = {}
+  <span class="ruby-identifier">builder_</span> = <span class="ruby-constant">Delimiter</span><span class="ruby-operator">::</span><span class="ruby-constant">Builder</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@schema</span>, <span class="ruby-ivar">@field_handlers</span>,
+    <span class="ruby-ivar">@default_parse_params</span>, <span class="ruby-ivar">@default_unparse_params</span>)
+  <span class="ruby-operator">::</span><span class="ruby-constant">Blockenspiel</span>.<span class="ruby-identifier">invoke</span>(<span class="ruby-identifier">block_</span>, <span class="ruby-identifier">builder_</span>)
+  <span class="ruby-identifier">_interpret_field_lists</span>(<span class="ruby-ivar">@default_unparse_params</span>)
+  <span class="ruby-ivar">@schema</span>.<span class="ruby-identifier">names</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name_</span><span class="ruby-operator">|</span>
+    <span class="ruby-ivar">@field_handlers</span>[<span class="ruby-identifier">name_</span>] <span class="ruby-operator">||=</span> <span class="ruby-constant">Delimiter</span><span class="ruby-operator">::</span><span class="ruby-constant">FieldHandler</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@schema</span>.<span class="ruby-identifier">field_named</span>(<span class="ruby-identifier">name_</span>), <span class="ruby-identifier">default_opts_</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-default_parse_params" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">default_parse_params</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return a copy of the default parsing parameters used by this format. This
+hash cannot be edited in place. To modify the default parsing parameters,
+use <a href="Delimiter.html#method-i-modified_copy">#modified_copy</a> and
+call <a
+href="Delimiter/Builder.html#method-i-default_parse_params">Versionomy::Format::Delimiter::Builder#default_parse_params</a>
+in the block.</p>
+          
+
+          
+          <div class="method-source-code" id="default_parse_params-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/format/delimiter.rb, line 290</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">default_parse_params</span>
+  <span class="ruby-ivar">@default_parse_params</span>.<span class="ruby-identifier">dup</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- default_parse_params-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- default_parse_params-method -->
+
+    
+      <div id="method-i-default_unparse_params" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">default_unparse_params</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return a copy of the default unparsing parameters used by this format. This
+hash cannot be edited in place. To modify the default unparsing parameters,
+use <a href="Delimiter.html#method-i-modified_copy">#modified_copy</a> and
+call <a
+href="Delimiter/Builder.html#method-i-default_unparse_params">Versionomy::Format::Delimiter::Builder#default_unparse_params</a>
+in the block.</p>
+          
+
+          
+          <div class="method-source-code" id="default_unparse_params-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/format/delimiter.rb, line 300</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">default_unparse_params</span>
+  <span class="ruby-ivar">@default_unparse_params</span>.<span class="ruby-identifier">dup</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- default_unparse_params-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- default_unparse_params-method -->
+
+    
+      <div id="method-i-modified_copy" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">modified_copy</span><span
+            class="method-args">(&block_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create a copy of this format, with the modifications given in the provided
+block. You can call methods of <a
+href="Delimiter/Builder.html">Versionomy::Format::Delimiter::Builder</a> in
+the block. Field handlers that you specify in that block will override and
+change the field handlers from the original. Any fields not specified in
+this block will use the handlers from the original.</p>
+          
+
+          
+          <div class="method-source-code" id="modified_copy-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/format/delimiter.rb, line 311</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">modified_copy</span>(&amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-constant">Delimiter</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>, &amp;<span class="ruby-identifier">block_</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- modified_copy-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- modified_copy-method -->
+
+    
+      <div id="method-i-parse" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">parse</span><span
+            class="method-args">(string_, params_=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Parse the given string and return a value. This method is required by the
+<a href="../Format.html">Format</a> contract.</p>
+
+<p>This method provides, out of the box, support for the following parse
+parameters:</p>
+<dl class="rdoc-list note-list"><dt><code>:extra_characters</code>
+<dd>
+<p>Determines what to do if the entire string cannot be consumed by the
+parsing process. If set to <code>:ignore</code>, any extra characters are
+ignored. If set to <code>:suffix</code>, the extra characters are set as
+the <code>:suffix</code> unparse parameter and are thus appended to the end
+of the string when unparsing takes place. If set to <code>:error</code>
+(the default), causes a <a
+href="../Errors/ParseError.html">Versionomy::Errors::ParseError</a> to be
+raised if there are uninterpreted characters.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="parse-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/format/delimiter.rb, line 139</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">parse</span>(<span class="ruby-identifier">string_</span>, <span class="ruby-identifier">params_</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">parse_params_</span> = <span class="ruby-identifier">default_parse_params</span>
+  <span class="ruby-identifier">parse_params_</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">params_</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">params_</span>
+  <span class="ruby-identifier">parse_state_</span> = {
+    <span class="ruby-value">:backtrack</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">nil</span>,
+    <span class="ruby-value">:string</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">string_</span>,
+    <span class="ruby-value">:values</span> =<span class="ruby-operator">&gt;</span> {},
+    <span class="ruby-value">:unparse_params</span> =<span class="ruby-operator">&gt;</span> {},
+    <span class="ruby-value">:field</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@schema</span>.<span class="ruby-identifier">root_field</span>,
+    <span class="ruby-value">:recognizer_index</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>,
+    <span class="ruby-value">:previous_field_missing</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>
+  }
+  <span class="ruby-keyword">while</span> (<span class="ruby-identifier">field_</span> = <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:field</span>])
+    <span class="ruby-identifier">handler_</span> = <span class="ruby-ivar">@field_handlers</span>[<span class="ruby-identifier">field_</span>.<span class="ruby-identifier">name</span>]
+    <span class="ruby-identifier">recognizer_</span> = <span class="ruby-identifier">handler_</span>.<span class="ruby-identifier">get_recognizer</span>(<span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:recognizer_index</span>])
+    <span class="ruby-identifier">parse_data_</span> = <span class="ruby-keyword">nil</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">recognizer_</span>
+      <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:recognizer_index</span>] <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+      <span class="ruby-identifier">parse_data_</span> = <span class="ruby-identifier">recognizer_</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">parse_state_</span>, <span class="ruby-identifier">parse_params_</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">parse_data_</span>
+        <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:previous_field_missing</span>] = <span class="ruby-keyword">false</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">recognizer_</span>.<span class="ruby-identifier">requires_next_field</span>
+          <span class="ruby-identifier">parse_state_</span> = {
+            <span class="ruby-value">:backtrack</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">parse_state_</span>,
+            <span class="ruby-value">:string</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:string</span>],
+            <span class="ruby-value">:values</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:values</span>].<span class="ruby-identifier">dup</span>,
+            <span class="ruby-value">:unparse_params</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:unparse_params</span>].<span class="ruby-identifier">dup</span>,
+            <span class="ruby-value">:field</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:field</span>],
+            <span class="ruby-value">:recognizer_index</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>,
+            <span class="ruby-value">:previous_field_missing</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>,
+            <span class="ruby-value">:next_field_required</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>,
+          }
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:next_field_required</span>] = <span class="ruby-keyword">false</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:next_field_required</span>]
+      <span class="ruby-identifier">parse_state_</span> = <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:backtrack</span>]
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">parse_data_</span> = [<span class="ruby-identifier">handler_</span>.<span class="ruby-identifier">default_value</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-keyword">nil</span>]
+      <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:previous_field_missing</span>] = <span class="ruby-keyword">true</span>
+      <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:next_field_required</span>] = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">parse_data_</span>
+      <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:values</span>][<span class="ruby-identifier">field_</span>.<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">parse_data_</span>[<span class="ruby-value">0</span>]
+      <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:string</span>] = <span class="ruby-identifier">parse_data_</span>[<span class="ruby-value">2</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">parse_data_</span>[<span class="ruby-value">2</span>]
+      <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:unparse_params</span>].<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">parse_data_</span>[<span class="ruby-value">3</span>]) <span class="ruby-keyword">if</span> <span class="ruby-identifier">parse_data_</span>[<span class="ruby-value">3</span>]
+      <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:field</span>] = <span class="ruby-identifier">field_</span>.<span class="ruby-identifier">child</span>(<span class="ruby-identifier">parse_data_</span>[<span class="ruby-value">0</span>])
+      <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:recognizer_index</span>] = <span class="ruby-value">0</span>
+      <span class="ruby-identifier">handler_</span>.<span class="ruby-identifier">set_style_unparse_param</span>(<span class="ruby-identifier">parse_data_</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:unparse_params</span>])
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">unparse_params_</span> = <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:unparse_params</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:string</span>].<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">parse_params_</span>[<span class="ruby-value">:extra_characters</span>]
+    <span class="ruby-keyword">when</span> <span class="ruby-value">:ignore</span>
+      <span class="ruby-comment"># do nothing</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-value">:suffix</span>
+      <span class="ruby-identifier">unparse_params_</span>[<span class="ruby-value">:suffix</span>] = <span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:string</span>]
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">ParseError</span>, <span class="ruby-node">&quot;Extra characters: #{parse_state_[:string].inspect}&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-constant">Value</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">parse_state_</span>[<span class="ruby-value">:values</span>], <span class="ruby-keyword">self</span>, <span class="ruby-identifier">unparse_params_</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- parse-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- parse-method -->
+
+    
+      <div id="method-i-schema" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">schema</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the schema understood by this format. This method is required by
+the <a href="../Format.html">Format</a> contract.</p>
+          
+
+          
+          <div class="method-source-code" id="schema-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/format/delimiter.rb, line 118</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">schema</span>
+  <span class="ruby-ivar">@schema</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- schema-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- schema-method -->
+
+    
+      <div id="method-i-unparse" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">unparse</span><span
+            class="method-args">(value_, params_=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Unparse the given value and return a string. This method is required by the
+<a href="../Format.html">Format</a> contract.</p>
+
+<p>This method provides, out of the box, support for the following unparse
+parameters:</p>
+<dl class="rdoc-list note-list"><dt><code>:suffix</code>
+<dd>
+<p>A string to append to the unparsed string. Default is nothing.</p>
+</dd><dt><code>:required_fields</code>
+<dd>
+<p>An array of field names that must be present in the unparsed string. These
+are generally fields with default_value_optional set, but that we want
+present in the string anyway. For example, in the version number “2.0.0”,
+often the third field will be default_value_optional, but we can include it
+in the required fields passed to unparse to force it to appear in the
+string.</p>
+</dd><dt><code>:optional_fields</code>
+<dd>
+<p>An array of field names that should have their presence in required_fields
+undone.</p>
+</dd><dt><code>:<em>fieldname</em>_required</code>
+<dd>
+<p>This is an alternate way of specifying whether a potentially optional field
+should be required. Accepted values are true and false.</p>
+</dd><dt><code>:<em>fieldname</em>_style</code>
+<dd>
+<p>Specify the style for unparsing the given field. See <a
+href="Delimiter/Builder.html#method-i-field">Versionomy::Format::Delimiter::Builder#field</a>
+for more discussion of styles.</p>
+</dd><dt><code>:<em>fieldname</em>_delim</code>
+<dd>
+<p>Set the pre-delimiter for the given field, if supported. Note that the
+string specified must be legal– it must match the regexp for the field. If
+not, it will revert to the default.</p>
+</dd><dt><code>:<em>fieldname</em>_postdelim</code>
+<dd>
+<p>Set the post-delimiter for the given field, if supported. Note that the
+string specified must be legal– it must match the regexp for the field. If
+not, it will revert to the default.</p>
+</dd><dt><code>:<em>fieldname</em>_case</code>
+<dd>
+<p>This is used by letter-formatted integer fields only, and sets the case to
+use while unparsing. Recognized values are <code>:lower</code> (the
+default), and <code>:upper</code>.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="unparse-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/format/delimiter.rb, line 245</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">unparse</span>(<span class="ruby-identifier">value_</span>, <span class="ruby-identifier">params_</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">unparse_params_</span> = <span class="ruby-identifier">value_</span>.<span class="ruby-identifier">unparse_params</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">default_unparse_params</span>
+  <span class="ruby-identifier">_interpret_field_lists</span>(<span class="ruby-identifier">unparse_params_</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params_</span>
+    <span class="ruby-identifier">unparse_params_</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">params_</span>)
+    <span class="ruby-identifier">_interpret_field_lists</span>(<span class="ruby-identifier">unparse_params_</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">skipped_handler_list_</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">requires_next_field_</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-identifier">string_</span> = <span class="ruby-string">''</span>
+  <span class="ruby-identifier">value_</span>.<span class="ruby-identifier">each_field_object</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">field_</span>, <span class="ruby-identifier">val_</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">handler_</span> = <span class="ruby-ivar">@field_handlers</span>[<span class="ruby-identifier">field_</span>.<span class="ruby-identifier">name</span>]
+    <span class="ruby-identifier">unparse_data_</span> = <span class="ruby-identifier">handler_</span>.<span class="ruby-identifier">unparse</span>(<span class="ruby-identifier">val_</span>, <span class="ruby-identifier">unparse_params_</span>, <span class="ruby-identifier">requires_next_field_</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">unparse_data_</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">skipped_handler_list_</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">handler_</span>.<span class="ruby-identifier">requires_previous_field</span>
+        <span class="ruby-identifier">skipped_handler_list_</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pair_</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">frag_</span> = <span class="ruby-identifier">pair_</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">unparse</span>(<span class="ruby-identifier">pair_</span>[<span class="ruby-value">1</span>], <span class="ruby-identifier">unparse_params_</span>, <span class="ruby-keyword">true</span>)
+          <span class="ruby-keyword">unless</span> <span class="ruby-identifier">frag_</span>
+            <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">UnparseError</span>, <span class="ruby-node">&quot;Field #{field_.name} empty although a prerequisite for a later field&quot;</span>
+          <span class="ruby-keyword">end</span>
+          <span class="ruby-identifier">string_</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">frag_</span>[<span class="ruby-value">0</span>]
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">skipped_handler_list_</span> = <span class="ruby-keyword">nil</span>
+      <span class="ruby-identifier">string_</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">unparse_data_</span>[<span class="ruby-value">0</span>]
+      <span class="ruby-identifier">requires_next_field_</span> = <span class="ruby-identifier">unparse_data_</span>[<span class="ruby-value">1</span>]
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">handler_</span>.<span class="ruby-identifier">requires_previous_field</span>
+        (<span class="ruby-identifier">skipped_handler_list_</span> <span class="ruby-operator">||=</span> []) <span class="ruby-operator">&lt;&lt;</span> [<span class="ruby-identifier">handler_</span>, <span class="ruby-identifier">val_</span>]
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">skipped_handler_list_</span> = [[<span class="ruby-identifier">handler_</span>, <span class="ruby-identifier">val_</span>]]
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">requires_next_field_</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">string_</span> <span class="ruby-operator">&lt;&lt;</span> (<span class="ruby-identifier">unparse_params_</span>[<span class="ruby-value">:suffix</span>] <span class="ruby-operator">||</span> <span class="ruby-string">''</span>)
+  <span class="ruby-identifier">string_</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- unparse-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- unparse-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

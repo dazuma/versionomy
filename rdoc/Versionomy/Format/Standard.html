@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Versionomy::Format::Standard - Versionomy 0.4.3 Documentation</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/versionomy/format_definitions/standard.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-create">::create</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../History_rdoc.html">History</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../../Versionomy_rdoc.html">Versionomy</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Versionomy.html">Versionomy</a>
+  
+    <li><a href="../../Versionomy/Conversion.html">Versionomy::Conversion</a>
+  
+    <li><a href="../../Versionomy/Conversion/Base.html">Versionomy::Conversion::Base</a>
+  
+    <li><a href="../../Versionomy/Conversion/Parsing.html">Versionomy::Conversion::Parsing</a>
+  
+    <li><a href="../../Versionomy/Conversion/Parsing/Builder.html">Versionomy::Conversion::Parsing::Builder</a>
+  
+    <li><a href="../../Versionomy/Conversion/Rubygems.html">Versionomy::Conversion::Rubygems</a>
+  
+    <li><a href="../../Versionomy/Conversion/Semver.html">Versionomy::Conversion::Semver</a>
+  
+    <li><a href="../../Versionomy/Errors.html">Versionomy::Errors</a>
+  
+    <li><a href="../../Versionomy/Errors/CircularDescendantError.html">Versionomy::Errors::CircularDescendantError</a>
+  
+    <li><a href="../../Versionomy/Errors/ConversionError.html">Versionomy::Errors::ConversionError</a>
+  
+    <li><a href="../../Versionomy/Errors/ConversionRedefinedError.html">Versionomy::Errors::ConversionRedefinedError</a>
+  
+    <li><a href="../../Versionomy/Errors/FormatCreationError.html">Versionomy::Errors::FormatCreationError</a>
+  
+    <li><a href="../../Versionomy/Errors/FormatRedefinedError.html">Versionomy::Errors::FormatRedefinedError</a>
+  
+    <li><a href="../../Versionomy/Errors/IllegalValueError.html">Versionomy::Errors::IllegalValueError</a>
+  
+    <li><a href="../../Versionomy/Errors/ParseError.html">Versionomy::Errors::ParseError</a>
+  
+    <li><a href="../../Versionomy/Errors/RangeOverlapError.html">Versionomy::Errors::RangeOverlapError</a>
+  
+    <li><a href="../../Versionomy/Errors/RangeSpecificationError.html">Versionomy::Errors::RangeSpecificationError</a>
+  
+    <li><a href="../../Versionomy/Errors/SchemaCreationError.html">Versionomy::Errors::SchemaCreationError</a>
+  
+    <li><a href="../../Versionomy/Errors/SchemaMismatchError.html">Versionomy::Errors::SchemaMismatchError</a>
+  
+    <li><a href="../../Versionomy/Errors/SymbolRedefinedError.html">Versionomy::Errors::SymbolRedefinedError</a>
+  
+    <li><a href="../../Versionomy/Errors/TypeMismatchError.html">Versionomy::Errors::TypeMismatchError</a>
+  
+    <li><a href="../../Versionomy/Errors/UnknownConversionError.html">Versionomy::Errors::UnknownConversionError</a>
+  
+    <li><a href="../../Versionomy/Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
+  
+    <li><a href="../../Versionomy/Errors/UnparseError.html">Versionomy::Errors::UnparseError</a>
+  
+    <li><a href="../../Versionomy/Errors/VersionomyError.html">Versionomy::Errors::VersionomyError</a>
+  
+    <li><a href="../../Versionomy/Format.html">Versionomy::Format</a>
+  
+    <li><a href="../../Versionomy/Format/Base.html">Versionomy::Format::Base</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter.html">Versionomy::Format::Delimiter</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/Builder.html">Versionomy::Format::Delimiter::Builder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/IntegerFieldBuilder.html">Versionomy::Format::Delimiter::IntegerFieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/MappingSymbolBuilder.html">Versionomy::Format::Delimiter::MappingSymbolBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/StringFieldBuilder.html">Versionomy::Format::Delimiter::StringFieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/SymbolFieldBuilder.html">Versionomy::Format::Delimiter::SymbolFieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Rubygems.html">Versionomy::Format::Rubygems</a>
+  
+    <li><a href="../../Versionomy/Format/Rubygems/ExtraMethods.html">Versionomy::Format::Rubygems::ExtraMethods</a>
+  
+    <li><a href="../../Versionomy/Format/Semver.html">Versionomy::Format::Semver</a>
+  
+    <li><a href="../../Versionomy/Format/Semver/ExtraMethods.html">Versionomy::Format::Semver::ExtraMethods</a>
+  
+    <li><a href="../../Versionomy/Format/Standard.html">Versionomy::Format::Standard</a>
+  
+    <li><a href="../../Versionomy/Format/Standard/ExtraMethods.html">Versionomy::Format::Standard::ExtraMethods</a>
+  
+    <li><a href="../../Versionomy/Format.html">Versionomy::Formats</a>
+  
+    <li><a href="../../Versionomy/Schema.html">Versionomy::Schema</a>
+  
+    <li><a href="../../Versionomy/Schema/Builder.html">Versionomy::Schema::Builder</a>
+  
+    <li><a href="../../Versionomy/Schema/Field.html">Versionomy::Schema::Field</a>
+  
+    <li><a href="../../Versionomy/Schema/FieldBuilder.html">Versionomy::Schema::FieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Schema/Wrapper.html">Versionomy::Schema::Wrapper</a>
+  
+    <li><a href="../../Versionomy/Value.html">Versionomy::Value</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Versionomy::Format::Standard</h1>
+
+  <div id="description" class="description">
+    
+<p>This is a namespace for the implementation of the <a
+href="Standard.html">Standard</a> schema and format.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-create" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create the standard format. This method is called internally when <a
+href="../../Versionomy.html">Versionomy</a> loads the standard format, and
+you should not need to call it again. It is documented so that you can
+inspect its source code from RDoc, since the source contains useful
+examples of how to use the schema and format definition DSLs.</p>
+          
+
+          
+          <div class="method-source-code" id="create-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/format_definitions/standard.rb, line 140</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">create</span>
+
+  <span class="ruby-comment"># The following is the definition of the standard schema</span>
+  <span class="ruby-identifier">schema_</span> = <span class="ruby-constant">Schema</span>.<span class="ruby-identifier">create</span> <span class="ruby-keyword">do</span>
+
+    <span class="ruby-comment"># The major field has the default value of 1. Most other fields</span>
+    <span class="ruby-comment"># have a default value of 0. Thus, the default version number</span>
+    <span class="ruby-comment"># overall is &quot;1.0&quot;.</span>
+    <span class="ruby-comment"># We first create the core version fields &quot;major.minor.tiny.tiny2&quot;.</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:major</span>, <span class="ruby-value">:default_value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">field</span>(<span class="ruby-value">:minor</span>) <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">field</span>(<span class="ruby-value">:tiny</span>) <span class="ruby-keyword">do</span>
+          <span class="ruby-identifier">field</span>(<span class="ruby-value">:tiny2</span>) <span class="ruby-keyword">do</span>
+
+            <span class="ruby-comment"># The next field is a symbolic field that specifies the</span>
+            <span class="ruby-comment"># release type: e.g. beta, release candidate, release, etc.</span>
+            <span class="ruby-identifier">field</span>(<span class="ruby-value">:release_type</span>, <span class="ruby-value">:type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:symbol</span>) <span class="ruby-keyword">do</span>
+
+              <span class="ruby-comment"># Development releases are typically expressed like</span>
+              <span class="ruby-comment"># &quot;1.0d3&quot; and are intended for unstable development</span>
+              <span class="ruby-comment"># progress. Bumping the release type will change it to</span>
+              <span class="ruby-comment"># alpha.</span>
+              <span class="ruby-identifier">symbol</span>(<span class="ruby-value">:development</span>, <span class="ruby-value">:bump</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:alpha</span>)
+
+              <span class="ruby-comment"># Alpha releases are typically expressed like &quot;1.0a2&quot; and</span>
+              <span class="ruby-comment"># are intended for internal testing.</span>
+              <span class="ruby-comment"># Bumping the release type advances to beta.</span>
+              <span class="ruby-identifier">symbol</span>(<span class="ruby-value">:alpha</span>, <span class="ruby-value">:bump</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:beta</span>)
+
+              <span class="ruby-comment"># Beta releases are typically expressed like &quot;1.0b2&quot; and</span>
+              <span class="ruby-comment"># are intended for external or public testing.</span>
+              <span class="ruby-comment"># Bumping the release type advances to release candidate.</span>
+              <span class="ruby-identifier">symbol</span>(<span class="ruby-value">:beta</span>, <span class="ruby-value">:bump</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:release_candidate</span>)
+
+              <span class="ruby-comment"># Release candidate releases are typically expressed like</span>
+              <span class="ruby-comment"># &quot;1.0rc2&quot; and are intended for final public testing</span>
+              <span class="ruby-comment"># prior to release.</span>
+              <span class="ruby-comment"># Bumping the release type advances to final release.</span>
+              <span class="ruby-identifier">symbol</span>(<span class="ruby-value">:release_candidate</span>, <span class="ruby-value">:bump</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:final</span>)
+
+              <span class="ruby-comment"># Preview releases represent an alternative release type</span>
+              <span class="ruby-comment"># progression, and are typically used for public testing</span>
+              <span class="ruby-comment"># similar to beta or release candidate.</span>
+              <span class="ruby-comment"># Bumping the release type advances to final release.</span>
+              <span class="ruby-identifier">symbol</span>(<span class="ruby-value">:preview</span>, <span class="ruby-value">:bump</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:final</span>)
+
+              <span class="ruby-comment"># This type represents a final release. This is the</span>
+              <span class="ruby-comment"># default value for the release_type field if no value is</span>
+              <span class="ruby-comment"># explicitly provided.</span>
+              <span class="ruby-comment"># Bumping the release type has no effect.</span>
+              <span class="ruby-identifier">symbol</span>(<span class="ruby-value">:final</span>, <span class="ruby-value">:bump</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:final</span>)
+              <span class="ruby-identifier">default_value</span>(<span class="ruby-value">:final</span>)
+
+              <span class="ruby-comment"># If the release type is development, these fields are</span>
+              <span class="ruby-comment"># made available to indicate which development release</span>
+              <span class="ruby-comment"># is being represented.</span>
+              <span class="ruby-identifier">field</span>(<span class="ruby-value">:development_version</span>, <span class="ruby-value">:only</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:development</span>,
+                    <span class="ruby-value">:default_value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>) <span class="ruby-keyword">do</span>
+                <span class="ruby-identifier">field</span>(<span class="ruby-value">:development_minor</span>)
+              <span class="ruby-keyword">end</span>
+
+              <span class="ruby-comment"># If the release type is alpha, these fields are made</span>
+              <span class="ruby-comment"># available to indicate which alpha release is being</span>
+              <span class="ruby-comment"># represented.</span>
+              <span class="ruby-identifier">field</span>(<span class="ruby-value">:alpha_version</span>, <span class="ruby-value">:only</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:alpha</span>, <span class="ruby-value">:default_value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>) <span class="ruby-keyword">do</span>
+                <span class="ruby-identifier">field</span>(<span class="ruby-value">:alpha_minor</span>)
+              <span class="ruby-keyword">end</span>
+
+              <span class="ruby-comment"># If the release type is beta, these fields are made</span>
+              <span class="ruby-comment"># available to indicate which beta release is being</span>
+              <span class="ruby-comment"># represented.</span>
+              <span class="ruby-identifier">field</span>(<span class="ruby-value">:beta_version</span>, <span class="ruby-value">:only</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:beta</span>, <span class="ruby-value">:default_value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>) <span class="ruby-keyword">do</span>
+                <span class="ruby-identifier">field</span>(<span class="ruby-value">:beta_minor</span>)
+              <span class="ruby-keyword">end</span>
+
+              <span class="ruby-comment"># If the release type is release candidate, these fields</span>
+              <span class="ruby-comment"># are made available to indicate which release candidate</span>
+              <span class="ruby-comment"># is being represented.</span>
+              <span class="ruby-identifier">field</span>(<span class="ruby-value">:release_candidate_version</span>, <span class="ruby-value">:only</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:release_candidate</span>,
+                    <span class="ruby-value">:default_value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>) <span class="ruby-keyword">do</span>
+                <span class="ruby-identifier">field</span>(<span class="ruby-value">:release_candidate_minor</span>)
+              <span class="ruby-keyword">end</span>
+
+              <span class="ruby-comment"># If the release type is preview, these fields are made</span>
+              <span class="ruby-comment"># available to indicate which preview release is being</span>
+              <span class="ruby-comment"># represented.</span>
+              <span class="ruby-identifier">field</span>(<span class="ruby-value">:preview_version</span>, <span class="ruby-value">:only</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:preview</span>, <span class="ruby-value">:default_value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>) <span class="ruby-keyword">do</span>
+                <span class="ruby-identifier">field</span>(<span class="ruby-value">:preview_minor</span>)
+              <span class="ruby-keyword">end</span>
+
+              <span class="ruby-comment"># If the release type is final, these fields are made</span>
+              <span class="ruby-comment"># available to indicate an optional patchlevel.</span>
+              <span class="ruby-identifier">field</span>(<span class="ruby-value">:patchlevel</span>, <span class="ruby-value">:only</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:final</span>) <span class="ruby-keyword">do</span>
+                <span class="ruby-identifier">field</span>(<span class="ruby-value">:patchlevel_minor</span>)
+              <span class="ruby-keyword">end</span>
+            <span class="ruby-keyword">end</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment"># Add the methods in this module to each value</span>
+    <span class="ruby-identifier">add_module</span>(<span class="ruby-constant">Format</span><span class="ruby-operator">::</span><span class="ruby-constant">Standard</span><span class="ruby-operator">::</span><span class="ruby-constant">ExtraMethods</span>)
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment"># The following is the definition of the standard format. It</span>
+  <span class="ruby-comment"># understands the standard schema defined above.</span>
+  <span class="ruby-constant">Format</span><span class="ruby-operator">::</span><span class="ruby-constant">Delimiter</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">schema_</span>) <span class="ruby-keyword">do</span>
+
+    <span class="ruby-comment"># All version number strings must start with the major version.</span>
+    <span class="ruby-comment"># Unlike other fields, it is not preceded by the usual &quot;dot&quot;</span>
+    <span class="ruby-comment"># delimiter, but it can be preceded by a &quot;v&quot; indicator.</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:major</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'(v\s?)?'</span>, <span class="ruby-value">:default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment"># The remainder of the core version number are represented as</span>
+    <span class="ruby-comment"># integers delimited by periods by default. Each is also dependent</span>
+    <span class="ruby-comment"># on the presence of the previous field, so :requires_previous_field</span>
+    <span class="ruby-comment"># retains its default value of true. Finally, they can be optional</span>
+    <span class="ruby-comment"># in an unparsed string if they are set to the default value of 0.</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:minor</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:tiny</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:tiny2</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment"># The release type field is the most complex field because of the</span>
+    <span class="ruby-comment"># variety of syntaxes we support. The basic strategy is to map</span>
+    <span class="ruby-comment"># a few specific sets of characters as signaling particular release</span>
+    <span class="ruby-comment"># types. For example, the &quot;a&quot; in &quot;1.0a5&quot; signals an alpha release.</span>
+    <span class="ruby-comment"># If no such release type marker is found, it defaults to the final</span>
+    <span class="ruby-comment"># release type.</span>
+    <span class="ruby-comment"># We set up two styles, a short style and a long style. Short style</span>
+    <span class="ruby-comment"># syntax looks like &quot;1.0a5&quot;. Long syntax looks more like</span>
+    <span class="ruby-comment"># &quot;1.0 Alpha 5&quot;. The parsed value retains knowledge of which style</span>
+    <span class="ruby-comment"># it came from so it can be reconstructed when the value is unparsed.</span>
+    <span class="ruby-comment"># Note that we turn requires_previous_field off because the release</span>
+    <span class="ruby-comment"># type syntax markers don't require any particular set of the core</span>
+    <span class="ruby-comment"># version number fields to be present. &quot;1.0a5&quot; and &quot;1.0.0.0a5&quot; are</span>
+    <span class="ruby-comment"># both valid version numbers.</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:release_type</span>, <span class="ruby-value">:requires_previous_field</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>,
+          <span class="ruby-value">:default_style</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:short</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-comment"># Some markers require a prerelease version (e.g. the 5 in</span>
+      <span class="ruby-comment"># &quot;1.0a5&quot;) while others don't (e.g. &quot;1.9.2dev&quot;). This is because</span>
+      <span class="ruby-comment"># the syntax &quot;1.0a&quot; looks like a patchlevel syntax. So some of</span>
+      <span class="ruby-comment"># the following recognizers set requires_next_field while others</span>
+      <span class="ruby-comment"># do not.</span>
+      <span class="ruby-comment"># Also note that we omit the value &lt;tt&gt;:final&lt;/tt&gt;. This is</span>
+      <span class="ruby-comment"># because that value is signaled by the absence of any syntax in</span>
+      <span class="ruby-comment"># the version string, including the absence of any delimiters.</span>
+      <span class="ruby-comment"># So we just allow it to fall through to the default.</span>
+
+      <span class="ruby-identifier">recognize_regexp_map</span>(<span class="ruby-value">:style</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:long</span>, <span class="ruby-value">:default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>,
+                           <span class="ruby-value">:delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-|_|\.|\s?'</span>) <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">map</span>(<span class="ruby-value">:development</span>, <span class="ruby-string">'dev'</span>)
+        <span class="ruby-identifier">map</span>(<span class="ruby-value">:alpha</span>, <span class="ruby-string">'alpha'</span>)
+        <span class="ruby-identifier">map</span>(<span class="ruby-value">:beta</span>, <span class="ruby-string">'beta'</span>)
+        <span class="ruby-identifier">map</span>(<span class="ruby-value">:preview</span>, <span class="ruby-string">'preview'</span>)
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">recognize_regexp_map</span>(<span class="ruby-value">:style</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:short</span>, <span class="ruby-value">:default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>,
+                           <span class="ruby-value">:delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-|_|\.|\s?'</span>) <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">map</span>(<span class="ruby-value">:release_candidate</span>, <span class="ruby-string">'rc'</span>)
+        <span class="ruby-identifier">map</span>(<span class="ruby-value">:preview</span>, <span class="ruby-string">'pre'</span>)
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">recognize_regexp_map</span>(<span class="ruby-value">:style</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:long</span>, <span class="ruby-value">:default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>,
+                           <span class="ruby-value">:delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-|_|\.|\s?'</span>) <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">map</span>(<span class="ruby-value">:release_candidate</span>, <span class="ruby-string">'rc'</span>)
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">recognize_regexp_map</span>(<span class="ruby-value">:style</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:short</span>, <span class="ruby-value">:default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>,
+                           <span class="ruby-value">:delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-|_|\.|\s?'</span>,
+                           <span class="ruby-value">:requires_next_field</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>) <span class="ruby-keyword">do</span>
+        <span class="ruby-identifier">map</span>(<span class="ruby-value">:development</span>, <span class="ruby-string">'d'</span>)
+        <span class="ruby-identifier">map</span>(<span class="ruby-value">:alpha</span>, <span class="ruby-string">'a'</span>)
+        <span class="ruby-identifier">map</span>(<span class="ruby-value">:beta</span>, <span class="ruby-string">'b'</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment"># The main prerelease version may sometimes be optional, so we</span>
+    <span class="ruby-comment"># mark it as optional here. If it is required, that will be</span>
+    <span class="ruby-comment"># signalled by requires_next_field on the release_type field.</span>
+    <span class="ruby-comment"># Minor prerelease versions are always optional.</span>
+    <span class="ruby-comment"># Note that we override the default_value (normally 1) and set</span>
+    <span class="ruby-comment"># it to 0 if a main prerelease version is not present. This is</span>
+    <span class="ruby-comment"># so schema-oriented operations like bumping will set the value</span>
+    <span class="ruby-comment"># to 1, while parsing a string will yield 0 when the field is</span>
+    <span class="ruby-comment"># missing (e.g. we want &quot;1.9.2dev&quot; to mean &quot;1.9.2dev0&quot;.)</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:development_version</span>, <span class="ruby-value">:default_value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-|_|\.|\s?'</span>, <span class="ruby-value">:default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>,
+                       <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:development_minor</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:alpha_version</span>, <span class="ruby-value">:default_value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-|_|\.|\s?'</span>, <span class="ruby-value">:default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>,
+                       <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:alpha_minor</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:beta_version</span>, <span class="ruby-value">:default_value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-|_|\.|\s?'</span>, <span class="ruby-value">:default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>,
+                       <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:beta_minor</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:release_candidate_version</span>, <span class="ruby-value">:default_value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-|_|\.|\s?'</span>, <span class="ruby-value">:default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>,
+                       <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:release_candidate_minor</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:preview_version</span>, <span class="ruby-value">:default_value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-|_|\.|\s?'</span>, <span class="ruby-value">:default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>,
+                       <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:preview_minor</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment"># The patchlevel field does not require the previous field (which is</span>
+    <span class="ruby-comment"># release_type). Here we also set up two styles: a numeric style and</span>
+    <span class="ruby-comment"># a letter style. So &quot;1.0a&quot; and &quot;1.0-1&quot; are equivalent.</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:patchlevel</span>, <span class="ruby-value">:requires_previous_field</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>,
+          <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:default_style</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:number</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:style</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:number</span>, <span class="ruby-value">:default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-'</span>,
+                       <span class="ruby-value">:delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'(-|_|\.|\s?)(p|u)|-|_'</span>)
+      <span class="ruby-identifier">recognize_letter</span>(<span class="ruby-value">:style</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:letter</span>, <span class="ruby-value">:default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>,
+                       <span class="ruby-value">:delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'-|_|\.|\s?'</span>,
+                       <span class="ruby-value">:expected_follower_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">'\z'</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">field</span>(<span class="ruby-value">:patchlevel_minor</span>) <span class="ruby-keyword">do</span>
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment"># By default, we require that at least the major and minor fields</span>
+    <span class="ruby-comment"># appear in an unparsed version string.</span>
+    <span class="ruby-identifier">default_unparse_params</span>(<span class="ruby-value">:required_fields</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:minor</span>, <span class="ruby-value">:development_version</span>, <span class="ruby-value">:alpha_version</span>,
+      <span class="ruby-value">:beta_version</span>, <span class="ruby-value">:release_candidate_version</span>, <span class="ruby-value">:preview_version</span>])
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- create-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- create-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Versionomy::Conversion::Rubygems - Versionomy 0.4.3 Documentation</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/versionomy/format_definitions/rubygems.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-create_rubygems_to_standard">::create_rubygems_to_standard</a>
+    
+    <li><a href="#method-c-create_standard_to_rubygems">::create_standard_to_rubygems</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../History_rdoc.html">History</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../../Versionomy_rdoc.html">Versionomy</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Versionomy.html">Versionomy</a>
+  
+    <li><a href="../../Versionomy/Conversion.html">Versionomy::Conversion</a>
+  
+    <li><a href="../../Versionomy/Conversion/Base.html">Versionomy::Conversion::Base</a>
+  
+    <li><a href="../../Versionomy/Conversion/Parsing.html">Versionomy::Conversion::Parsing</a>
+  
+    <li><a href="../../Versionomy/Conversion/Parsing/Builder.html">Versionomy::Conversion::Parsing::Builder</a>
+  
+    <li><a href="../../Versionomy/Conversion/Rubygems.html">Versionomy::Conversion::Rubygems</a>
+  
+    <li><a href="../../Versionomy/Conversion/Semver.html">Versionomy::Conversion::Semver</a>
+  
+    <li><a href="../../Versionomy/Errors.html">Versionomy::Errors</a>
+  
+    <li><a href="../../Versionomy/Errors/CircularDescendantError.html">Versionomy::Errors::CircularDescendantError</a>
+  
+    <li><a href="../../Versionomy/Errors/ConversionError.html">Versionomy::Errors::ConversionError</a>
+  
+    <li><a href="../../Versionomy/Errors/ConversionRedefinedError.html">Versionomy::Errors::ConversionRedefinedError</a>
+  
+    <li><a href="../../Versionomy/Errors/FormatCreationError.html">Versionomy::Errors::FormatCreationError</a>
+  
+    <li><a href="../../Versionomy/Errors/FormatRedefinedError.html">Versionomy::Errors::FormatRedefinedError</a>
+  
+    <li><a href="../../Versionomy/Errors/IllegalValueError.html">Versionomy::Errors::IllegalValueError</a>
+  
+    <li><a href="../../Versionomy/Errors/ParseError.html">Versionomy::Errors::ParseError</a>
+  
+    <li><a href="../../Versionomy/Errors/RangeOverlapError.html">Versionomy::Errors::RangeOverlapError</a>
+  
+    <li><a href="../../Versionomy/Errors/RangeSpecificationError.html">Versionomy::Errors::RangeSpecificationError</a>
+  
+    <li><a href="../../Versionomy/Errors/SchemaCreationError.html">Versionomy::Errors::SchemaCreationError</a>
+  
+    <li><a href="../../Versionomy/Errors/SchemaMismatchError.html">Versionomy::Errors::SchemaMismatchError</a>
+  
+    <li><a href="../../Versionomy/Errors/SymbolRedefinedError.html">Versionomy::Errors::SymbolRedefinedError</a>
+  
+    <li><a href="../../Versionomy/Errors/TypeMismatchError.html">Versionomy::Errors::TypeMismatchError</a>
+  
+    <li><a href="../../Versionomy/Errors/UnknownConversionError.html">Versionomy::Errors::UnknownConversionError</a>
+  
+    <li><a href="../../Versionomy/Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
+  
+    <li><a href="../../Versionomy/Errors/UnparseError.html">Versionomy::Errors::UnparseError</a>
+  
+    <li><a href="../../Versionomy/Errors/VersionomyError.html">Versionomy::Errors::VersionomyError</a>
+  
+    <li><a href="../../Versionomy/Format.html">Versionomy::Format</a>
+  
+    <li><a href="../../Versionomy/Format/Base.html">Versionomy::Format::Base</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter.html">Versionomy::Format::Delimiter</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/Builder.html">Versionomy::Format::Delimiter::Builder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/IntegerFieldBuilder.html">Versionomy::Format::Delimiter::IntegerFieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/MappingSymbolBuilder.html">Versionomy::Format::Delimiter::MappingSymbolBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/StringFieldBuilder.html">Versionomy::Format::Delimiter::StringFieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Delimiter/SymbolFieldBuilder.html">Versionomy::Format::Delimiter::SymbolFieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Format/Rubygems.html">Versionomy::Format::Rubygems</a>
+  
+    <li><a href="../../Versionomy/Format/Rubygems/ExtraMethods.html">Versionomy::Format::Rubygems::ExtraMethods</a>
+  
+    <li><a href="../../Versionomy/Format/Semver.html">Versionomy::Format::Semver</a>
+  
+    <li><a href="../../Versionomy/Format/Semver/ExtraMethods.html">Versionomy::Format::Semver::ExtraMethods</a>
+  
+    <li><a href="../../Versionomy/Format/Standard.html">Versionomy::Format::Standard</a>
+  
+    <li><a href="../../Versionomy/Format/Standard/ExtraMethods.html">Versionomy::Format::Standard::ExtraMethods</a>
+  
+    <li><a href="../../Versionomy/Format.html">Versionomy::Formats</a>
+  
+    <li><a href="../../Versionomy/Schema.html">Versionomy::Schema</a>
+  
+    <li><a href="../../Versionomy/Schema/Builder.html">Versionomy::Schema::Builder</a>
+  
+    <li><a href="../../Versionomy/Schema/Field.html">Versionomy::Schema::Field</a>
+  
+    <li><a href="../../Versionomy/Schema/FieldBuilder.html">Versionomy::Schema::FieldBuilder</a>
+  
+    <li><a href="../../Versionomy/Schema/Wrapper.html">Versionomy::Schema::Wrapper</a>
+  
+    <li><a href="../../Versionomy/Value.html">Versionomy::Value</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Versionomy::Conversion::Rubygems</h1>
+
+  <div id="description" class="description">
+    
+<p>This is a namespace for the implementation of the conversion between the
+rubygems and standard formats.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-create_rubygems_to_standard" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_rubygems_to_standard</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create the conversion from rubygems to standard format. This method is
+called internally when <a href="../../Versionomy.html">Versionomy</a> loads
+the rubygems format, and you should not need to call it again. It is
+documented so that you can inspect its source code from RDoc, since the
+source contains useful examples of how to use the conversion DSLs.</p>
+          
+
+          
+          <div class="method-source-code" id="create_rubygems_to_standard-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/format_definitions/rubygems.rb, line 314</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">create_rubygems_to_standard</span>
+
+  <span class="ruby-comment"># We'll use a parsing conversion.</span>
+  <span class="ruby-constant">Conversion</span><span class="ruby-operator">::</span><span class="ruby-constant">Parsing</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword">do</span>
+
+    <span class="ruby-comment"># Handle the case where the rubygems version ends with a string</span>
+    <span class="ruby-comment"># field, e.g. &quot;1.0.b&quot;. We want to treat this like &quot;1.0b0&quot; rather</span>
+    <span class="ruby-comment"># than &quot;1.0-2&quot; since the rubygems semantic states that this is a</span>
+    <span class="ruby-comment"># prerelease version. So we add 0 to the end of the parsed string</span>
+    <span class="ruby-comment"># if it ends in a letter.</span>
+    <span class="ruby-identifier">to_modify_string</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">str_</span>, <span class="ruby-identifier">convert_params_</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">str_</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">%r([[:alpha:]])\z/</span>, <span class="ruby-string">'\10'</span>)
+    <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">end</span>
+
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- create_rubygems_to_standard-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- create_rubygems_to_standard-method -->
+
+    
+      <div id="method-c-create_standard_to_rubygems" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_standard_to_rubygems</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create the conversion from standard to rubygems format. This method is
+called internally when <a href="../../Versionomy.html">Versionomy</a> loads
+the rubygems format, and you should not need to call it again. It is
+documented so that you can inspect its source code from RDoc, since the
+source contains useful examples of how to use the conversion DSLs.</p>
+          
+
+          
+          <div class="method-source-code" id="create_standard_to_rubygems-source">
+            <pre><span class="ruby-comment"># File lib/versionomy/format_definitions/rubygems.rb, line 254</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">create_standard_to_rubygems</span>
+
+  <span class="ruby-comment"># We'll use a parsing conversion.</span>
+  <span class="ruby-constant">Conversion</span><span class="ruby-operator">::</span><span class="ruby-constant">Parsing</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword">do</span>
+
+    <span class="ruby-comment"># We're going to modify how the standard format version is</span>
+    <span class="ruby-comment"># unparsed, so the rubygems format will have a better chance</span>
+    <span class="ruby-comment"># of parsing it.</span>
+    <span class="ruby-identifier">to_modify_unparse_params</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">params_</span>, <span class="ruby-identifier">convert_params_</span><span class="ruby-operator">|</span>
+
+      <span class="ruby-identifier">params_</span> <span class="ruby-operator">||=</span> {}
+
+      <span class="ruby-comment"># If the standard format version has a prerelease notation,</span>
+      <span class="ruby-comment"># make sure it is set off using a delimiter that the rubygems</span>
+      <span class="ruby-comment"># format can recognize. So instead of &quot;1.0b2&quot;, we force the</span>
+      <span class="ruby-comment"># unparsing to generate &quot;1.0.b.2&quot;.</span>
+      <span class="ruby-identifier">params_</span>[<span class="ruby-value">:release_type_delim</span>] = <span class="ruby-string">'.'</span>
+      <span class="ruby-identifier">params_</span>[<span class="ruby-value">:development_version_delim</span>] = <span class="ruby-string">'.'</span>
+      <span class="ruby-identifier">params_</span>[<span class="ruby-value">:alpha_version_delim</span>] = <span class="ruby-string">'.'</span>
+      <span class="ruby-identifier">params_</span>[<span class="ruby-value">:beta_version_delim</span>] = <span class="ruby-string">'.'</span>
+      <span class="ruby-identifier">params_</span>[<span class="ruby-value">:release_candidate_version_delim</span>] = <span class="ruby-string">'.'</span>
+      <span class="ruby-identifier">params_</span>[<span class="ruby-value">:preview_version_delim</span>] = <span class="ruby-string">'.'</span>
+
+      <span class="ruby-comment"># If the standard format version has a patchlevel notation,</span>
+      <span class="ruby-comment"># force it to use the default number rather than letter style.</span>
+      <span class="ruby-comment"># So instead of &quot;1.2c&quot;, we force the unparsing to generate</span>
+      <span class="ruby-comment"># &quot;1.2-3&quot;.</span>
+      <span class="ruby-identifier">params_</span>[<span class="ruby-value">:patchlevel_style</span>] = <span class="ruby-keyword">nil</span>
+
+      <span class="ruby-comment"># If the standard format version has a patchlevel notation,</span>
+      <span class="ruby-comment"># force it to use the default delimiter of &quot;-&quot; so the rubygems</span>
+      <span class="ruby-comment"># format will recognize it. So instead of &quot;1.9.1p243&quot;, we force</span>
+      <span class="ruby-comment"># the unparsing to generate &quot;1.9.1-243&quot;.</span>
+      <span class="ruby-identifier">params_</span>[<span class="ruby-value">:patchlevel_delim</span>] = <span class="ruby-keyword">nil</span>
+
+      <span class="ruby-comment"># If the standard format version includes a &quot;v&quot; prefix, strip</span>
+      <span class="ruby-comment"># it because rubygems doesn't like it.</span>
+      <span class="ruby-identifier">params_</span>[<span class="ruby-value">:major_delim</span>] = <span class="ruby-keyword">nil</span>
+
+      <span class="ruby-identifier">params_</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-comment"># Standard formats sometimes allow hyphens and spaces in field</span>
+    <span class="ruby-comment"># delimiters, but the rubygems format requires periods. So modify</span>
+    <span class="ruby-comment"># the unparsed string to conform to rubygems's expectations.</span>
+    <span class="ruby-identifier">to_modify_string</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">str_</span>, <span class="ruby-identifier">convert_params_</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">str_</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">%r[\.\s-]+/</span>, <span class="ruby-string">'.'</span>)
+    <span class="ruby-keyword">end</span>
+
+  <span class="ruby-keyword">end</span>
+
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- create_standard_to_rubygems-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- create_standard_to_rubygems-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

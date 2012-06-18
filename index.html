@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Versionomy : A generalized version number class for Ruby" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Versionomy</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/dazuma/versionomy">View on GitHub</a>
+
+          <h1 id="project_title">Versionomy</h1>
+          <h2 id="project_tagline">A generalized version number class for Ruby</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/dazuma/versionomy/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/dazuma/versionomy/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>Versionomy is a generalized version number library. It provides tools to represent, manipulate, parse, and compare version numbers in the wide variety of versioning schemes in use.</p>
+
+<h3>Some examples</h3>
+
+<div class="highlight">
+<pre><span class="nb">require</span> <span class="s1">'versionomy'</span>
+
+<span class="c1"># Create version numbers that understand their own semantics</span>
+<span class="n">v1</span> <span class="o">=</span> <span class="no">Versionomy</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:major</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">:minor</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span> <span class="ss">:tiny</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">v1</span><span class="o">.</span><span class="n">major</span>                                 <span class="c1"># =&gt; 1</span>
+<span class="n">v1</span><span class="o">.</span><span class="n">minor</span>                                 <span class="c1"># =&gt; 3</span>
+<span class="n">v1</span><span class="o">.</span><span class="n">tiny</span>                                  <span class="c1"># =&gt; 2</span>
+<span class="n">v1</span><span class="o">.</span><span class="n">release_type</span>                          <span class="c1"># =&gt; :final</span>
+<span class="n">v1</span><span class="o">.</span><span class="n">patchlevel</span>                            <span class="c1"># =&gt; 0</span>
+
+<span class="c1"># Parse version numbers, including common prerelease syntax</span>
+<span class="n">v2</span> <span class="o">=</span> <span class="no">Versionomy</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'1.4a3'</span><span class="p">)</span>
+<span class="n">v2</span><span class="o">.</span><span class="n">major</span>                                 <span class="c1"># =&gt; 1</span>
+<span class="n">v2</span><span class="o">.</span><span class="n">minor</span>                                 <span class="c1"># =&gt; 4</span>
+<span class="n">v2</span><span class="o">.</span><span class="n">tiny</span>                                  <span class="c1"># =&gt; 0</span>
+<span class="n">v2</span><span class="o">.</span><span class="n">release_type</span>                          <span class="c1"># =&gt; :alpha</span>
+<span class="n">v2</span><span class="o">.</span><span class="n">alpha_version</span>                         <span class="c1"># =&gt; 3</span>
+<span class="n">v2</span> <span class="o">&gt;</span> <span class="n">v1</span>                                  <span class="c1"># =&gt; true</span>
+<span class="n">v2</span><span class="o">.</span><span class="n">to_s</span>                                  <span class="c1"># =&gt; '1.4a3'</span>
+
+<span class="c1"># Version numbers are semantically self-adjusting.</span>
+<span class="n">v3</span> <span class="o">=</span> <span class="no">Versionomy</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'1.4.0b2'</span><span class="p">)</span>
+<span class="n">v3</span><span class="o">.</span><span class="n">major</span>                                 <span class="c1"># =&gt; 1</span>
+<span class="n">v3</span><span class="o">.</span><span class="n">minor</span>                                 <span class="c1"># =&gt; 4</span>
+<span class="n">v3</span><span class="o">.</span><span class="n">tiny</span>                                  <span class="c1"># =&gt; 0</span>
+<span class="n">v3</span><span class="o">.</span><span class="n">release_type</span>                          <span class="c1"># =&gt; :beta</span>
+<span class="n">v3</span><span class="o">.</span><span class="n">alpha_version</span>                         <span class="c1"># raises NoMethodError</span>
+<span class="n">v3</span><span class="o">.</span><span class="n">beta_version</span>                          <span class="c1"># =&gt; 2</span>
+<span class="n">v3</span> <span class="o">&gt;</span> <span class="n">v2</span>                                  <span class="c1"># =&gt; true</span>
+<span class="n">v3</span><span class="o">.</span><span class="n">to_s</span>                                  <span class="c1"># =&gt; '1.4.0b2'</span>
+
+<span class="c1"># You can bump any field</span>
+<span class="n">v4</span> <span class="o">=</span> <span class="no">Versionomy</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'1.4.0b2'</span><span class="p">)</span><span class="o">.</span><span class="n">bump</span><span class="p">(</span><span class="ss">:beta_version</span><span class="p">)</span>
+<span class="n">v4</span><span class="o">.</span><span class="n">to_s</span>                                  <span class="c1"># =&gt; '1.4.0b3'</span>
+<span class="n">v5</span> <span class="o">=</span> <span class="n">v4</span><span class="o">.</span><span class="n">bump</span><span class="p">(</span><span class="ss">:tiny</span><span class="p">)</span>
+<span class="n">v5</span><span class="o">.</span><span class="n">to_s</span>                                  <span class="c1"># =&gt; '1.4.1'</span>
+
+<span class="c1"># Bumping the release type works as you would expect</span>
+<span class="n">v6</span> <span class="o">=</span> <span class="no">Versionomy</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'1.4.0b2'</span><span class="p">)</span><span class="o">.</span><span class="n">bump</span><span class="p">(</span><span class="ss">:release_type</span><span class="p">)</span>
+<span class="n">v6</span><span class="o">.</span><span class="n">release_type</span>                          <span class="c1"># =&gt; :release_candidate</span>
+<span class="n">v6</span><span class="o">.</span><span class="n">to_s</span>                                  <span class="c1"># =&gt; '1.4.0rc1'</span>
+<span class="n">v7</span> <span class="o">=</span> <span class="n">v6</span><span class="o">.</span><span class="n">bump</span><span class="p">(</span><span class="ss">:release_type</span><span class="p">)</span>
+<span class="n">v7</span><span class="o">.</span><span class="n">release_type</span>                          <span class="c1"># =&gt; :final</span>
+<span class="n">v7</span><span class="o">.</span><span class="n">to_s</span>                                  <span class="c1"># =&gt; '1.4.0'</span>
+
+<span class="c1"># If a version has trailing zeros, it remembers how many fields to</span>
+<span class="c1"># unparse; however, you can also change this.</span>
+<span class="n">v8</span> <span class="o">=</span> <span class="no">Versionomy</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'1.4.0b2'</span><span class="p">)</span><span class="o">.</span><span class="n">bump</span><span class="p">(</span><span class="ss">:major</span><span class="p">)</span>
+<span class="n">v8</span><span class="o">.</span><span class="n">to_s</span>                                  <span class="c1"># =&gt; '2.0.0'</span>
+<span class="n">v8</span><span class="o">.</span><span class="n">unparse</span><span class="p">(</span><span class="ss">:optional_fields</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:tiny</span><span class="o">]</span><span class="p">)</span>  <span class="c1"># =&gt; '2.0'</span>
+<span class="n">v8</span><span class="o">.</span><span class="n">unparse</span><span class="p">(</span><span class="ss">:required_fields</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:tiny2</span><span class="o">]</span><span class="p">)</span> <span class="c1"># =&gt; '2.0.0.0'</span>
+
+<span class="c1"># Comparisons are semantic, so will behave as expected even if the</span>
+<span class="c1"># formatting is set up differently.</span>
+<span class="n">v9</span> <span class="o">=</span> <span class="no">Versionomy</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'2.0.0.0'</span><span class="p">)</span>
+<span class="n">v9</span><span class="o">.</span><span class="n">to_s</span>                                  <span class="c1"># =&gt; '2.0.0.0'</span>
+<span class="n">v9</span> <span class="o">==</span> <span class="no">Versionomy</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'2'</span><span class="p">)</span>              <span class="c1"># =&gt; true</span>
+
+<span class="c1"># Patchlevels are supported when the release type is :final</span>
+<span class="n">v10</span> <span class="o">=</span> <span class="no">Versionomy</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'2.0.0'</span><span class="p">)</span><span class="o">.</span><span class="n">bump</span><span class="p">(</span><span class="ss">:patchlevel</span><span class="p">)</span>
+<span class="n">v10</span><span class="o">.</span><span class="n">patchlevel</span>                           <span class="c1"># =&gt; 1</span>
+<span class="n">v10</span><span class="o">.</span><span class="n">to_s</span>                                 <span class="c1"># =&gt; '2.0.0-1'</span>
+<span class="n">v11</span> <span class="o">=</span> <span class="no">Versionomy</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'2.0p1'</span><span class="p">)</span>
+<span class="n">v11</span><span class="o">.</span><span class="n">patchlevel</span>                           <span class="c1"># =&gt; 1</span>
+<span class="n">v11</span><span class="o">.</span><span class="n">to_s</span>                                 <span class="c1"># =&gt; '2.0p1'</span>
+<span class="n">v11</span> <span class="o">==</span> <span class="n">v10</span>                               <span class="c1"># =&gt; true</span>
+
+<span class="c1"># You can create your own format from scratch or by modifying an</span>
+<span class="c1"># existing format</span>
+<span class="n">microsoft_format</span> <span class="o">=</span> <span class="no">Versionomy</span><span class="o">.</span><span class="n">default_format</span><span class="o">.</span><span class="n">modified_copy</span> <span class="k">do</span>
+  <span class="n">field</span><span class="p">(</span><span class="ss">:minor</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">recognize_number</span><span class="p">(</span><span class="ss">:default_value_optional</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">,</span>
+                     <span class="ss">:delimiter_regexp</span> <span class="o">=&gt;</span> <span class="s1">'\s?sp'</span><span class="p">,</span>
+                     <span class="ss">:default_delimiter</span> <span class="o">=&gt;</span> <span class="s1">' SP'</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+<span class="n">v12</span> <span class="o">=</span> <span class="n">microsoft_format</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'2008 SP2'</span><span class="p">)</span>
+<span class="n">v12</span><span class="o">.</span><span class="n">major</span>                                <span class="c1"># =&gt; 2008</span>
+<span class="n">v12</span><span class="o">.</span><span class="n">minor</span>                                <span class="c1"># =&gt; 2</span>
+<span class="n">v12</span><span class="o">.</span><span class="n">tiny</span>                                 <span class="c1"># =&gt; 0</span>
+<span class="n">v12</span><span class="o">.</span><span class="n">to_s</span>                                 <span class="c1"># =&gt; '2008 SP2'</span>
+<span class="n">v12</span> <span class="o">==</span> <span class="no">Versionomy</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">'2008.2'</span><span class="p">)</span>        <span class="c1"># =&gt; true</span>
+</pre>
+</div>
+
+
+<h3>Feature list</h3>
+
+<p>Versionomy's default versioning scheme handles four primary fields (labeled
+"major", "minor", "tiny", and "tiny2"). It also supports prerelease versions
+such as preview, development, alpha, beta, and release candidate. Finally,
+it supports patchlevel numbers for released versions.</p>
+
+<p>Versionomy can compare any two version numbers with compatible structure,
+and "bump" versions at any level. It supports parsing and unparsing in most
+commonly-used formats, and allows you to extend the parsing to include
+custom formats.</p>
+
+<p>Finally, Versionomy also lets you to create alternate versioning "schemas".
+You can define any number of version number fields, and provide your own
+semantics for comparing, parsing, and modifying version numbers. You can
+provide conversions from one schema to another. As an example, Versionomy
+provides a schema and formatter/parser matching Gem::Version.</p>
+
+<h3>Installation</h3>
+
+<pre><code>gem install versionomy
+</code></pre>
+
+<h3>For more information</h3>
+
+<ul>
+<li>More detailed information and usage examples <a href="http://dazuma.github.com/versionomy/rdoc/Versionomy_rdoc.html">here</a>
+</li>
+<li>See the <a href="http://dazuma.github.com/versionomy/rdoc">documentation</a>
+</li>
+<li>Source code on <a href="http://github.com/dazuma/versionomy">Github</a>
+</li>
+<li>Report issues <a href="http://github.com/dazuma/versionomy/issues">here</a>
+</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Versionomy maintained by <a href="https://github.com/dazuma">dazuma</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>

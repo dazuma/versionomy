@@ -129,7 +129,7 @@ provides a schema and formatter/parser matching Gem::Version.
 
 === Development and support
 
-Documentation is available at http://virtuoso.rubyforge.org/versionomy/README_rdoc.html
+Documentation is available at http://dazuma.github.com/versionomy/rdoc
 
 Source code is hosted on Github at http://github.com/dazuma/versionomy
 

@@ -34,16 +34,6 @@
 ;
 
 
-# Requires
-
-require 'rubygems'
-begin
-  gem 'psych'
-  require 'psych'
-rescue ::Gem::LoadError, ::LoadError
-end
-
-
 # Load config if present
 
 config_path_ = ::File.expand_path('rakefile_config.rb', ::File.dirname(__FILE__))
@@ -53,6 +43,7 @@ RAKEFILE_CONFIG = {} unless defined?(::RAKEFILE_CONFIG)
 
 # Gemspec
 
+require 'rubygems'
 gemspec_ = eval(::File.read(::Dir.glob('*.gemspec').first))
 release_gemspec_ = eval(::File.read(::Dir.glob('*.gemspec').first))
 release_gemspec_.version = gemspec_.version.to_s.sub(/\.build\d+$/, '')
@@ -182,13 +173,6 @@ file "#{doc_directory_}/index.html" => all_rdoc_files_ do
   gem 'rdoc'
   require 'rdoc/rdoc'
   ::RDoc::RDoc.new.document(args_ + all_rdoc_files_)
-end
-
-task :publish_rdoc => :build_rdoc do
-  require 'yaml'
-  config_ = ::YAML.load(::File.read(::File.expand_path("~/.rubyforge/user-config.yml")))
-  username_ = config_['username']
-  sh "rsync -av --delete #{doc_directory_}/ #{username_}@rubyforge.org:/var/www/gforge-projects/#{gemspec_.rubyforge_project}/#{gemspec_.name}"
 end
 
 

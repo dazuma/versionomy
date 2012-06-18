@@ -43,7 +43,7 @@
   s_.version = "#{::File.read('Version').strip}.build#{::Time.now.utc.strftime('%Y%m%d%H%M%S')}"
   s_.author = 'Daniel Azuma'
   s_.email = 'dazuma@gmail.com'
-  s_.homepage = 'http://virtuoso.rubyforge.org/versionomy'
+  s_.homepage = 'http://dazuma.github.com/versionomy'
   s_.rubyforge_project = 'virtuoso'
   s_.required_ruby_version = '>= 1.8.7'
   s_.files = ::Dir.glob("lib/**/*.rb") +

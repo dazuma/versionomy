@@ -40,10 +40,7 @@ source "http://rubygems.org"
 
 gem('blockenspiel', '>= 0.4.3')
 
-if defined?(::RUBY_ENGINE) && ::RUBY_ENGINE == 'ruby' && ::RUBY_VERSION >= '1.9.2'
-  gem('psych', '>= 1.2.2')
-end
-
 group(:test) do
   gem('rake', '>= 0.9.2')
+  gem('rdoc', '>= 3.12')
 end

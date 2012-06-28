@@ -36,9 +36,9 @@
 ;
 
 
-source "http://rubygems.org"
+source "http://rubygems.org/"
 
-gem('blockenspiel', '>= 0.4.3')
+gem('blockenspiel', '>= 0.4.4')
 
 group(:test) do
   gem('rake', '>= 0.9.2')

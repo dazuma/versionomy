@@ -115,7 +115,7 @@ provides a schema and formatter/parser matching Gem::Version.
 
 * Ruby 1.8.7 or later, Ruby 1.9.1 or later, JRuby 1.5 or later, or
   Rubinius 1.0 or later.
-* blockenspiel 0.4.3 or later.
+* blockenspiel 0.4.4 or later.
 
 === Installation
 
@@ -132,6 +132,10 @@ provides a schema and formatter/parser matching Gem::Version.
 Documentation is available at http://dazuma.github.com/versionomy/rdoc
 
 Source code is hosted on Github at http://github.com/dazuma/versionomy
+
+Contributions are welcome. Fork the project on Github.
+
+Build status: {<img src="https://secure.travis-ci.org/dazuma/versionomy.png" />}[http://travis-ci.org/dazuma/versionomy]
 
 Report bugs on Github issues at http://github.org/dazuma/versionomy/issues
 

@@ -115,7 +115,7 @@ provides a schema and formatter/parser matching Gem::Version.
 
 * Ruby 1.8.7 or later, Ruby 1.9.1 or later, JRuby 1.5 or later, or
   Rubinius 1.0 or later.
-* blockenspiel 0.4.1 or later.
+* blockenspiel 0.4.3 or later.
 
 === Installation
 
@@ -143,7 +143,7 @@ Versionomy is written by Daniel Azuma (http://www.daniel-azuma.com/).
 
 == LICENSE:
 
-Copyright 2008-2010 Daniel Azuma.
+Copyright 2008-2012 Daniel Azuma.
 
 All rights reserved.
 

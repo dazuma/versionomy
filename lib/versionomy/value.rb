@@ -454,7 +454,7 @@ module Versionomy
     end
 
 
-    if defined?(::Psych)
+    if defined?(::Psych) && respond_to?(:yaml_tag)
 
       # YAML support through psych
 
@@ -487,7 +487,7 @@ module Versionomy
         end
       end
 
-    else
+    elsif respond_to?(:yaml_as)
 
       # YAML support through syck
 

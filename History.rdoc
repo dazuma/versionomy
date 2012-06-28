@@ -1,3 +1,8 @@
+=== 0.4.4 / 2012-06-27
+
+* Tried to be a little more robust against incomplete psych installations.
+* Travis CI integration.
+
 === 0.4.3 / 2012-03-27
 
 * Fixed a few warnings.

@@ -53,5 +53,5 @@
   s_.extra_rdoc_files = ::Dir.glob("*.rdoc")
   s_.test_files = ::Dir.glob("test/**/tc_*.rb")
   s_.platform = ::Gem::Platform::RUBY
-  s_.add_dependency('blockenspiel', '>= 0.4.4')
+  s_.add_dependency('blockenspiel', '>= 0.4.5')
 end

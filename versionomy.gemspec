@@ -40,7 +40,7 @@
   s_.name = 'versionomy'
   s_.summary = 'Versionomy is a generalized version number library.'
   s_.description = 'Versionomy is a generalized version number library. It provides tools to represent, manipulate, parse, and compare version numbers in the wide variety of versioning schemes in use.'
-  s_.version = "#{::File.read('Version').strip}.build#{::Time.now.utc.strftime('%Y%m%d%H%M%S')}"
+  s_.version = "#{::File.read('Version').strip}.nonrelease"
   s_.author = 'Daniel Azuma'
   s_.email = 'dazuma@gmail.com'
   s_.homepage = 'http://dazuma.github.com/versionomy'

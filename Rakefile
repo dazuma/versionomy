@@ -46,7 +46,7 @@ RAKEFILE_CONFIG = {} unless defined?(::RAKEFILE_CONFIG)
 require 'rubygems'
 gemspec_ = eval(::File.read(::Dir.glob('*.gemspec').first))
 release_gemspec_ = eval(::File.read(::Dir.glob('*.gemspec').first))
-release_gemspec_.version = gemspec_.version.to_s.sub(/\.build\d+$/, '')
+release_gemspec_.version = gemspec_.version.to_s.sub(/\.nonrelease$/, '')
 
 
 # Platform info

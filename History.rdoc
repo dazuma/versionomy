@@ -1,3 +1,7 @@
+=== 0.4.5 / 2012-??-??
+
+* The gemspec no longer includes the timestamp in the version, so that bundler can pull from github. (Reported by corneverbruggen)
+
 === 0.4.4 / 2012-06-27
 
 * Tried to be a little more robust against incomplete psych installations.

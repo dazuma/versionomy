@@ -37,7 +37,7 @@
 
 require 'test/unit'
 require 'versionomy'
-
+require 'yaml'
 
 module Versionomy
   module Tests  # :nodoc:

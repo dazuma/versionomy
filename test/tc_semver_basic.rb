@@ -130,6 +130,13 @@ module Versionomy
         assert_equal('1.9.2pre2', value_.unparse)
       end
 
+      # Test parsing with a string with a prerelease prefixed by a dash.
+
+      def test_parsing_with_string_with_prerelease_prefixed_by_dash
+        value_ = ::Versionomy.parse('1.9.2-pre2-1', :semver)
+        assert_equal([1, 9, 2, 'pre2-1'], value_.values_array)
+        assert_equal('1.9.2-pre2-1', value_.unparse)
+      end
 
       # Test making sure unparsing requires all three fields.
 

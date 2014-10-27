@@ -150,10 +150,10 @@ module Versionomy
           end
 
           # The optional prerelease field is represented as a string
-          # beginning with an alphabetic character.
+          # beginning with an alphabetic character or a dash.
           field(:prerelease_suffix) do
-            recognize_regexp('[a-zA-Z][0-9a-zA-Z-]*', :default_value_optional => true,
-                             :delimiter_regexp => '', :default_delimiter => '')
+            recognize_regexp('[a-zA-Z][0-9a-zA-Z\-]*', :default_value_optional => true,
+                             :delimiter_regexp => '\-?', :default_delimiter => '')
           end
         end
       end

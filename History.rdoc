@@ -1,4 +1,4 @@
-=== 0.4.5 / 2016-01-08
+=== 0.5.0 / 2016-01-07
 
 * The gemspec no longer includes the timestamp in the version, so that bundler can pull from github. (Reported by corneverbruggen)
 * Updated the Rakefile, tests, and general infrastructure to play better with modern Rubies.

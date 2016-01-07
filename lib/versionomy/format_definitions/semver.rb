@@ -3,7 +3,7 @@
 # Versionomy semver format implementation
 #
 # -----------------------------------------------------------------------------
-# Copyright 2010-2012 Daniel Azuma
+# Copyright 2010 Daniel Azuma
 #
 # All rights reserved.
 #

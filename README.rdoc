@@ -11,7 +11,7 @@ and feature list. For more detailed usage information and examples, see
 === Some examples
 
  require 'versionomy'
- 
+
  # Create version numbers that understand their own semantics
  v1 = Versionomy.create(:major => 1, :minor => 3, :tiny => 2)
  v1.major                                 # => 1
@@ -19,7 +19,7 @@ and feature list. For more detailed usage information and examples, see
  v1.tiny                                  # => 2
  v1.release_type                          # => :final
  v1.patchlevel                            # => 0
- 
+
  # Parse version numbers, including common prerelease syntax
  v2 = Versionomy.parse('1.4a3')
  v2.major                                 # => 1
@@ -29,7 +29,7 @@ and feature list. For more detailed usage information and examples, see
  v2.alpha_version                         # => 3
  v2 > v1                                  # => true
  v2.to_s                                  # => '1.4a3'
- 
+
  # Version numbers are semantically self-adjusting.
  v3 = Versionomy.parse('1.4.0b2')
  v3.major                                 # => 1
@@ -40,13 +40,13 @@ and feature list. For more detailed usage information and examples, see
  v3.beta_version                          # => 2
  v3 > v2                                  # => true
  v3.to_s                                  # => '1.4.0b2'
- 
+
  # You can bump any field
  v4 = Versionomy.parse('1.4.0b2').bump(:beta_version)
  v4.to_s                                  # => '1.4.0b3'
  v5 = v4.bump(:tiny)
  v5.to_s                                  # => '1.4.1'
- 
+
  # Bumping the release type works as you would expect
  v6 = Versionomy.parse('1.4.0b2').bump(:release_type)
  v6.release_type                          # => :release_candidate
@@ -54,20 +54,20 @@ and feature list. For more detailed usage information and examples, see
  v7 = v6.bump(:release_type)
  v7.release_type                          # => :final
  v7.to_s                                  # => '1.4.0'
- 
+
  # If a version has trailing zeros, it remembers how many fields to
  # unparse; however, you can also change this.
  v8 = Versionomy.parse('1.4.0b2').bump(:major)
  v8.to_s                                  # => '2.0.0'
  v8.unparse(:optional_fields => [:tiny])  # => '2.0'
  v8.unparse(:required_fields => [:tiny2]) # => '2.0.0.0'
- 
+
  # Comparisons are semantic, so will behave as expected even if the
  # formatting is set up differently.
  v9 = Versionomy.parse('2.0.0.0')
  v9.to_s                                  # => '2.0.0.0'
  v9 == Versionomy.parse('2')              # => true
- 
+
  # Patchlevels are supported when the release type is :final
  v10 = Versionomy.parse('2.0.0').bump(:patchlevel)
  v10.patchlevel                           # => 1
@@ -76,7 +76,7 @@ and feature list. For more detailed usage information and examples, see
  v11.patchlevel                           # => 1
  v11.to_s                                 # => '2.0p1'
  v11 == v10                               # => true
- 
+
  # You can create your own format from scratch or by modifying an
  # existing format
  microsoft_format = Versionomy.default_format.modified_copy do
@@ -113,9 +113,8 @@ provides a schema and formatter/parser matching Gem::Version.
 
 === Requirements
 
-* Ruby 1.8.7 or later, Ruby 1.9.1 or later, JRuby 1.5 or later, or
-  Rubinius 1.0 or later.
-* blockenspiel 0.4.5 or later.
+* Ruby 1.9.3 or later, JRuby 1.5 or later, or Rubinius 1.0 or later.
+* blockenspiel 0.5.0 or later.
 
 === Installation
 
@@ -147,7 +146,7 @@ Versionomy is written by Daniel Azuma (http://www.daniel-azuma.com/).
 
 == LICENSE:
 
-Copyright 2008-2012 Daniel Azuma.
+Copyright 2008 Daniel Azuma.
 
 All rights reserved.
 

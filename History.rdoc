@@ -1,6 +1,8 @@
-=== 0.4.5 / 2012-??-??
+=== 0.4.5 / 2016-01-08
 
 * The gemspec no longer includes the timestamp in the version, so that bundler can pull from github. (Reported by corneverbruggen)
+* Updated the Rakefile, tests, and general infrastructure to play better with modern Rubies.
+* Dropped support for Ruby 1.8, because who still uses 1.8???
 
 === 0.4.4 / 2012-06-27
 

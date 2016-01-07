@@ -5,7 +5,7 @@
 # This file contains tests converting to and from the rubygems schema
 #
 # -----------------------------------------------------------------------------
-# Copyright 2008-2012 Daniel Azuma
+# Copyright 2008 Daniel Azuma
 #
 # All rights reserved.
 #

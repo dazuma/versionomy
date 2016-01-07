@@ -5,7 +5,7 @@
 # This file contains the gemspec for Versionomy.
 #
 # -----------------------------------------------------------------------------
-# Copyright 2011-2012 Daniel Azuma
+# Copyright 2011 Daniel Azuma
 #
 # All rights reserved.
 #
@@ -41,11 +41,12 @@
   s_.summary = 'Versionomy is a generalized version number library.'
   s_.description = 'Versionomy is a generalized version number library. It provides tools to represent, manipulate, parse, and compare version numbers in the wide variety of versioning schemes in use.'
   s_.version = "#{::File.read('Version').strip}.nonrelease"
+  s_.licenses = ['BSD-3-Clause']
   s_.author = 'Daniel Azuma'
   s_.email = 'dazuma@gmail.com'
   s_.homepage = 'http://dazuma.github.com/versionomy'
   s_.rubyforge_project = 'virtuoso'
-  s_.required_ruby_version = '>= 1.8.7'
+  s_.required_ruby_version = '>= 1.9.3'
   s_.files = ::Dir.glob("lib/**/*.rb") +
     ::Dir.glob("test/**/*.rb") +
     ::Dir.glob("*.rdoc") +
@@ -53,5 +54,5 @@
   s_.extra_rdoc_files = ::Dir.glob("*.rdoc")
   s_.test_files = ::Dir.glob("test/**/tc_*.rb")
   s_.platform = ::Gem::Platform::RUBY
-  s_.add_dependency('blockenspiel', '>= 0.4.5')
+  s_.add_dependency('blockenspiel', '>= 0.5.0')
 end

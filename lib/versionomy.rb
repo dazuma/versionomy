@@ -3,7 +3,7 @@
 # Versionomy entry point
 #
 # -----------------------------------------------------------------------------
-# Copyright 2008-2012 Daniel Azuma
+# Copyright 2008 Daniel Azuma
 #
 # All rights reserved.
 #

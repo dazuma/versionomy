@@ -14,7 +14,7 @@ seldom seem to be done right.
 
 Imagine the common case of testing the Ruby version. Most of us, if we
 need to worry about Ruby VM compatibility, will do something like:
- 
+
  do_something if RUBY_VERSION >= "1.8.7"
 
 Treating the version number as a string works well enough, until it
@@ -287,9 +287,8 @@ Versionomy::Conversion::Rubygems for further information.
 
 === Requirements
 
-* Ruby 1.8.7 or later, Ruby 1.9.1 or later, JRuby 1.5 or later, or
-  Rubinius 1.0 or later.
-* blockenspiel 0.4.5 or later.
+* Ruby 1.9.3 or later, JRuby 1.5 or later, or Rubinius 1.0 or later.
+* blockenspiel 0.5.0 or later.
 
 === Installation
 
@@ -321,7 +320,7 @@ Versionomy is written by Daniel Azuma (http://www.daniel-azuma.com/).
 
 == LICENSE:
 
-Copyright 2008-2012 Daniel Azuma.
+Copyright 2008 Daniel Azuma.
 
 All rights reserved.
 

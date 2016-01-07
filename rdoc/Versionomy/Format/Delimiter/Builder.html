@@ -2,70 +2,68 @@
 
 <html>
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<meta charset="UTF-8">
 
-<title>class Versionomy::Format::Delimiter::Builder - Versionomy 0.4.4 Documentation</title>
-
-<link type="text/css" media="screen" href="../../../rdoc.css" rel="stylesheet">
+<title>class Versionomy::Format::Delimiter::Builder - Versionomy 0.5.0 Documentation</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../../../";
 </script>
 
-<script type="text/javascript" charset="utf-8" src="../../../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../../js/navigation.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../../js/search_index.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../../js/search.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../../js/searcher.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../../js/darkfish.js"></script>
+<script src="../../../js/jquery.js"></script>
+<script src="../../../js/darkfish.js"></script>
+
+<link href="../../../css/fonts.css" rel="stylesheet">
+<link href="../../../css/rdoc.css" rel="stylesheet">
 
 
-<body id="top" class="class">
-<nav id="metadata">
-  <nav id="home-section" class="section">
-  <h3 class="section-header">
-    <a href="../../../index.html">Home</a>
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../../../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../../../table_of_contents.html#pages">Pages</a>
     <a href="../../../table_of_contents.html#classes">Classes</a>
     <a href="../../../table_of_contents.html#methods">Methods</a>
-  </h3>
-</nav>
-
-
-  <nav id="search-section" class="section project-section" class="initially-hidden">
-  <form action="#" method="get" accept-charset="utf-8">
-    <h3 class="section-header">
-      <input type="text" name="search" placeholder="Search" id="search-field"
-             title="Type to search, Up and Down to navigate, Enter to load">
-    </h3>
-  </form>
-
-  <ul id="search-results" class="initially-hidden"></ul>
-</nav>
-
-
-  <div id="file-metadata">
-    <nav id="file-list-section" class="section">
-  <h3 class="section-header">Defined In</h3>
-  <ul>
-    <li>lib/versionomy/format/delimiter.rb
-  </ul>
-</nav>
-
-    
   </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
 
   <div id="class-metadata">
     
-    <nav id="parent-class-section" class="section">
-  <h3 class="section-header">Parent</h3>
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
   
   <p class="link">Object
   
-</nav>
+</div>
 
-    <!-- Included Modules -->
-<nav id="includes-section" class="section">
-  <h3 class="section-header">Included Modules</h3>
+    <div id="includes-section" class="nav-section">
+  <h3>Included Modules</h3>
 
   <ul class="link-list">
   
@@ -74,147 +72,33 @@
   
   
   </ul>
-</nav>
+</div>
 
+    
     <!-- Method Quickref -->
-<nav id="method-list-section" class="section">
-  <h3 class="section-header">Methods</h3>
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
 
-  <ul class="link-list">
+  <ul class="link-list" role="directory">
     
-    <li><a href="#method-i-default_parse_params">#default_parse_params</a>
+    <li ><a href="#method-i-default_parse_params">#default_parse_params</a>
     
-    <li><a href="#method-i-default_unparse_params">#default_unparse_params</a>
+    <li ><a href="#method-i-default_unparse_params">#default_unparse_params</a>
     
-    <li><a href="#method-i-field">#field</a>
+    <li ><a href="#method-i-field">#field</a>
     
   </ul>
-</nav>
-
-  </div>
-
-  <div id="project-metadata">
-    <nav id="fileindex-section" class="section project-section">
-  <h3 class="section-header">Pages</h3>
-
-  <ul>
-  
-    <li class="file"><a href="../../../History_rdoc.html">History</a>
-  
-    <li class="file"><a href="../../../README_rdoc.html">README</a>
-  
-    <li class="file"><a href="../../../Versionomy_rdoc.html">Versionomy</a>
-  
-  </ul>
-</nav>
-
-    <nav id="classindex-section" class="section project-section">
-  <h3 class="section-header">Class and Module Index</h3>
-
-  <ul class="link-list">
-  
-    <li><a href="../../../Versionomy.html">Versionomy</a>
-  
-    <li><a href="../../../Versionomy/Conversion.html">Versionomy::Conversion</a>
-  
-    <li><a href="../../../Versionomy/Conversion/Base.html">Versionomy::Conversion::Base</a>
-  
-    <li><a href="../../../Versionomy/Conversion/Parsing.html">Versionomy::Conversion::Parsing</a>
-  
-    <li><a href="../../../Versionomy/Conversion/Parsing/Builder.html">Versionomy::Conversion::Parsing::Builder</a>
-  
-    <li><a href="../../../Versionomy/Conversion/Rubygems.html">Versionomy::Conversion::Rubygems</a>
-  
-    <li><a href="../../../Versionomy/Conversion/Semver.html">Versionomy::Conversion::Semver</a>
-  
-    <li><a href="../../../Versionomy/Errors.html">Versionomy::Errors</a>
-  
-    <li><a href="../../../Versionomy/Errors/CircularDescendantError.html">Versionomy::Errors::CircularDescendantError</a>
-  
-    <li><a href="../../../Versionomy/Errors/ConversionError.html">Versionomy::Errors::ConversionError</a>
-  
-    <li><a href="../../../Versionomy/Errors/ConversionRedefinedError.html">Versionomy::Errors::ConversionRedefinedError</a>
-  
-    <li><a href="../../../Versionomy/Errors/FormatCreationError.html">Versionomy::Errors::FormatCreationError</a>
-  
-    <li><a href="../../../Versionomy/Errors/FormatRedefinedError.html">Versionomy::Errors::FormatRedefinedError</a>
-  
-    <li><a href="../../../Versionomy/Errors/IllegalValueError.html">Versionomy::Errors::IllegalValueError</a>
-  
-    <li><a href="../../../Versionomy/Errors/ParseError.html">Versionomy::Errors::ParseError</a>
-  
-    <li><a href="../../../Versionomy/Errors/RangeOverlapError.html">Versionomy::Errors::RangeOverlapError</a>
-  
-    <li><a href="../../../Versionomy/Errors/RangeSpecificationError.html">Versionomy::Errors::RangeSpecificationError</a>
-  
-    <li><a href="../../../Versionomy/Errors/SchemaCreationError.html">Versionomy::Errors::SchemaCreationError</a>
-  
-    <li><a href="../../../Versionomy/Errors/SchemaMismatchError.html">Versionomy::Errors::SchemaMismatchError</a>
-  
-    <li><a href="../../../Versionomy/Errors/SymbolRedefinedError.html">Versionomy::Errors::SymbolRedefinedError</a>
-  
-    <li><a href="../../../Versionomy/Errors/TypeMismatchError.html">Versionomy::Errors::TypeMismatchError</a>
-  
-    <li><a href="../../../Versionomy/Errors/UnknownConversionError.html">Versionomy::Errors::UnknownConversionError</a>
-  
-    <li><a href="../../../Versionomy/Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
-  
-    <li><a href="../../../Versionomy/Errors/UnparseError.html">Versionomy::Errors::UnparseError</a>
-  
-    <li><a href="../../../Versionomy/Errors/VersionomyError.html">Versionomy::Errors::VersionomyError</a>
-  
-    <li><a href="../../../Versionomy/Format.html">Versionomy::Format</a>
-  
-    <li><a href="../../../Versionomy/Format/Base.html">Versionomy::Format::Base</a>
-  
-    <li><a href="../../../Versionomy/Format/Delimiter.html">Versionomy::Format::Delimiter</a>
-  
-    <li><a href="../../../Versionomy/Format/Delimiter/Builder.html">Versionomy::Format::Delimiter::Builder</a>
-  
-    <li><a href="../../../Versionomy/Format/Delimiter/IntegerFieldBuilder.html">Versionomy::Format::Delimiter::IntegerFieldBuilder</a>
-  
-    <li><a href="../../../Versionomy/Format/Delimiter/MappingSymbolBuilder.html">Versionomy::Format::Delimiter::MappingSymbolBuilder</a>
-  
-    <li><a href="../../../Versionomy/Format/Delimiter/StringFieldBuilder.html">Versionomy::Format::Delimiter::StringFieldBuilder</a>
-  
-    <li><a href="../../../Versionomy/Format/Delimiter/SymbolFieldBuilder.html">Versionomy::Format::Delimiter::SymbolFieldBuilder</a>
-  
-    <li><a href="../../../Versionomy/Format/Rubygems.html">Versionomy::Format::Rubygems</a>
-  
-    <li><a href="../../../Versionomy/Format/Rubygems/ExtraMethods.html">Versionomy::Format::Rubygems::ExtraMethods</a>
-  
-    <li><a href="../../../Versionomy/Format/Semver.html">Versionomy::Format::Semver</a>
-  
-    <li><a href="../../../Versionomy/Format/Semver/ExtraMethods.html">Versionomy::Format::Semver::ExtraMethods</a>
-  
-    <li><a href="../../../Versionomy/Format/Standard.html">Versionomy::Format::Standard</a>
-  
-    <li><a href="../../../Versionomy/Format/Standard/ExtraMethods.html">Versionomy::Format::Standard::ExtraMethods</a>
-  
-    <li><a href="../../../Versionomy/Format.html">Versionomy::Formats</a>
-  
-    <li><a href="../../../Versionomy/Schema.html">Versionomy::Schema</a>
-  
-    <li><a href="../../../Versionomy/Schema/Builder.html">Versionomy::Schema::Builder</a>
-  
-    <li><a href="../../../Versionomy/Schema/Field.html">Versionomy::Schema::Field</a>
-  
-    <li><a href="../../../Versionomy/Schema/FieldBuilder.html">Versionomy::Schema::FieldBuilder</a>
-  
-    <li><a href="../../../Versionomy/Schema/Wrapper.html">Versionomy::Schema::Wrapper</a>
-  
-    <li><a href="../../../Versionomy/Value.html">Versionomy::Value</a>
-  
-  </ul>
-</nav>
+</div>
 
   </div>
 </nav>
 
-<div id="documentation">
-  <h1 class="class">class Versionomy::Format::Delimiter::Builder</h1>
+<main role="main" aria-labelledby="class-Versionomy::Format::Delimiter::Builder">
+  <h1 id="class-Versionomy::Format::Delimiter::Builder" class="class">
+    class Versionomy::Format::Delimiter::Builder
+  </h1>
 
-  <div id="description" class="description">
+  <section class="description">
     
 <p>This class defines methods that you can call within the DSL block passed to
 Versionomy::Format::Delimiter#new.</p>
@@ -222,7 +106,7 @@ Versionomy::Format::Delimiter#new.</p>
 <p>Generally, you call the field method of this class a number of times to
 define the formatting for each field.</p>
 
-  </div><!-- description -->
+  </section>
 
   
   
@@ -236,10 +120,11 @@ define the formatting for each field.</p>
 
     
 
-    <!-- Methods -->
     
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
-      <h3 class="section-header">Public Instance Methods</h3>
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
 
     
       <div id="method-i-default_parse_params" class="method-detail ">
@@ -247,13 +132,16 @@ define the formatting for each field.</p>
         <div class="method-heading">
           <span class="method-name">default_parse_params</span><span
             class="method-args">(params_)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
         <div class="method-description">
           
           <p>Set or modify the default parameters used when parsing a value.</p>
+          
           
 
           
@@ -262,14 +150,14 @@ define the formatting for each field.</p>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">default_parse_params</span>(<span class="ruby-identifier">params_</span>)
   <span class="ruby-ivar">@default_parse_params</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">params_</span>)
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- default_parse_params-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- default_parse_params-method -->
+      </div>
 
     
       <div id="method-i-default_unparse_params" class="method-detail ">
@@ -277,13 +165,16 @@ define the formatting for each field.</p>
         <div class="method-heading">
           <span class="method-name">default_unparse_params</span><span
             class="method-args">(params_)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
         <div class="method-description">
           
           <p>Set or modify the default parameters used when unparsing a value.</p>
+          
           
 
           
@@ -292,14 +183,14 @@ define the formatting for each field.</p>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">default_unparse_params</span>(<span class="ruby-identifier">params_</span>)
   <span class="ruby-ivar">@default_unparse_params</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">params_</span>)
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- default_unparse_params-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- default_unparse_params-method -->
+      </div>
 
     
       <div id="method-i-field" class="method-detail ">
@@ -307,7 +198,9 @@ define the formatting for each field.</p>
         <div class="method-heading">
           <span class="method-name">field</span><span
             class="method-args">(name_, opts_={}, &block_)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -330,7 +223,7 @@ can be called. If the field is a symbolic field, the methods of <a
 href="SymbolFieldBuilder.html">Versionomy::Format::Delimiter::SymbolFieldBuilder</a>
 can be called.</p>
 
-<h3 id="method-i-field-label-Options">Options</h3>
+<h3 id="method-i-field-label-Options">Options<span><a href="#method-i-field-label-Options">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <p>The opts hash includes a number of options that control how the field is
 parsed.</p>
@@ -338,8 +231,8 @@ parsed.</p>
 <p>Some of these are regular expressions that indicate what patterns are
 recognized by the parser. Regular expressions should be passed in as the
 string representation of the regular expression, not a Regexp object
-itself. For example, use the string ‘-’ rather than the Regexp /-/ to
-recognize a hyphen delimiter.</p>
+itself. For example, use the string &#39;-&#39; rather than the Regexp /-/
+to recognize a hyphen delimiter.</p>
 
 <p>The following options are recognized:</p>
 <dl class="rdoc-list note-list"><dt><code>:default_value_optional</code>
@@ -354,7 +247,7 @@ required, so it will often be unparsed as “2.0”. Default is false.</p>
 </dd><dt><code>:default_value</code>
 <dd>
 <p>The actual value set for this field if it is omitted from the version
-string. Defaults to the field’s schema default value, but that can be
+string. Defaults to the field&#39;s schema default value, but that can be
 overridden here.</p>
 </dd><dt><code>:case_sensitive</code>
 <dd>
@@ -363,37 +256,37 @@ overridden here.</p>
 <dd>
 <p>The regular expression string for the pre-delimiter. This pattern must
 appear before the current value in the string, and is consumed when the
-field is parsed, but is not part of the value itself. Default is ‘.’ to
-recognize a period.</p>
+field is parsed, but is not part of the value itself. Default is
+&#39;.&#39; to recognize a period.</p>
 </dd><dt><code>:post_delimiter_regexp</code>
 <dd>
 <p>The regular expression string for the post-delimiter. This pattern must
 appear before the current value in the string, and is consumed when the
-field is parsed, but is not part of the value itself. Default is ” to
-indicate no post-delimiter.</p>
+field is parsed, but is not part of the value itself. Default is &#39;&#39;
+to indicate no post-delimiter.</p>
 </dd><dt><code>:expected_follower_regexp</code>
 <dd>
 <p>The regular expression string for what characters are expected to follow
 this field in the string. These characters are not part of the field
 itself, and are <strong>not</strong> consumed when the field is parsed;
 however, they must be present immediately after this field in order for the
-field to be recognized. Default is ” to indicate that we aren’t testing for
-any particular characters.</p>
+field to be recognized. Default is &#39;&#39; to indicate that we
+aren&#39;t testing for any particular characters.</p>
 </dd><dt><code>:default_delimiter</code>
 <dd>
 <p>The default delimiter string. This is the string that is used to unparse a
 field value if the field was not present when the value was originally
 parsed. For example, if you parse the string “2.0”, bump the tiny version
-so that the value is “2.0.1”, and unparse, the unparsing won’t receive the
-second period from parsing the original string, so its delimiter will use
-the default. Default value is ‘.’</p>
+so that the value is “2.0.1”, and unparse, the unparsing won&#39;t receive
+the second period from parsing the original string, so its delimiter will
+use the default. Default value is &#39;.&#39;</p>
 </dd><dt><code>:default_post_delimiter</code>
 <dd>
-<p>The default post-delimiter string. Default value is ” indicating no
-post-delimiter.</p>
+<p>The default post-delimiter string. Default value is &#39;&#39; indicating
+no post-delimiter.</p>
 </dd><dt><code>:requires_previous_field</code>
 <dd>
-<p>If set to true, this field’s presence in a formatted version string
+<p>If set to true, this field&#39;s presence in a formatted version string
 requires the presence of the previous field. For example, in a typical
 version number “major.minor.tiny”, tiny should appear in the string only if
 minor also appears, so tiny should have this parameter set to true. The
@@ -402,7 +295,7 @@ false</code> explicitly if you want a field not to require the previous
 field.</p>
 </dd><dt><code>:requires_next_field</code>
 <dd>
-<p>If set to true, this field’s presence in a formatted version string
+<p>If set to true, this field&#39;s presence in a formatted version string
 requires the presence of the next field. For example, in the version
 “1.0a5”, the release_type field requires the presence of the alpha_version
 field, because if the “5” was missing, the string “1.0a” looks like a
@@ -416,7 +309,7 @@ the value was not constructed by a parser or is otherwise missing the style
 for this field.</p>
 </dd></dl>
 
-<h3 id="method-i-field-label-Styles">Styles</h3>
+<h3 id="method-i-field-label-Styles">Styles<span><a href="#method-i-field-label-Styles">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <p>A field may have different representation “styles”. For example, you could
 represent a patchlevel of 1 as “1.0-1” or “1.0a”. When a version number
@@ -437,38 +330,38 @@ and passes the option <code>:style =&gt; :letter</code>.</p>
 release_type field. See the source code in
 Versionomy::Format::Standard#create for this example.</p>
           
+          
 
           
           <div class="method-source-code" id="field-source">
             <pre><span class="ruby-comment"># File lib/versionomy/format/delimiter.rb, line 471</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">field</span>(<span class="ruby-identifier">name_</span>, <span class="ruby-identifier">opts_</span>={}, &amp;<span class="ruby-identifier">block_</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">field</span>(<span class="ruby-identifier">name_</span>, <span class="ruby-identifier">opts_</span>={}, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block_</span>)
   <span class="ruby-identifier">name_</span> = <span class="ruby-identifier">name_</span>.<span class="ruby-identifier">to_sym</span>
   <span class="ruby-identifier">field_</span> = <span class="ruby-ivar">@schema</span>.<span class="ruby-identifier">field_named</span>(<span class="ruby-identifier">name_</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">field_</span>
     <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">FormatCreationError</span>, <span class="ruby-node">&quot;Unknown field name #{name_.inspect}&quot;</span>
   <span class="ruby-keyword">end</span>
-  <span class="ruby-ivar">@field_handlers</span>[<span class="ruby-identifier">name_</span>] = <span class="ruby-constant">Delimiter</span><span class="ruby-operator">::</span><span class="ruby-constant">FieldHandler</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">field_</span>, <span class="ruby-identifier">opts_</span>, &amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-ivar">@field_handlers</span>[<span class="ruby-identifier">name_</span>] = <span class="ruby-constant">Delimiter</span><span class="ruby-operator">::</span><span class="ruby-constant">FieldHandler</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">field_</span>, <span class="ruby-identifier">opts_</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block_</span>)
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- field-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- field-method -->
+      </div>
 
     
-    </section><!-- public-instance-method-details -->
+    </section>
   
-  </section><!-- 5Buntitled-5D -->
+  </section>
+</main>
 
-</div><!-- documentation -->
 
-
-<footer id="validator-badges">
-  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
-  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.1.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

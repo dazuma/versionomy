@@ -2,70 +2,68 @@
 
 <html>
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<meta charset="UTF-8">
 
-<title>class Versionomy::Value - Versionomy 0.4.4 Documentation</title>
-
-<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+<title>class Versionomy::Value - Versionomy 0.5.0 Documentation</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
 </script>
 
-<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+<script src="../js/jquery.js"></script>
+<script src="../js/darkfish.js"></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
 
 
-<body id="top" class="class">
-<nav id="metadata">
-  <nav id="home-section" class="section">
-  <h3 class="section-header">
-    <a href="../index.html">Home</a>
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
     <a href="../table_of_contents.html#classes">Classes</a>
     <a href="../table_of_contents.html#methods">Methods</a>
-  </h3>
-</nav>
-
-
-  <nav id="search-section" class="section project-section" class="initially-hidden">
-  <form action="#" method="get" accept-charset="utf-8">
-    <h3 class="section-header">
-      <input type="text" name="search" placeholder="Search" id="search-field"
-             title="Type to search, Up and Down to navigate, Enter to load">
-    </h3>
-  </form>
-
-  <ul id="search-results" class="initially-hidden"></ul>
-</nav>
-
-
-  <div id="file-metadata">
-    <nav id="file-list-section" class="section">
-  <h3 class="section-header">Defined In</h3>
-  <ul>
-    <li>lib/versionomy/value.rb
-  </ul>
-</nav>
-
-    
   </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
 
   <div id="class-metadata">
     
-    <nav id="parent-class-section" class="section">
-  <h3 class="section-header">Parent</h3>
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
   
   <p class="link">Object
   
-</nav>
+</div>
 
-    <!-- Included Modules -->
-<nav id="includes-section" class="section">
-  <h3 class="section-header">Included Modules</h3>
+    <div id="includes-section" class="nav-section">
+  <h3>Included Modules</h3>
 
   <ul class="link-list">
   
@@ -74,187 +72,73 @@
   
   
   </ul>
-</nav>
+</div>
 
+    
     <!-- Method Quickref -->
-<nav id="method-list-section" class="section">
-  <h3 class="section-header">Methods</h3>
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
 
-  <ul class="link-list">
+  <ul class="link-list" role="directory">
     
-    <li><a href="#method-c-new">::new</a>
+    <li ><a href="#method-c-new">::new</a>
     
-    <li><a href="#method-i-3C">#&lt;</a>
+    <li ><a href="#method-i-3C">#&lt;</a>
     
-    <li><a href="#method-i-3C-3D-3E">#&lt;=&gt;</a>
+    <li ><a href="#method-i-3C-3D-3E">#&lt;=&gt;</a>
     
-    <li><a href="#method-i-3D-3D">#==</a>
+    <li ><a href="#method-i-3D-3D">#==</a>
     
-    <li><a href="#method-i-3E">#&gt;</a>
+    <li ><a href="#method-i-3E">#&gt;</a>
     
-    <li><a href="#method-i-5B-5D">#[]</a>
+    <li ><a href="#method-i-5B-5D">#[]</a>
     
-    <li><a href="#method-i-bump">#bump</a>
+    <li ><a href="#method-i-bump">#bump</a>
     
-    <li><a href="#method-i-change">#change</a>
+    <li ><a href="#method-i-change">#change</a>
     
-    <li><a href="#method-i-convert">#convert</a>
+    <li ><a href="#method-i-convert">#convert</a>
     
-    <li><a href="#method-i-each_field">#each_field</a>
+    <li ><a href="#method-i-each_field">#each_field</a>
     
-    <li><a href="#method-i-eql-3F">#eql?</a>
+    <li ><a href="#method-i-eql-3F">#eql?</a>
     
-    <li><a href="#method-i-field_names">#field_names</a>
+    <li ><a href="#method-i-field_names">#field_names</a>
     
-    <li><a href="#method-i-format">#format</a>
+    <li ><a href="#method-i-format">#format</a>
     
-    <li><a href="#method-i-has_field-3F">#has_field?</a>
+    <li ><a href="#method-i-has_field-3F">#has_field?</a>
     
-    <li><a href="#method-i-method_missing">#method_missing</a>
+    <li class="calls-super" ><a href="#method-i-method_missing">#method_missing</a>
     
-    <li><a href="#method-i-reset">#reset</a>
+    <li ><a href="#method-i-reset">#reset</a>
     
-    <li><a href="#method-i-schema">#schema</a>
+    <li ><a href="#method-i-schema">#schema</a>
     
-    <li><a href="#method-i-to_s">#to_s</a>
+    <li ><a href="#method-i-to_s">#to_s</a>
     
-    <li><a href="#method-i-unparse">#unparse</a>
+    <li ><a href="#method-i-unparse">#unparse</a>
     
-    <li><a href="#method-i-unparse_params">#unparse_params</a>
+    <li ><a href="#method-i-unparse_params">#unparse_params</a>
     
-    <li><a href="#method-i-values_array">#values_array</a>
+    <li ><a href="#method-i-values_array">#values_array</a>
     
-    <li><a href="#method-i-values_hash">#values_hash</a>
+    <li ><a href="#method-i-values_hash">#values_hash</a>
     
   </ul>
-</nav>
-
-  </div>
-
-  <div id="project-metadata">
-    <nav id="fileindex-section" class="section project-section">
-  <h3 class="section-header">Pages</h3>
-
-  <ul>
-  
-    <li class="file"><a href="../History_rdoc.html">History</a>
-  
-    <li class="file"><a href="../README_rdoc.html">README</a>
-  
-    <li class="file"><a href="../Versionomy_rdoc.html">Versionomy</a>
-  
-  </ul>
-</nav>
-
-    <nav id="classindex-section" class="section project-section">
-  <h3 class="section-header">Class and Module Index</h3>
-
-  <ul class="link-list">
-  
-    <li><a href="../Versionomy.html">Versionomy</a>
-  
-    <li><a href="../Versionomy/Conversion.html">Versionomy::Conversion</a>
-  
-    <li><a href="../Versionomy/Conversion/Base.html">Versionomy::Conversion::Base</a>
-  
-    <li><a href="../Versionomy/Conversion/Parsing.html">Versionomy::Conversion::Parsing</a>
-  
-    <li><a href="../Versionomy/Conversion/Parsing/Builder.html">Versionomy::Conversion::Parsing::Builder</a>
-  
-    <li><a href="../Versionomy/Conversion/Rubygems.html">Versionomy::Conversion::Rubygems</a>
-  
-    <li><a href="../Versionomy/Conversion/Semver.html">Versionomy::Conversion::Semver</a>
-  
-    <li><a href="../Versionomy/Errors.html">Versionomy::Errors</a>
-  
-    <li><a href="../Versionomy/Errors/CircularDescendantError.html">Versionomy::Errors::CircularDescendantError</a>
-  
-    <li><a href="../Versionomy/Errors/ConversionError.html">Versionomy::Errors::ConversionError</a>
-  
-    <li><a href="../Versionomy/Errors/ConversionRedefinedError.html">Versionomy::Errors::ConversionRedefinedError</a>
-  
-    <li><a href="../Versionomy/Errors/FormatCreationError.html">Versionomy::Errors::FormatCreationError</a>
-  
-    <li><a href="../Versionomy/Errors/FormatRedefinedError.html">Versionomy::Errors::FormatRedefinedError</a>
-  
-    <li><a href="../Versionomy/Errors/IllegalValueError.html">Versionomy::Errors::IllegalValueError</a>
-  
-    <li><a href="../Versionomy/Errors/ParseError.html">Versionomy::Errors::ParseError</a>
-  
-    <li><a href="../Versionomy/Errors/RangeOverlapError.html">Versionomy::Errors::RangeOverlapError</a>
-  
-    <li><a href="../Versionomy/Errors/RangeSpecificationError.html">Versionomy::Errors::RangeSpecificationError</a>
-  
-    <li><a href="../Versionomy/Errors/SchemaCreationError.html">Versionomy::Errors::SchemaCreationError</a>
-  
-    <li><a href="../Versionomy/Errors/SchemaMismatchError.html">Versionomy::Errors::SchemaMismatchError</a>
-  
-    <li><a href="../Versionomy/Errors/SymbolRedefinedError.html">Versionomy::Errors::SymbolRedefinedError</a>
-  
-    <li><a href="../Versionomy/Errors/TypeMismatchError.html">Versionomy::Errors::TypeMismatchError</a>
-  
-    <li><a href="../Versionomy/Errors/UnknownConversionError.html">Versionomy::Errors::UnknownConversionError</a>
-  
-    <li><a href="../Versionomy/Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
-  
-    <li><a href="../Versionomy/Errors/UnparseError.html">Versionomy::Errors::UnparseError</a>
-  
-    <li><a href="../Versionomy/Errors/VersionomyError.html">Versionomy::Errors::VersionomyError</a>
-  
-    <li><a href="../Versionomy/Format.html">Versionomy::Format</a>
-  
-    <li><a href="../Versionomy/Format/Base.html">Versionomy::Format::Base</a>
-  
-    <li><a href="../Versionomy/Format/Delimiter.html">Versionomy::Format::Delimiter</a>
-  
-    <li><a href="../Versionomy/Format/Delimiter/Builder.html">Versionomy::Format::Delimiter::Builder</a>
-  
-    <li><a href="../Versionomy/Format/Delimiter/IntegerFieldBuilder.html">Versionomy::Format::Delimiter::IntegerFieldBuilder</a>
-  
-    <li><a href="../Versionomy/Format/Delimiter/MappingSymbolBuilder.html">Versionomy::Format::Delimiter::MappingSymbolBuilder</a>
-  
-    <li><a href="../Versionomy/Format/Delimiter/StringFieldBuilder.html">Versionomy::Format::Delimiter::StringFieldBuilder</a>
-  
-    <li><a href="../Versionomy/Format/Delimiter/SymbolFieldBuilder.html">Versionomy::Format::Delimiter::SymbolFieldBuilder</a>
-  
-    <li><a href="../Versionomy/Format/Rubygems.html">Versionomy::Format::Rubygems</a>
-  
-    <li><a href="../Versionomy/Format/Rubygems/ExtraMethods.html">Versionomy::Format::Rubygems::ExtraMethods</a>
-  
-    <li><a href="../Versionomy/Format/Semver.html">Versionomy::Format::Semver</a>
-  
-    <li><a href="../Versionomy/Format/Semver/ExtraMethods.html">Versionomy::Format::Semver::ExtraMethods</a>
-  
-    <li><a href="../Versionomy/Format/Standard.html">Versionomy::Format::Standard</a>
-  
-    <li><a href="../Versionomy/Format/Standard/ExtraMethods.html">Versionomy::Format::Standard::ExtraMethods</a>
-  
-    <li><a href="../Versionomy/Format.html">Versionomy::Formats</a>
-  
-    <li><a href="../Versionomy/Schema.html">Versionomy::Schema</a>
-  
-    <li><a href="../Versionomy/Schema/Builder.html">Versionomy::Schema::Builder</a>
-  
-    <li><a href="../Versionomy/Schema/Field.html">Versionomy::Schema::Field</a>
-  
-    <li><a href="../Versionomy/Schema/FieldBuilder.html">Versionomy::Schema::FieldBuilder</a>
-  
-    <li><a href="../Versionomy/Schema/Wrapper.html">Versionomy::Schema::Wrapper</a>
-  
-    <li><a href="../Versionomy/Value.html">Versionomy::Value</a>
-  
-  </ul>
-</nav>
+</div>
 
   </div>
 </nav>
 
-<div id="documentation">
-  <h1 class="class">class Versionomy::Value</h1>
+<main role="main" aria-labelledby="class-Versionomy::Value">
+  <h1 id="class-Versionomy::Value" class="class">
+    class Versionomy::Value
+  </h1>
 
-  <div id="description" class="description">
+  <section class="description">
     
-<h3 id="label-Version+number+value">Version number value</h3>
+<h3 id="class-Versionomy::Value-label-Version+number+value">Version number value<span><a href="#class-Versionomy::Value-label-Version+number+value">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <p>A version number value is an ordered list of values, corresponding to an
 ordered list of fields defined by a schema. For example, if the schema is a
@@ -265,7 +149,7 @@ corresponding to the fields <code>[:major, :minor, :tiny]</code>.</p>
 <p>Version number values are comparable with other values that have an
 equivalent schema.</p>
 
-  </div><!-- description -->
+  </section>
 
   
   
@@ -279,10 +163,11 @@ equivalent schema.</p>
 
     
 
-    <!-- Methods -->
     
-     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
-      <h3 class="section-header">Public Class Methods</h3>
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
 
     
       <div id="method-c-new" class="method-detail ">
@@ -290,7 +175,9 @@ equivalent schema.</p>
         <div class="method-heading">
           <span class="method-name">new</span><span
             class="method-args">(values_, format_, unparse_params_=nil)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -303,6 +190,7 @@ parameters are required.</p>
 of values that will be interpreted in field order.</p>
 
 <p>You can also optionally provide default unparsing parameters for the value.</p>
+          
           
 
           
@@ -326,22 +214,24 @@ of values that will be interpreted in field order.</p>
     <span class="ruby-identifier">field_</span> = <span class="ruby-identifier">field_</span>.<span class="ruby-identifier">child</span>(<span class="ruby-identifier">value_</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">modules_</span> = <span class="ruby-ivar">@_format</span>.<span class="ruby-identifier">schema</span>.<span class="ruby-identifier">modules</span>
-  <span class="ruby-identifier">extend</span>(*<span class="ruby-identifier">modules_</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">modules_</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+  <span class="ruby-identifier">extend</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">modules_</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">modules_</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- new-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- new-method -->
+      </div>
 
     
-    </section><!-- public-class-method-details -->
+    </section>
   
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
-      <h3 class="section-header">Public Instance Methods</h3>
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
 
     
       <div id="method-i-3C" class="method-detail ">
@@ -349,7 +239,9 @@ of values that will be interpreted in field order.</p>
         <div class="method-heading">
           <span class="method-name">&lt;</span><span
             class="method-args">(obj_)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -357,7 +249,8 @@ of values that will be interpreted in field order.</p>
           
           <p>Compare this version number with the given version number. The comparison
 may succeed even if the two have different schemas, if the RHS can be
-converted to the LHS’s format.</p>
+converted to the LHS&#39;s format.</p>
+          
           
 
           
@@ -370,14 +263,14 @@ converted to the LHS’s format.</p>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">val_</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">0</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- 3C-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- 3C-method -->
+      </div>
 
     
       <div id="method-i-3C-3D-3E" class="method-detail ">
@@ -385,7 +278,9 @@ converted to the LHS’s format.</p>
         <div class="method-heading">
           <span class="method-name">&lt;=&gt;</span><span
             class="method-args">(obj_)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -394,8 +289,9 @@ converted to the LHS’s format.</p>
           <p>Compare this version number with the given version number, returning 0 if
 the two are value-equal, a negative number if the RHS is greater, or a
 positive number if the LHS is greater. The comparison may succeed even if
-the two have different schemas, if the RHS can be converted to the LHS’s
-format.</p>
+the two have different schemas, if the RHS can be converted to the
+LHS&#39;s format.</p>
+          
           
 
           
@@ -419,14 +315,14 @@ format.</p>
   <span class="ruby-keyword">end</span>
   <span class="ruby-value">0</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- 3C-3D-3E-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- 3C-3D-3E-method -->
+      </div>
 
     
       <div id="method-i-3D-3D" class="method-detail ">
@@ -434,7 +330,9 @@ format.</p>
         <div class="method-heading">
           <span class="method-name">==</span><span
             class="method-args">(obj_)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -442,9 +340,10 @@ format.</p>
           
           <p>Returns true if this version number is value-equal to the given number.
 This type of equality means that they are equivalent, or that it is
-possible to convert the RHS to the LHS’s format, and that they would be
+possible to convert the RHS to the LHS&#39;s format, and that they would be
 equivalent after such a conversion has taken place. Note that this is
 different from the definition of <code>eql?</code>.</p>
+          
           
 
           
@@ -453,14 +352,14 @@ different from the definition of <code>eql?</code>.</p>
 <span class="ruby-keyword">def</span> <span class="ruby-operator">==</span>(<span class="ruby-identifier">obj_</span>)
   (<span class="ruby-keyword">self</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">obj_</span>) <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- 3D-3D-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- 3D-3D-method -->
+      </div>
 
     
       <div id="method-i-3E" class="method-detail ">
@@ -468,7 +367,9 @@ different from the definition of <code>eql?</code>.</p>
         <div class="method-heading">
           <span class="method-name">&gt;</span><span
             class="method-args">(obj_)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -476,7 +377,8 @@ different from the definition of <code>eql?</code>.</p>
           
           <p>Compare this version number with the given version number. The comparison
 may succeed even if the two have different schemas, if the RHS can be
-converted to the LHS’s format.</p>
+converted to the LHS&#39;s format.</p>
+          
           
 
           
@@ -489,14 +391,14 @@ converted to the LHS’s format.</p>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">val_</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- 3E-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- 3E-method -->
+      </div>
 
     
       <div id="method-i-5B-5D" class="method-detail ">
@@ -504,7 +406,9 @@ converted to the LHS’s format.</p>
         <div class="method-heading">
           <span class="method-name">[]</span><span
             class="method-args">(field_)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -514,6 +418,7 @@ converted to the LHS’s format.</p>
 recognized. The field may be specified as a field object, field name, or
 field index.</p>
           
+          
 
           
           <div class="method-source-code" id="5B-5D-source">
@@ -521,14 +426,14 @@ field index.</p>
 <span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">field_</span>)
   <span class="ruby-ivar">@_values</span>[<span class="ruby-identifier">_interpret_field</span>(<span class="ruby-identifier">field_</span>)]
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- 5B-5D-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- 5B-5D-method -->
+      </div>
 
     
       <div id="method-i-bump" class="method-detail ">
@@ -536,7 +441,9 @@ field index.</p>
         <div class="method-heading">
           <span class="method-name">bump</span><span
             class="method-args">(field_)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -545,6 +452,7 @@ field index.</p>
           <p>Returns a new version number created by bumping the given field. The field
 may be specified as a field object, field name, or field index. Returns
 self unchanged if the field was not recognized or could not be modified.</p>
+          
           
 
           
@@ -567,14 +475,14 @@ self unchanged if the field was not recognized or could not be modified.</p>
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">self</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- bump-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- bump-method -->
+      </div>
 
     
       <div id="method-i-change" class="method-detail ">
@@ -582,7 +490,9 @@ self unchanged if the field was not recognized or could not be modified.</p>
         <div class="method-heading">
           <span class="method-name">change</span><span
             class="method-args">(values_={}, unparse_params_={})</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -600,6 +510,7 @@ are present in the resulting value.</p>
 <p>You may also pass a delta hash to modify the unparse params stored in the
 value.</p>
           
+          
 
           
           <div class="method-source-code" id="change-source">
@@ -609,14 +520,14 @@ value.</p>
   <span class="ruby-identifier">values_</span> = <span class="ruby-identifier">_canonicalize_values_hash</span>(<span class="ruby-identifier">values_</span>)
   <span class="ruby-constant">Value</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@_values</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">values_</span>), <span class="ruby-ivar">@_format</span>, <span class="ruby-identifier">unparse_params_</span>)
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- change-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- change-method -->
+      </div>
 
     
       <div id="method-i-convert" class="method-detail ">
@@ -624,7 +535,9 @@ value.</p>
         <div class="method-heading">
           <span class="method-name">convert</span><span
             class="method-args">(format_, convert_params_=nil)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -636,6 +549,7 @@ resulting value.</p>
 <p>Raises <a
 href="Errors/ConversionError.html">Versionomy::Errors::ConversionError</a>
 if the value could not be converted.</p>
+          
           
 
           
@@ -666,14 +580,14 @@ if the value could not be converted.</p>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- convert-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- convert-method -->
+      </div>
 
     
       <div id="method-i-each_field" class="method-detail ">
@@ -681,7 +595,9 @@ if the value could not be converted.</p>
         <div class="method-heading">
           <span class="method-name">each_field</span><span
             class="method-args">() { |field_, _values| ... }</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -689,6 +605,7 @@ if the value could not be converted.</p>
           
           <p>Iterates over each field, in field order, yielding the field name and
 value.</p>
+          
           
 
           
@@ -699,14 +616,14 @@ value.</p>
     <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">field_</span>, <span class="ruby-ivar">@_values</span>[<span class="ruby-identifier">field_</span>.<span class="ruby-identifier">name</span>])
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- each_field-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- each_field-method -->
+      </div>
 
     
       <div id="method-i-eql-3F" class="method-detail ">
@@ -714,7 +631,9 @@ value.</p>
         <div class="method-heading">
           <span class="method-name">eql?</span><span
             class="method-args">(obj_)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -724,6 +643,7 @@ value.</p>
 type of equality means their schemas are compatible and their field values
 are equal. Note that this is different from the definition of
 <code>==</code>.</p>
+          
           
 
           
@@ -741,14 +661,14 @@ are equal. Note that this is different from the definition of
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- eql-3F-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- eql-3F-method -->
+      </div>
 
     
       <div id="method-i-field_names" class="method-detail ">
@@ -756,7 +676,9 @@ are equal. Note that this is different from the definition of
         <div class="method-heading">
           <span class="method-name">field_names</span><span
             class="method-args">()</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -766,6 +688,7 @@ are equal. Note that this is different from the definition of
 This is the order of the fields actually present in this value, in order
 from most to least significant.</p>
           
+          
 
           
           <div class="method-source-code" id="field_names-source">
@@ -773,14 +696,14 @@ from most to least significant.</p>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">field_names</span>
   <span class="ruby-ivar">@_field_path</span>.<span class="ruby-identifier">map</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">field_</span><span class="ruby-operator">|</span> <span class="ruby-identifier">field_</span>.<span class="ruby-identifier">name</span> }
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- field_names-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- field_names-method -->
+      </div>
 
     
       <div id="method-i-format" class="method-detail ">
@@ -788,7 +711,9 @@ from most to least significant.</p>
         <div class="method-heading">
           <span class="method-name">format</span><span
             class="method-args">()</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -797,6 +722,7 @@ from most to least significant.</p>
           <p>Return the format defining the schema and formatting/parsing of this
 version number.</p>
           
+          
 
           
           <div class="method-source-code" id="format-source">
@@ -804,14 +730,14 @@ version number.</p>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">format</span>
   <span class="ruby-ivar">@_format</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- format-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- format-method -->
+      </div>
 
     
       <div id="method-i-has_field-3F" class="method-detail ">
@@ -819,7 +745,9 @@ version number.</p>
         <div class="method-heading">
           <span class="method-name">has_field?</span><span
             class="method-args">(field_)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -827,6 +755,7 @@ version number.</p>
           
           <p>Returns true if this value contains the given field, which may be specified
 as a field object, name, or index.</p>
+          
           
 
           
@@ -844,14 +773,14 @@ as a field object, name, or index.</p>
     <span class="ruby-identifier">raise</span> <span class="ruby-operator">::</span><span class="ruby-constant">ArgumentError</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- has_field-3F-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- has_field-3F-method -->
+      </div>
 
     
       <div id="method-i-method_missing" class="method-detail ">
@@ -859,13 +788,21 @@ as a field object, name, or index.</p>
         <div class="method-heading">
           <span class="method-name">method_missing</span><span
             class="method-args">(symbol_)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
         <div class="method-description">
           
           <p>Field values may be retrieved by calling them as methods.</p>
+          
+          
+            <div class="method-calls-super">
+              Calls superclass method
+              
+            </div>
           
 
           
@@ -874,14 +811,14 @@ as a field object, name, or index.</p>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">symbol_</span>)
   <span class="ruby-keyword">self</span>[<span class="ruby-identifier">symbol_</span>] <span class="ruby-operator">||</span> <span class="ruby-keyword">super</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- method_missing-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- method_missing-method -->
+      </div>
 
     
       <div id="method-i-reset" class="method-detail ">
@@ -889,7 +826,9 @@ as a field object, name, or index.</p>
         <div class="method-heading">
           <span class="method-name">reset</span><span
             class="method-args">(field_)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -899,6 +838,7 @@ as a field object, name, or index.</p>
 field may be specified as a field object, field name, or field index.
 Returns self unchanged if the field was not recognized or could not be
 modified.</p>
+          
           
 
           
@@ -919,14 +859,14 @@ modified.</p>
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">self</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- reset-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- reset-method -->
+      </div>
 
     
       <div id="method-i-schema" class="method-detail ">
@@ -934,7 +874,9 @@ modified.</p>
         <div class="method-heading">
           <span class="method-name">schema</span><span
             class="method-args">()</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -943,6 +885,7 @@ modified.</p>
           <p>Return the schema defining the structure and semantics of this version
 number.</p>
           
+          
 
           
           <div class="method-source-code" id="schema-source">
@@ -950,14 +893,14 @@ number.</p>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">schema</span>
   <span class="ruby-ivar">@_format</span>.<span class="ruby-identifier">schema</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- schema-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- schema-method -->
+      </div>
 
     
       <div id="method-i-to_s" class="method-detail ">
@@ -965,7 +908,9 @@ number.</p>
         <div class="method-heading">
           <span class="method-name">to_s</span><span
             class="method-args">()</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -975,6 +920,7 @@ number.</p>
 does not raise <a
 href="Errors/UnparseError.html">Versionomy::Errors::UnparseError</a>, but
 instead returns the string generated by <code>inspect</code>.</p>
+          
           
 
           
@@ -987,14 +933,14 @@ instead returns the string generated by <code>inspect</code>.</p>
     <span class="ruby-identifier">_inspect</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- to_s-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- to_s-method -->
+      </div>
 
     
       <div id="method-i-unparse" class="method-detail ">
@@ -1002,7 +948,9 @@ instead returns the string generated by <code>inspect</code>.</p>
         <div class="method-heading">
           <span class="method-name">unparse</span><span
             class="method-args">(params_=nil)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -1014,6 +962,7 @@ instead returns the string generated by <code>inspect</code>.</p>
 href="Errors/UnparseError.html">Versionomy::Errors::UnparseError</a> if
 unparsing failed.</p>
           
+          
 
           
           <div class="method-source-code" id="unparse-source">
@@ -1021,14 +970,14 @@ unparsing failed.</p>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">unparse</span>(<span class="ruby-identifier">params_</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@_format</span>.<span class="ruby-identifier">unparse</span>(<span class="ruby-keyword">self</span>, <span class="ruby-identifier">params_</span>)
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- unparse-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- unparse-method -->
+      </div>
 
     
       <div id="method-i-unparse_params" class="method-detail ">
@@ -1036,7 +985,9 @@ unparsing failed.</p>
         <div class="method-heading">
           <span class="method-name">unparse_params</span><span
             class="method-args">()</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -1045,6 +996,7 @@ unparsing failed.</p>
           <p>Return the unparsing parameters for this value. Returns nil if this value
 was not created using a parser.</p>
           
+          
 
           
           <div class="method-source-code" id="unparse_params-source">
@@ -1052,14 +1004,14 @@ was not created using a parser.</p>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">unparse_params</span>
   <span class="ruby-ivar">@_unparse_params</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@_unparse_params</span>.<span class="ruby-identifier">dup</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- unparse_params-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- unparse_params-method -->
+      </div>
 
     
       <div id="method-i-values_array" class="method-detail ">
@@ -1067,7 +1019,9 @@ was not created using a parser.</p>
         <div class="method-heading">
           <span class="method-name">values_array</span><span
             class="method-args">()</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -1077,6 +1031,7 @@ was not created using a parser.</p>
 order of the fields actually present in this value, in order from most to
 least significant.</p>
           
+          
 
           
           <div class="method-source-code" id="values_array-source">
@@ -1084,14 +1039,14 @@ least significant.</p>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">values_array</span>
   <span class="ruby-ivar">@_field_path</span>.<span class="ruby-identifier">map</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">field_</span><span class="ruby-operator">|</span> <span class="ruby-ivar">@_values</span>[<span class="ruby-identifier">field_</span>.<span class="ruby-identifier">name</span>] }
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- values_array-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- values_array-method -->
+      </div>
 
     
       <div id="method-i-values_hash" class="method-detail ">
@@ -1099,13 +1054,16 @@ least significant.</p>
         <div class="method-heading">
           <span class="method-name">values_hash</span><span
             class="method-args">()</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
         <div class="method-description">
           
           <p>Returns the value as a hash of values keyed by field name.</p>
+          
           
 
           
@@ -1114,26 +1072,25 @@ least significant.</p>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">values_hash</span>
   <span class="ruby-ivar">@_values</span>.<span class="ruby-identifier">dup</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- values_hash-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- values_hash-method -->
+      </div>
 
     
-    </section><!-- public-instance-method-details -->
+    </section>
   
-  </section><!-- 5Buntitled-5D -->
+  </section>
+</main>
 
-</div><!-- documentation -->
 
-
-<footer id="validator-badges">
-  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
-  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.1.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

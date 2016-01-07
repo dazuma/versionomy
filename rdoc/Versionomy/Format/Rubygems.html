@@ -2,202 +2,86 @@
 
 <html>
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<meta charset="UTF-8">
 
-<title>module Versionomy::Format::Rubygems - Versionomy 0.4.4 Documentation</title>
-
-<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+<title>module Versionomy::Format::Rubygems - Versionomy 0.5.0 Documentation</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../../";
 </script>
 
-<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
-<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+<script src="../../js/jquery.js"></script>
+<script src="../../js/darkfish.js"></script>
+
+<link href="../../css/fonts.css" rel="stylesheet">
+<link href="../../css/rdoc.css" rel="stylesheet">
 
 
-<body id="top" class="module">
-<nav id="metadata">
-  <nav id="home-section" class="section">
-  <h3 class="section-header">
-    <a href="../../index.html">Home</a>
+
+<body id="top" role="document" class="module">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../../table_of_contents.html#pages">Pages</a>
     <a href="../../table_of_contents.html#classes">Classes</a>
     <a href="../../table_of_contents.html#methods">Methods</a>
-  </h3>
-</nav>
-
-
-  <nav id="search-section" class="section project-section" class="initially-hidden">
-  <form action="#" method="get" accept-charset="utf-8">
-    <h3 class="section-header">
-      <input type="text" name="search" placeholder="Search" id="search-field"
-             title="Type to search, Up and Down to navigate, Enter to load">
-    </h3>
-  </form>
-
-  <ul id="search-results" class="initially-hidden"></ul>
-</nav>
-
-
-  <div id="file-metadata">
-    <nav id="file-list-section" class="section">
-  <h3 class="section-header">Defined In</h3>
-  <ul>
-    <li>lib/versionomy/format_definitions/rubygems.rb
-  </ul>
-</nav>
-
-    
   </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
 
   <div id="class-metadata">
     
     
     
+    
     <!-- Method Quickref -->
-<nav id="method-list-section" class="section">
-  <h3 class="section-header">Methods</h3>
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
 
-  <ul class="link-list">
+  <ul class="link-list" role="directory">
     
-    <li><a href="#method-c-create">::create</a>
+    <li ><a href="#method-c-create">::create</a>
     
   </ul>
-</nav>
-
-  </div>
-
-  <div id="project-metadata">
-    <nav id="fileindex-section" class="section project-section">
-  <h3 class="section-header">Pages</h3>
-
-  <ul>
-  
-    <li class="file"><a href="../../History_rdoc.html">History</a>
-  
-    <li class="file"><a href="../../README_rdoc.html">README</a>
-  
-    <li class="file"><a href="../../Versionomy_rdoc.html">Versionomy</a>
-  
-  </ul>
-</nav>
-
-    <nav id="classindex-section" class="section project-section">
-  <h3 class="section-header">Class and Module Index</h3>
-
-  <ul class="link-list">
-  
-    <li><a href="../../Versionomy.html">Versionomy</a>
-  
-    <li><a href="../../Versionomy/Conversion.html">Versionomy::Conversion</a>
-  
-    <li><a href="../../Versionomy/Conversion/Base.html">Versionomy::Conversion::Base</a>
-  
-    <li><a href="../../Versionomy/Conversion/Parsing.html">Versionomy::Conversion::Parsing</a>
-  
-    <li><a href="../../Versionomy/Conversion/Parsing/Builder.html">Versionomy::Conversion::Parsing::Builder</a>
-  
-    <li><a href="../../Versionomy/Conversion/Rubygems.html">Versionomy::Conversion::Rubygems</a>
-  
-    <li><a href="../../Versionomy/Conversion/Semver.html">Versionomy::Conversion::Semver</a>
-  
-    <li><a href="../../Versionomy/Errors.html">Versionomy::Errors</a>
-  
-    <li><a href="../../Versionomy/Errors/CircularDescendantError.html">Versionomy::Errors::CircularDescendantError</a>
-  
-    <li><a href="../../Versionomy/Errors/ConversionError.html">Versionomy::Errors::ConversionError</a>
-  
-    <li><a href="../../Versionomy/Errors/ConversionRedefinedError.html">Versionomy::Errors::ConversionRedefinedError</a>
-  
-    <li><a href="../../Versionomy/Errors/FormatCreationError.html">Versionomy::Errors::FormatCreationError</a>
-  
-    <li><a href="../../Versionomy/Errors/FormatRedefinedError.html">Versionomy::Errors::FormatRedefinedError</a>
-  
-    <li><a href="../../Versionomy/Errors/IllegalValueError.html">Versionomy::Errors::IllegalValueError</a>
-  
-    <li><a href="../../Versionomy/Errors/ParseError.html">Versionomy::Errors::ParseError</a>
-  
-    <li><a href="../../Versionomy/Errors/RangeOverlapError.html">Versionomy::Errors::RangeOverlapError</a>
-  
-    <li><a href="../../Versionomy/Errors/RangeSpecificationError.html">Versionomy::Errors::RangeSpecificationError</a>
-  
-    <li><a href="../../Versionomy/Errors/SchemaCreationError.html">Versionomy::Errors::SchemaCreationError</a>
-  
-    <li><a href="../../Versionomy/Errors/SchemaMismatchError.html">Versionomy::Errors::SchemaMismatchError</a>
-  
-    <li><a href="../../Versionomy/Errors/SymbolRedefinedError.html">Versionomy::Errors::SymbolRedefinedError</a>
-  
-    <li><a href="../../Versionomy/Errors/TypeMismatchError.html">Versionomy::Errors::TypeMismatchError</a>
-  
-    <li><a href="../../Versionomy/Errors/UnknownConversionError.html">Versionomy::Errors::UnknownConversionError</a>
-  
-    <li><a href="../../Versionomy/Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
-  
-    <li><a href="../../Versionomy/Errors/UnparseError.html">Versionomy::Errors::UnparseError</a>
-  
-    <li><a href="../../Versionomy/Errors/VersionomyError.html">Versionomy::Errors::VersionomyError</a>
-  
-    <li><a href="../../Versionomy/Format.html">Versionomy::Format</a>
-  
-    <li><a href="../../Versionomy/Format/Base.html">Versionomy::Format::Base</a>
-  
-    <li><a href="../../Versionomy/Format/Delimiter.html">Versionomy::Format::Delimiter</a>
-  
-    <li><a href="../../Versionomy/Format/Delimiter/Builder.html">Versionomy::Format::Delimiter::Builder</a>
-  
-    <li><a href="../../Versionomy/Format/Delimiter/IntegerFieldBuilder.html">Versionomy::Format::Delimiter::IntegerFieldBuilder</a>
-  
-    <li><a href="../../Versionomy/Format/Delimiter/MappingSymbolBuilder.html">Versionomy::Format::Delimiter::MappingSymbolBuilder</a>
-  
-    <li><a href="../../Versionomy/Format/Delimiter/StringFieldBuilder.html">Versionomy::Format::Delimiter::StringFieldBuilder</a>
-  
-    <li><a href="../../Versionomy/Format/Delimiter/SymbolFieldBuilder.html">Versionomy::Format::Delimiter::SymbolFieldBuilder</a>
-  
-    <li><a href="../../Versionomy/Format/Rubygems.html">Versionomy::Format::Rubygems</a>
-  
-    <li><a href="../../Versionomy/Format/Rubygems/ExtraMethods.html">Versionomy::Format::Rubygems::ExtraMethods</a>
-  
-    <li><a href="../../Versionomy/Format/Semver.html">Versionomy::Format::Semver</a>
-  
-    <li><a href="../../Versionomy/Format/Semver/ExtraMethods.html">Versionomy::Format::Semver::ExtraMethods</a>
-  
-    <li><a href="../../Versionomy/Format/Standard.html">Versionomy::Format::Standard</a>
-  
-    <li><a href="../../Versionomy/Format/Standard/ExtraMethods.html">Versionomy::Format::Standard::ExtraMethods</a>
-  
-    <li><a href="../../Versionomy/Format.html">Versionomy::Formats</a>
-  
-    <li><a href="../../Versionomy/Schema.html">Versionomy::Schema</a>
-  
-    <li><a href="../../Versionomy/Schema/Builder.html">Versionomy::Schema::Builder</a>
-  
-    <li><a href="../../Versionomy/Schema/Field.html">Versionomy::Schema::Field</a>
-  
-    <li><a href="../../Versionomy/Schema/FieldBuilder.html">Versionomy::Schema::FieldBuilder</a>
-  
-    <li><a href="../../Versionomy/Schema/Wrapper.html">Versionomy::Schema::Wrapper</a>
-  
-    <li><a href="../../Versionomy/Value.html">Versionomy::Value</a>
-  
-  </ul>
-</nav>
+</div>
 
   </div>
 </nav>
 
-<div id="documentation">
-  <h1 class="module">module Versionomy::Format::Rubygems</h1>
+<main role="main" aria-labelledby="module-Versionomy::Format::Rubygems">
+  <h1 id="module-Versionomy::Format::Rubygems" class="module">
+    module Versionomy::Format::Rubygems
+  </h1>
 
-  <div id="description" class="description">
+  <section class="description">
     
 <p>This is a namespace for the implementation of the <a
 href="Rubygems.html">Rubygems</a> schema and format.</p>
 
-  </div><!-- description -->
+  </section>
 
   
   
@@ -211,10 +95,11 @@ href="Rubygems.html">Rubygems</a> schema and format.</p>
 
     
 
-    <!-- Methods -->
     
-     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
-      <h3 class="section-header">Public Class Methods</h3>
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
 
     
       <div id="method-c-create" class="method-detail ">
@@ -222,7 +107,9 @@ href="Rubygems.html">Rubygems</a> schema and format.</p>
         <div class="method-heading">
           <span class="method-name">create</span><span
             class="method-args">()</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -233,6 +120,7 @@ href="../../Versionomy.html">Versionomy</a> loads the rubygems format, and
 you should not need to call it again. It is documented so that you can
 inspect its source code from RDoc, since the source contains useful
 examples of how to use the schema and format definition DSLs.</p>
+          
           
 
           
@@ -266,7 +154,7 @@ examples of how to use the schema and format definition DSLs.</p>
         <span class="ruby-identifier">val_</span>
       <span class="ruby-keyword">else</span>
         <span class="ruby-identifier">val_</span> = <span class="ruby-identifier">val_</span>.<span class="ruby-identifier">to_s</span>
-        <span class="ruby-keyword">if</span> <span class="ruby-identifier">val_</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r\A\d*\z/</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">val_</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\A\d*\z/</span>
           <span class="ruby-identifier">val_</span>.<span class="ruby-identifier">to_i</span>
         <span class="ruby-keyword">else</span>
           <span class="ruby-identifier">val_</span>
@@ -308,7 +196,7 @@ examples of how to use the schema and format definition DSLs.</p>
     <span class="ruby-comment"># All version number strings must start with the major version.</span>
     <span class="ruby-comment"># Unlike other fields, it is not preceded by any delimiter.</span>
     <span class="ruby-identifier">field</span>(<span class="ruby-value">:field0</span>) <span class="ruby-keyword">do</span>
-      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>, <span class="ruby-value">:default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">''</span>)
+      <span class="ruby-identifier">recognize_number</span>(<span class="ruby-value">:delimiter_regexp</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-value">:default_delimiter</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&#39;&#39;</span>)
     <span class="ruby-keyword">end</span>
 
     <span class="ruby-comment"># The remainder of the version number are represented as strings</span>
@@ -318,25 +206,25 @@ examples of how to use the schema and format definition DSLs.</p>
     <span class="ruby-comment"># Finally, they can be optional in an unparsed string if they are</span>
     <span class="ruby-comment"># set to the default value of 0.</span>
     <span class="ruby-identifier">field</span>(<span class="ruby-value">:field1</span>) <span class="ruby-keyword">do</span>
-      <span class="ruby-identifier">recognize_regexp</span>(<span class="ruby-string">'[0-9a-zA-Z]+'</span>, <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+      <span class="ruby-identifier">recognize_regexp</span>(<span class="ruby-string">&#39;[0-9a-zA-Z]+&#39;</span>, <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
     <span class="ruby-keyword">end</span>
     <span class="ruby-identifier">field</span>(<span class="ruby-value">:field2</span>) <span class="ruby-keyword">do</span>
-      <span class="ruby-identifier">recognize_regexp</span>(<span class="ruby-string">'[0-9a-zA-Z]+'</span>, <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+      <span class="ruby-identifier">recognize_regexp</span>(<span class="ruby-string">&#39;[0-9a-zA-Z]+&#39;</span>, <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
     <span class="ruby-keyword">end</span>
     <span class="ruby-identifier">field</span>(<span class="ruby-value">:field3</span>) <span class="ruby-keyword">do</span>
-      <span class="ruby-identifier">recognize_regexp</span>(<span class="ruby-string">'[0-9a-zA-Z]+'</span>, <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+      <span class="ruby-identifier">recognize_regexp</span>(<span class="ruby-string">&#39;[0-9a-zA-Z]+&#39;</span>, <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
     <span class="ruby-keyword">end</span>
     <span class="ruby-identifier">field</span>(<span class="ruby-value">:field4</span>) <span class="ruby-keyword">do</span>
-      <span class="ruby-identifier">recognize_regexp</span>(<span class="ruby-string">'[0-9a-zA-Z]+'</span>, <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+      <span class="ruby-identifier">recognize_regexp</span>(<span class="ruby-string">&#39;[0-9a-zA-Z]+&#39;</span>, <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
     <span class="ruby-keyword">end</span>
     <span class="ruby-identifier">field</span>(<span class="ruby-value">:field5</span>) <span class="ruby-keyword">do</span>
-      <span class="ruby-identifier">recognize_regexp</span>(<span class="ruby-string">'[0-9a-zA-Z]+'</span>, <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+      <span class="ruby-identifier">recognize_regexp</span>(<span class="ruby-string">&#39;[0-9a-zA-Z]+&#39;</span>, <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
     <span class="ruby-keyword">end</span>
     <span class="ruby-identifier">field</span>(<span class="ruby-value">:field6</span>) <span class="ruby-keyword">do</span>
-      <span class="ruby-identifier">recognize_regexp</span>(<span class="ruby-string">'[0-9a-zA-Z]+'</span>, <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+      <span class="ruby-identifier">recognize_regexp</span>(<span class="ruby-string">&#39;[0-9a-zA-Z]+&#39;</span>, <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
     <span class="ruby-keyword">end</span>
     <span class="ruby-identifier">field</span>(<span class="ruby-value">:field7</span>) <span class="ruby-keyword">do</span>
-      <span class="ruby-identifier">recognize_regexp</span>(<span class="ruby-string">'[0-9a-zA-Z]+'</span>, <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+      <span class="ruby-identifier">recognize_regexp</span>(<span class="ruby-string">&#39;[0-9a-zA-Z]+&#39;</span>, <span class="ruby-value">:default_value_optional</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
     <span class="ruby-keyword">end</span>
 
     <span class="ruby-comment"># By default, we require that at least the first two fields</span>
@@ -344,26 +232,25 @@ examples of how to use the schema and format definition DSLs.</p>
     <span class="ruby-identifier">default_unparse_params</span>(<span class="ruby-value">:required_fields</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">:field1</span>])
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- create-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- create-method -->
+      </div>
 
     
-    </section><!-- public-class-method-details -->
+    </section>
   
-  </section><!-- 5Buntitled-5D -->
+  </section>
+</main>
 
-</div><!-- documentation -->
 
-
-<footer id="validator-badges">
-  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
-  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.1.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

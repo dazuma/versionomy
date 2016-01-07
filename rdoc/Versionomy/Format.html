@@ -2,218 +2,106 @@
 
 <html>
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<meta charset="UTF-8">
 
-<title>module Versionomy::Formats - Versionomy 0.4.4 Documentation</title>
-
-<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+<title>module Versionomy::Formats - Versionomy 0.5.0 Documentation</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "../";
 </script>
 
-<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
-<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+<script src="../js/jquery.js"></script>
+<script src="../js/darkfish.js"></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
 
 
-<body id="top" class="module">
-<nav id="metadata">
-  <nav id="home-section" class="section">
-  <h3 class="section-header">
-    <a href="../index.html">Home</a>
+
+<body id="top" role="document" class="module">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
     <a href="../table_of_contents.html#classes">Classes</a>
     <a href="../table_of_contents.html#methods">Methods</a>
-  </h3>
-</nav>
-
-
-  <nav id="search-section" class="section project-section" class="initially-hidden">
-  <form action="#" method="get" accept-charset="utf-8">
-    <h3 class="section-header">
-      <input type="text" name="search" placeholder="Search" id="search-field"
-             title="Type to search, Up and Down to navigate, Enter to load">
-    </h3>
-  </form>
-
-  <ul id="search-results" class="initially-hidden"></ul>
-</nav>
-
-
-  <div id="file-metadata">
-    <nav id="file-list-section" class="section">
-  <h3 class="section-header">Defined In</h3>
-  <ul>
-    <li>lib/versionomy/format/base.rb
-    <li>lib/versionomy/format/delimiter.rb
-    <li>lib/versionomy/format.rb
-    <li>lib/versionomy/format_definitions/rubygems.rb
-    <li>lib/versionomy/format_definitions/semver.rb
-    <li>lib/versionomy/format_definitions/standard.rb
-  </ul>
-</nav>
-
-    
   </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+  <ul class="link-list" role="directory">
+    <li><a href="#module-Versionomy::Formats-label-Version+number+format.">Version number format.</a>
+    <li><a href="#module-Versionomy::Formats-label-Format+registry">Format registry</a>
+  </ul>
+</div>
+
 
   <div id="class-metadata">
     
     
     
+    
     <!-- Method Quickref -->
-<nav id="method-list-section" class="section">
-  <h3 class="section-header">Methods</h3>
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
 
-  <ul class="link-list">
+  <ul class="link-list" role="directory">
     
-    <li><a href="#method-c-add_directory">::add_directory</a>
+    <li ><a href="#method-c-add_directory">::add_directory</a>
     
-    <li><a href="#method-c-canonical_name_for">::canonical_name_for</a>
+    <li ><a href="#method-c-canonical_name_for">::canonical_name_for</a>
     
-    <li><a href="#method-c-get">::get</a>
+    <li ><a href="#method-c-get">::get</a>
     
-    <li><a href="#method-c-register">::register</a>
+    <li ><a href="#method-c-register">::register</a>
     
-    <li><a href="#method-c-registered-3F">::registered?</a>
+    <li ><a href="#method-c-registered-3F">::registered?</a>
     
-    <li><a href="#method-c-rubygems">::rubygems</a>
+    <li ><a href="#method-c-rubygems">::rubygems</a>
     
-    <li><a href="#method-c-semver">::semver</a>
+    <li ><a href="#method-c-semver">::semver</a>
     
-    <li><a href="#method-c-standard">::standard</a>
+    <li ><a href="#method-c-standard">::standard</a>
     
   </ul>
-</nav>
-
-  </div>
-
-  <div id="project-metadata">
-    <nav id="fileindex-section" class="section project-section">
-  <h3 class="section-header">Pages</h3>
-
-  <ul>
-  
-    <li class="file"><a href="../History_rdoc.html">History</a>
-  
-    <li class="file"><a href="../README_rdoc.html">README</a>
-  
-    <li class="file"><a href="../Versionomy_rdoc.html">Versionomy</a>
-  
-  </ul>
-</nav>
-
-    <nav id="classindex-section" class="section project-section">
-  <h3 class="section-header">Class and Module Index</h3>
-
-  <ul class="link-list">
-  
-    <li><a href="../Versionomy.html">Versionomy</a>
-  
-    <li><a href="../Versionomy/Conversion.html">Versionomy::Conversion</a>
-  
-    <li><a href="../Versionomy/Conversion/Base.html">Versionomy::Conversion::Base</a>
-  
-    <li><a href="../Versionomy/Conversion/Parsing.html">Versionomy::Conversion::Parsing</a>
-  
-    <li><a href="../Versionomy/Conversion/Parsing/Builder.html">Versionomy::Conversion::Parsing::Builder</a>
-  
-    <li><a href="../Versionomy/Conversion/Rubygems.html">Versionomy::Conversion::Rubygems</a>
-  
-    <li><a href="../Versionomy/Conversion/Semver.html">Versionomy::Conversion::Semver</a>
-  
-    <li><a href="../Versionomy/Errors.html">Versionomy::Errors</a>
-  
-    <li><a href="../Versionomy/Errors/CircularDescendantError.html">Versionomy::Errors::CircularDescendantError</a>
-  
-    <li><a href="../Versionomy/Errors/ConversionError.html">Versionomy::Errors::ConversionError</a>
-  
-    <li><a href="../Versionomy/Errors/ConversionRedefinedError.html">Versionomy::Errors::ConversionRedefinedError</a>
-  
-    <li><a href="../Versionomy/Errors/FormatCreationError.html">Versionomy::Errors::FormatCreationError</a>
-  
-    <li><a href="../Versionomy/Errors/FormatRedefinedError.html">Versionomy::Errors::FormatRedefinedError</a>
-  
-    <li><a href="../Versionomy/Errors/IllegalValueError.html">Versionomy::Errors::IllegalValueError</a>
-  
-    <li><a href="../Versionomy/Errors/ParseError.html">Versionomy::Errors::ParseError</a>
-  
-    <li><a href="../Versionomy/Errors/RangeOverlapError.html">Versionomy::Errors::RangeOverlapError</a>
-  
-    <li><a href="../Versionomy/Errors/RangeSpecificationError.html">Versionomy::Errors::RangeSpecificationError</a>
-  
-    <li><a href="../Versionomy/Errors/SchemaCreationError.html">Versionomy::Errors::SchemaCreationError</a>
-  
-    <li><a href="../Versionomy/Errors/SchemaMismatchError.html">Versionomy::Errors::SchemaMismatchError</a>
-  
-    <li><a href="../Versionomy/Errors/SymbolRedefinedError.html">Versionomy::Errors::SymbolRedefinedError</a>
-  
-    <li><a href="../Versionomy/Errors/TypeMismatchError.html">Versionomy::Errors::TypeMismatchError</a>
-  
-    <li><a href="../Versionomy/Errors/UnknownConversionError.html">Versionomy::Errors::UnknownConversionError</a>
-  
-    <li><a href="../Versionomy/Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
-  
-    <li><a href="../Versionomy/Errors/UnparseError.html">Versionomy::Errors::UnparseError</a>
-  
-    <li><a href="../Versionomy/Errors/VersionomyError.html">Versionomy::Errors::VersionomyError</a>
-  
-    <li><a href="../Versionomy/Format.html">Versionomy::Format</a>
-  
-    <li><a href="../Versionomy/Format/Base.html">Versionomy::Format::Base</a>
-  
-    <li><a href="../Versionomy/Format/Delimiter.html">Versionomy::Format::Delimiter</a>
-  
-    <li><a href="../Versionomy/Format/Delimiter/Builder.html">Versionomy::Format::Delimiter::Builder</a>
-  
-    <li><a href="../Versionomy/Format/Delimiter/IntegerFieldBuilder.html">Versionomy::Format::Delimiter::IntegerFieldBuilder</a>
-  
-    <li><a href="../Versionomy/Format/Delimiter/MappingSymbolBuilder.html">Versionomy::Format::Delimiter::MappingSymbolBuilder</a>
-  
-    <li><a href="../Versionomy/Format/Delimiter/StringFieldBuilder.html">Versionomy::Format::Delimiter::StringFieldBuilder</a>
-  
-    <li><a href="../Versionomy/Format/Delimiter/SymbolFieldBuilder.html">Versionomy::Format::Delimiter::SymbolFieldBuilder</a>
-  
-    <li><a href="../Versionomy/Format/Rubygems.html">Versionomy::Format::Rubygems</a>
-  
-    <li><a href="../Versionomy/Format/Rubygems/ExtraMethods.html">Versionomy::Format::Rubygems::ExtraMethods</a>
-  
-    <li><a href="../Versionomy/Format/Semver.html">Versionomy::Format::Semver</a>
-  
-    <li><a href="../Versionomy/Format/Semver/ExtraMethods.html">Versionomy::Format::Semver::ExtraMethods</a>
-  
-    <li><a href="../Versionomy/Format/Standard.html">Versionomy::Format::Standard</a>
-  
-    <li><a href="../Versionomy/Format/Standard/ExtraMethods.html">Versionomy::Format::Standard::ExtraMethods</a>
-  
-    <li><a href="../Versionomy/Format.html">Versionomy::Formats</a>
-  
-    <li><a href="../Versionomy/Schema.html">Versionomy::Schema</a>
-  
-    <li><a href="../Versionomy/Schema/Builder.html">Versionomy::Schema::Builder</a>
-  
-    <li><a href="../Versionomy/Schema/Field.html">Versionomy::Schema::Field</a>
-  
-    <li><a href="../Versionomy/Schema/FieldBuilder.html">Versionomy::Schema::FieldBuilder</a>
-  
-    <li><a href="../Versionomy/Schema/Wrapper.html">Versionomy::Schema::Wrapper</a>
-  
-    <li><a href="../Versionomy/Value.html">Versionomy::Value</a>
-  
-  </ul>
-</nav>
+</div>
 
   </div>
 </nav>
 
-<div id="documentation">
-  <h1 class="module">module Versionomy::Formats</h1>
+<main role="main" aria-labelledby="module-Versionomy::Formats">
+  <h1 id="module-Versionomy::Formats" class="module">
+    module Versionomy::Formats
+  </h1>
 
-  <div id="description" class="description">
+  <section class="description">
     
-<h3 id="label-Version+number+format.">Version number format.</h3>
+<h3 id="module-Versionomy::Formats-label-Version+number+format.">Version number format.<span><a href="#module-Versionomy::Formats-label-Version+number+format.">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <p>A format controls the parsing and unparsing of a version number. Any time a
 version number is parsed from a string, a format is provided to parse it.
@@ -221,7 +109,7 @@ Similarly, every version number value references a format that is used to
 unparse it back into a string.</p>
 
 <p>A format is always tied to a particular schema and knows how to parse only
-that schema’s version numbers.</p>
+that schema&#39;s version numbers.</p>
 
 <p>Under many circumstances, you should use the standard format, which can be
 retrieved by calling Versionomy::Format#standard. This format understands
@@ -234,14 +122,14 @@ by using the <a
 href="Format/Delimiter.html">Versionomy::Format::Delimiter</a> tool, which
 can be used to construct parsers for many version number formats.</p>
 
-<h3 id="label-Format+registry"><a href="Format.html">Format</a> registry</h3>
+<h3 id="module-Versionomy::Formats-label-Format+registry"><a href="Format.html">Format</a> registry<span><a href="#module-Versionomy::Formats-label-Format+registry">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <p><a href="Format.html">Formats</a> may be registered with <a
 href="../Versionomy.html">Versionomy</a> and given a name using the methods
 of this module. This allows version numbers to be serialized with their
 format. When a version number is serialized, its format name is written to
-the stream, along with the version number's string representation. When the
-version number is reconstructed, its format is looked up by name so
+the stream, along with the version number&#39;s string representation. When
+the version number is reconstructed, its format is looked up by name so
 versionomy can determine how to parse the string.</p>
 
 <p><a href="Format.html">Format</a> names are strings that may include
@@ -249,7 +137,7 @@ letters, numerals, dashes, underscores, and periods. By convention, periods
 are used as namespace delimiters. <a href="Format.html">Format</a> names
 without a namespace (that is, with no periods) are considered reserved for
 standard versionomy formats. If you define your own format, you should use
-a name that includes a namespace (e.g. "mycompany.LibraryVersion") to
+a name that includes a namespace (e.g. “mycompany.LibraryVersion”) to
 reduce the chance of name collisions.</p>
 
 <p>You may register formats directly using the register method, or set it up
@@ -258,8 +146,8 @@ registered explicitly, <a href="../Versionomy.html">Versionomy</a> looks
 for a format definition file for that format. Such a file has the name of
 the format, with the “.rb” extension for ruby (e.g.
 “mycompany.LibraryVersion.rb”) and must be located in a directory in
-versionomy’s format lookup path. By default, the directory containing
-versionomy’s predefined formats (such as “standard”) is in this path.
+versionomy&#39;s format lookup path. By default, the directory containing
+versionomy&#39;s predefined formats (such as “standard”) is in this path.
 However, you may add your own directories using the <a
 href="Format.html#method-c-add_directory">Versionomy::Format.add_directory</a>
 method. This lets you autoload your own formats. A format definition file
@@ -267,7 +155,7 @@ itself must contain ruby code that defines the format and registers it
 using the correct name. See the files in the
 “lib/versionomy/format_definitions/” directory for examples.</p>
 
-  </div><!-- description -->
+  </section>
 
   
   
@@ -281,10 +169,11 @@ using the correct name. See the files in the
 
     
 
-    <!-- Methods -->
     
-     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
-      <h3 class="section-header">Public Class Methods</h3>
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
 
     
       <div id="method-c-add_directory" class="method-detail ">
@@ -292,7 +181,9 @@ using the correct name. See the files in the
         <div class="method-heading">
           <span class="method-name">add_directory</span><span
             class="method-args">(path_, high_priority_=false)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -306,6 +197,7 @@ registered is requested.</p>
 
 <p>If high_priority_ is set to true, the directory is added to the front of
 the lookup path; otherwise it is added to the back.</p>
+          
           
 
           
@@ -323,14 +215,14 @@ the lookup path; otherwise it is added to the back.</p>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- add_directory-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- add_directory-method -->
+      </div>
 
     
       <div id="method-c-canonical_name_for" class="method-detail ">
@@ -338,7 +230,9 @@ the lookup path; otherwise it is added to the back.</p>
         <div class="method-heading">
           <span class="method-name">canonical_name_for</span><span
             class="method-args">(format_, strict_=false)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -353,6 +247,7 @@ href="Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>
 If strict is set to false, returns nil if the given format was never
 registered.</p>
           
+          
 
           
           <div class="method-source-code" id="canonical_name_for-source">
@@ -364,14 +259,14 @@ registered.</p>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">name_</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- canonical_name_for-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- canonical_name_for-method -->
+      </div>
 
     
       <div id="method-c-get" class="method-detail ">
@@ -379,7 +274,9 @@ registered.</p>
         <div class="method-heading">
           <span class="method-name">get</span><span
             class="method-args">(name_, strict_=false)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -396,6 +293,7 @@ raises <a
 href="Errors/UnknownFormatError.html">Versionomy::Errors::UnknownFormatError</a>.
 If strict is set to false, returns nil if the given name cannot be
 resolved.</p>
+          
           
 
           
@@ -421,14 +319,14 @@ resolved.</p>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">format_</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- get-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- get-method -->
+      </div>
 
     
       <div id="method-c-register" class="method-detail ">
@@ -436,7 +334,9 @@ resolved.</p>
         <div class="method-heading">
           <span class="method-name">register</span><span
             class="method-args">(name_, format_, silent_=false)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -450,6 +350,7 @@ periods.</p>
 <p>Raises <a
 href="Errors/FormatRedefinedError.html">Versionomy::Errors::FormatRedefinedError</a>
 if the name has already been defined.</p>
+          
           
 
           
@@ -468,14 +369,14 @@ if the name has already been defined.</p>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- register-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- register-method -->
+      </div>
 
     
       <div id="method-c-registered-3F" class="method-detail ">
@@ -483,7 +384,9 @@ if the name has already been defined.</p>
         <div class="method-heading">
           <span class="method-name">registered?</span><span
             class="method-args">(name_)</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
@@ -491,6 +394,7 @@ if the name has already been defined.</p>
           
           <p>Determines whether a format with the given name has been registered
 explicitly. Does not attempt to autoload the format.</p>
+          
           
 
           
@@ -500,14 +404,14 @@ explicitly. Does not attempt to autoload the format.</p>
   <span class="ruby-identifier">name_</span> = <span class="ruby-identifier">_check_name</span>(<span class="ruby-identifier">name_</span>)
   <span class="ruby-ivar">@mutex</span>.<span class="ruby-identifier">synchronize</span>{ <span class="ruby-ivar">@names_to_formats</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">name_</span>) }
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- registered-3F-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- registered-3F-method -->
+      </div>
 
     
       <div id="method-c-rubygems" class="method-detail ">
@@ -515,14 +419,16 @@ explicitly. Does not attempt to autoload the format.</p>
         <div class="method-heading">
           <span class="method-name">rubygems</span><span
             class="method-args">()</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
         <div class="method-description">
           
           <p>Get the rubygems format. This is identical to calling
-<code>get('rubygems')</code>.</p>
+<code>get(&#39;rubygems&#39;)</code>.</p>
 
 <p>The rubygems format is designed to be parse-compatible with the
 Gem::Version class used in rubygems. The only caveat is, whereas
@@ -532,21 +438,22 @@ to a maximum of 8.</p>
 <p>For the exact annotated definition of the rubygems schema and format, see
 the source code for Versionomy::Format::Rubygems#create.</p>
           
+          
 
           
           <div class="method-source-code" id="rubygems-source">
             <pre><span class="ruby-comment"># File lib/versionomy/format_definitions/rubygems.rb, line 53</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">rubygems</span>
-  <span class="ruby-identifier">get</span>(<span class="ruby-string">'rubygems'</span>)
+  <span class="ruby-identifier">get</span>(<span class="ruby-string">&#39;rubygems&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- rubygems-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- rubygems-method -->
+      </div>
 
     
       <div id="method-c-semver" class="method-detail ">
@@ -554,36 +461,39 @@ the source code for Versionomy::Format::Rubygems#create.</p>
         <div class="method-heading">
           <span class="method-name">semver</span><span
             class="method-args">()</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
         <div class="method-description">
           
           <p>Get the semver format. This is identical to calling
-<code>get('semver')</code>.</p>
+<code>get(&#39;semver&#39;)</code>.</p>
 
 <p>The semver format is designed to conform to the Semantic Versioning spec by
-Tom Preston-Warner. See <a href="http://semver.org/">semver.org/</a></p>
+Tom Preston-Warner. See <a href="http://semver.org">semver.org</a>/</p>
 
 <p>For the exact annotated definition of the semver schema and format, see the
 source code for Versionomy::Format::Semver#create.</p>
+          
           
 
           
           <div class="method-source-code" id="semver-source">
             <pre><span class="ruby-comment"># File lib/versionomy/format_definitions/semver.rb, line 51</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">semver</span>
-  <span class="ruby-identifier">get</span>(<span class="ruby-string">'semver'</span>)
+  <span class="ruby-identifier">get</span>(<span class="ruby-string">&#39;semver&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- semver-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- semver-method -->
+      </div>
 
     
       <div id="method-c-standard" class="method-detail ">
@@ -591,14 +501,16 @@ source code for Versionomy::Format::Semver#create.</p>
         <div class="method-heading">
           <span class="method-name">standard</span><span
             class="method-args">()</span>
+          
           <span class="method-click-advice">click to toggle source</span>
+          
         </div>
         
 
         <div class="method-description">
           
           <p>Get the standard format. This is identical to calling
-<code>get('standard')</code>.</p>
+<code>get(&#39;standard&#39;)</code>.</p>
 
 <p>The standard format is designed to handle most commonly-used version number
 forms, and allow parsing and comparison between them.</p>
@@ -654,33 +566,33 @@ unparsing as well.</p>
 <p>For the exact annotated definition of the standard schema and format, see
 the source code for Versionomy::Format::Standard#create.</p>
           
+          
 
           
           <div class="method-source-code" id="standard-source">
             <pre><span class="ruby-comment"># File lib/versionomy/format_definitions/standard.rb, line 98</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">standard</span>
-  <span class="ruby-identifier">get</span>(<span class="ruby-string">'standard'</span>)
+  <span class="ruby-identifier">get</span>(<span class="ruby-string">&#39;standard&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- standard-source -->
+          </div>
           
         </div>
 
         
 
         
-      </div><!-- standard-method -->
+      </div>
 
     
-    </section><!-- public-class-method-details -->
+    </section>
   
-  </section><!-- 5Buntitled-5D -->
+  </section>
+</main>
 
-</div><!-- documentation -->
 
-
-<footer id="validator-badges">
-  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
-  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
-  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.1.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

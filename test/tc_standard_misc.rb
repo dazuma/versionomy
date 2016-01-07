@@ -37,7 +37,7 @@
 
 require 'minitest/autorun'
 require 'versionomy'
-
+require 'yaml'
 
 module Versionomy
   module Tests  # :nodoc:

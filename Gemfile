@@ -38,9 +38,10 @@
 
 source "http://rubygems.org/"
 
-gem('blockenspiel', '>= 0.4.5')
+gem('blockenspiel', '>= 0.5.0')
 
 group(:test) do
-  gem('rake', '>= 0.9.2')
-  gem('rdoc', '>= 3.12')
+  gem('minitest', '>= 5.8')
+  gem('rake', '>= 10.0')
+  gem('rdoc', '>= 4.2')
 end

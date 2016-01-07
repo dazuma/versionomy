@@ -35,14 +35,14 @@
 # -----------------------------------------------------------------------------
 
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'versionomy'
 
 
 module Versionomy
   module Tests  # :nodoc:
 
-    class TestStandardParse < ::Test::Unit::TestCase  # :nodoc:
+    class TestStandardParse < ::Minitest::Test  # :nodoc:
 
 
       # Test parsing full.
@@ -376,7 +376,7 @@ module Versionomy
       # Test parse errors
 
       def test_parsing_errors
-        assert_raise(::Versionomy::Errors::ParseError) do
+        assert_raises(::Versionomy::Errors::ParseError) do
           ::Versionomy.parse('2.52.1 eta4')
         end
       end

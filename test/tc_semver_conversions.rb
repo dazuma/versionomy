@@ -35,14 +35,14 @@
 # -----------------------------------------------------------------------------
 
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'versionomy'
 
 
 module Versionomy
   module Tests  # :nodoc:
 
-    class TestSemverConversions < ::Test::Unit::TestCase  # :nodoc:
+    class TestSemverConversions < ::Minitest::Test  # :nodoc:
 
 
       def setup
@@ -93,7 +93,7 @@ module Versionomy
 
       def test_standard_to_semver_fail
         value_ = ::Versionomy.parse('1.2.3.4', :standard)
-        assert_raise(::Versionomy::Errors::ConversionError) do
+        assert_raises(::Versionomy::Errors::ConversionError) do
           value_.convert(:semver)
         end
       end
@@ -129,7 +129,7 @@ module Versionomy
 
       def test_semver_to_standard_fail
         value_ = ::Versionomy.parse('1.2.3c4', :semver)
-        assert_raise(::Versionomy::Errors::ConversionError) do
+        assert_raises(::Versionomy::Errors::ConversionError) do
           value_.convert(:standard)
         end
       end

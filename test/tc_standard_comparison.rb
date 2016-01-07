@@ -35,14 +35,14 @@
 # -----------------------------------------------------------------------------
 
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'versionomy'
 
 
 module Versionomy
   module Tests  # :nodoc:
 
-    class TestStandardComparison < ::Test::Unit::TestCase  # :nodoc:
+    class TestStandardComparison < ::Minitest::Test  # :nodoc:
 
 
       # Test comparisons with difference in major.
@@ -97,8 +97,8 @@ module Versionomy
       def test_nonequality_parsed
         value1_ = ::Versionomy.parse("1.8.7b7")
         value2_ = ::Versionomy.parse("1.8.7a7")
-        assert_not_equal(value2_, value1_)
-        assert_not_equal(value2_.hash, value1_.hash)
+        refute_equal(value2_, value1_)
+        refute_equal(value2_.hash, value1_.hash)
       end
 
 

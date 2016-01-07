@@ -35,14 +35,14 @@
 # -----------------------------------------------------------------------------
 
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'versionomy'
 
 
 module Versionomy
   module Tests  # :nodoc:
 
-    class TestVersionOf < ::Test::Unit::TestCase  # :nodoc:
+    class TestVersionOf < ::Minitest::Test  # :nodoc:
 
 
       # Gems to test if we can
@@ -69,8 +69,8 @@ module Versionomy
         define_method("test_gem_#{name_}") do
           mod_ = eval(data_[:module_name])
           value_ = ::Versionomy.version_of(mod_)
-          assert_not_nil(value_)
-          assert_not_equal(zero_, value_)
+          refute_nil(value_)
+          refute_equal(zero_, value_)
         end
       end
 

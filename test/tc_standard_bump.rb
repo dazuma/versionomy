@@ -35,14 +35,14 @@
 # -----------------------------------------------------------------------------
 
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'versionomy'
 
 
 module Versionomy
   module Tests  # :nodoc:
 
-    class TestStandardBump < ::Test::Unit::TestCase  # :nodoc:
+    class TestStandardBump < ::Minitest::Test  # :nodoc:
 
 
       # Test bumping a minor patchlevel.

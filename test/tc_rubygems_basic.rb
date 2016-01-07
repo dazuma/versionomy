@@ -35,14 +35,14 @@
 # -----------------------------------------------------------------------------
 
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'versionomy'
 
 
 module Versionomy
   module Tests  # :nodoc:
 
-    class TestRubygemsBasic < ::Test::Unit::TestCase  # :nodoc:
+    class TestRubygemsBasic < ::Minitest::Test  # :nodoc:
 
 
       # Test the default version value.

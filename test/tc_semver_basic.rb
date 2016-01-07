@@ -35,14 +35,14 @@
 # -----------------------------------------------------------------------------
 
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'versionomy'
 
 
 module Versionomy
   module Tests  # :nodoc:
 
-    class TestSemverBasic < ::Test::Unit::TestCase  # :nodoc:
+    class TestSemverBasic < ::Minitest::Test  # :nodoc:
 
 
       # Test the default version value.
@@ -137,7 +137,7 @@ module Versionomy
         value_ = ::Versionomy.parse('2.0', :semver)
         assert_equal([2, 0, 0, ''], value_.values_array)
         assert_equal('2.0.0', value_.unparse)
-        assert_raise(::Versionomy::Errors::ParseError) do
+        assert_raises(::Versionomy::Errors::ParseError) do
           value_ = ::Versionomy.parse('2.0b1', :semver)
         end
       end

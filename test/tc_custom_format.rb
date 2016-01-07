@@ -35,14 +35,14 @@
 # -----------------------------------------------------------------------------
 
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'versionomy'
 
 
 module Versionomy
   module Tests  # :nodoc:
 
-    class TestCustomFormat < ::Test::Unit::TestCase  # :nodoc:
+    class TestCustomFormat < ::Minitest::Test  # :nodoc:
 
 
       # Test parsing with custom format for patchlevel

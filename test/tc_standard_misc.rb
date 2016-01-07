@@ -35,14 +35,14 @@
 # -----------------------------------------------------------------------------
 
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'versionomy'
 
 
 module Versionomy
   module Tests  # :nodoc:
 
-    class TestStandardMisc < ::Test::Unit::TestCase  # :nodoc:
+    class TestStandardMisc < ::Minitest::Test  # :nodoc:
 
 
       # Test "prerelase?" custom method

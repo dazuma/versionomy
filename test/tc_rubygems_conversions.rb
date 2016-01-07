@@ -35,14 +35,14 @@
 # -----------------------------------------------------------------------------
 
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'versionomy'
 
 
 module Versionomy
   module Tests  # :nodoc:
 
-    class TestRubygemsConversions < ::Test::Unit::TestCase  # :nodoc:
+    class TestRubygemsConversions < ::Minitest::Test  # :nodoc:
 
 
       def setup
@@ -140,11 +140,11 @@ module Versionomy
 
       def test_rubygems_to_standard_fail
         value_ = ::Versionomy.parse('1.2.b.3.4.5', :rubygems)
-        assert_raise(::Versionomy::Errors::ConversionError) do
+        assert_raises(::Versionomy::Errors::ConversionError) do
           value_.convert(:standard)
         end
         value_ = ::Versionomy.parse('1.2.c.3', :rubygems)
-        assert_raise(::Versionomy::Errors::ConversionError) do
+        assert_raises(::Versionomy::Errors::ConversionError) do
           value_.convert(:standard)
         end
       end

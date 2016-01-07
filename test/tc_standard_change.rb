@@ -35,14 +35,14 @@
 # -----------------------------------------------------------------------------
 
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'versionomy'
 
 
 module Versionomy
   module Tests  # :nodoc:
 
-    class TestStandardChange < ::Test::Unit::TestCase  # :nodoc:
+    class TestStandardChange < ::Minitest::Test  # :nodoc:
 
 
       # Test with a changed tiny

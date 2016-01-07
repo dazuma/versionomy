@@ -35,14 +35,14 @@
 # -----------------------------------------------------------------------------
 
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'versionomy'
 
 
 module Versionomy
   module Tests  # :nodoc:
 
-    class TestReadmeExamples < ::Test::Unit::TestCase  # :nodoc:
+    class TestReadmeExamples < ::Minitest::Test  # :nodoc:
 
 
       # Test the README file.
@@ -96,7 +96,7 @@ module Versionomy
             elsif expect_ =~ /^raises (.*)$/
               # Expect an exception to be raised
               expect_error_ = ::Kernel.eval($1, binding_, 'README.rdoc', io_.lineno)
-              assert_raise(expect_error_) do
+              assert_raises(expect_error_) do
                 ::Kernel.eval(expr_, binding_, 'README.rdoc', io_.lineno)
               end
 

@@ -35,14 +35,14 @@
 # -----------------------------------------------------------------------------
 
 
-require 'test/unit'
+require 'minitest/autorun'
 require 'versionomy'
 
 
 module Versionomy
   module Tests  # :nodoc:
 
-    class TestStandardReset < ::Test::Unit::TestCase  # :nodoc:
+    class TestStandardReset < ::Minitest::Test  # :nodoc:
 
 
       # Test resetting a minor patchlevel.

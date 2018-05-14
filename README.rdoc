@@ -136,7 +136,7 @@ Contributions are welcome. Fork the project on Github.
 
 Build status: {<img src="https://secure.travis-ci.org/dazuma/versionomy.png" />}[http://travis-ci.org/dazuma/versionomy]
 
-Report bugs on Github issues at http://github.org/dazuma/versionomy/issues
+Report bugs on Github issues at https://github.com/dazuma/versionomy/issues
 
 Contact the author at dazuma at gmail dot com.
 

@@ -84,7 +84,7 @@ module Versionomy
       def test_yaml
         value_ = ::Versionomy.create(:major => 1, :minor => 9, :tiny => 2, :release_type => :alpha, :alpha_version => 4)
         str_ = ::YAML.dump(value_)
-        value2_ = ::YAML.load(str_)
+        value2_ = ::YAML.unsafe_load(str_)
         assert_equal(value_, value2_)
       end
 

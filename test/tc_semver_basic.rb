@@ -202,7 +202,7 @@ module Versionomy
       def test_yaml
         value_ = ::Versionomy.create([1, 9, 2, 'pre2'], :semver)
         str_ = ::YAML.dump(value_)
-        value2_ = ::YAML.load(str_)
+        value2_ = ::YAML.unsafe_load(str_)
         assert_equal(value_, value2_)
       end
 
